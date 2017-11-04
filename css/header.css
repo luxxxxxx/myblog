@@ -1,0 +1,312 @@
+body {
+  font-family: Helvetica, "Microsoft Yahei", Arial, sans-serif;
+  color: #3d4450;
+  height: 2000px;
+}
+header {
+  font-family: 'Giddyup Std' !important;
+  position: relative;
+  height: 70px;
+  background: #000000;
+}
+header #h_bg {
+  z-index: 1;
+  top: 0;
+  left: 0;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: url('../img/main_bg.jpg') no-repeat center top;
+  background-size: cover;
+  filter: blur(1px);
+}
+header .mask {
+  z-index: 2;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: #020202 ;
+  opacity: 0;
+}
+header #h_content {
+  z-index: 3;
+  position: relative;
+  width: 1160px;
+  height: 100%;
+  margin: 0 auto;
+}
+header #h_content .r {
+  float: right;
+  width: 520px;
+  height: 100%;
+  overflow: hidden;
+}
+header #h_content .r ul.nav {
+  position: relative;
+  display: inline-block;
+}
+header #h_content .r ul.nav li {
+  display: inline-block;
+  height: 100%;
+  float: left;
+  margin-right: 70px;
+  line-height: 70px;
+  text-align: center;
+}
+header #h_content .r ul.nav li:last-child {
+  margin-right: 0;
+}
+header #h_content .r ul.nav li a {
+  font-size: 20px;
+  color: rgba(255, 255, 255, 0.8);
+  transition: .1s all linear;
+  text-shadow: #ffffff 1px;
+}
+header #h_content .r ul.nav li a:hover {
+  color: #ffffff;
+}
+header #h_content .r ul.nav li.slide_bar {
+  position: absolute;
+  bottom: 15px;
+  left: 116px;
+  display: inline-block;
+  width: 25px;
+  height: 2px;
+  background: #fff;
+  opacity: .8;
+  border-radius: 1px;
+}
+header #h_content .r .login_sec {
+  float: right;
+  display: inline-block;
+  text-align: center;
+  line-height: 70px;
+}
+header #h_content .r .login_sec span {
+  display: inline-block;
+  color: #fff;
+  font-size: 20px;
+}
+header #h_content .r .login_sec span a {
+  color: rgba(255, 255, 255, 0.8);
+  transition: .1s all linear;
+}
+header #h_content .r .login_sec span a:hover {
+  color: #ffffff;
+}
+header #h_content .r .login_sec span:nth-child(2) {
+  margin: 0 5px;
+}
+#main_bg {
+  position: relative;
+  height: 400px;
+  margin: 0 auto;
+  background: url('../img/main_bg.jpg') no-repeat 50% -70px;
+  background-size: cover;
+}
+#main_bg .main {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -190px;
+  margin: 0 auto;
+  width: 700px;
+}
+#main_bg .main p {
+  position: relative;
+  top: -10px;
+  text-align: center;
+  color: #3d4450;
+  font-size: 20px;
+  cursor: default;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+#blank {
+  height: 200px;
+}
+#main {
+  height: 1300px;
+  background: url('../img/space.jpg') no-repeat center top;
+  background-size: cover;
+  box-sizing: border-box;
+  padding: 10px;
+}
+#main .main {
+  width: 1160px;
+  margin: 0 auto;
+}
+#main .main .l {
+  width: 730px;
+  height: 200px;
+}
+#main .main .l .breadcrumb {
+  background: #fff;
+  box-sizing: border-box;
+  height: 30px;
+  margin-bottom: 40px;
+  /*box-shadow: 0 2px 4px rgba(0,0,0,.16);*/
+  box-shadow: -1px -1px 10px #6f4940;
+  padding: 9px 15px;
+}
+#main .main .l .breadcrumb a {
+  display: inline-block;
+  line-height: 100%;
+  float: left;
+  margin-right: 8px;
+  transition: .1s all linear;
+}
+#main .main .l .breadcrumb a.main_page {
+  color: #d2322d;
+}
+#main .main .l .breadcrumb a.technology {
+  color: #00a1d6;
+}
+#main .main .l .breadcrumb a:hover {
+  color: gray;
+}
+#main .main .l .breadcrumb a i {
+  position: relative;
+  top: 1px;
+}
+#main .main .l .breadcrumb a i.icon-keji1 {
+  margin-right: 2px;
+}
+#main .main .l .breadcrumb a.cha {
+  position: relative;
+  top: 1px;
+  cursor: default;
+  color: #d2322d;
+  transition: none;
+}
+#main .main .l .breadcrumb span {
+  float: left;
+}
+#main .main .l article {
+  position: relative;
+  margin-top: 20px;
+  box-sizing: border-box;
+  padding: 20px;
+  border-radius: 4px;
+  background: #fff;
+}
+#main .main .l article .dateCon {
+  position: absolute;
+  left: -20px;
+  top: -20px;
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background: #e74c3c;
+  color: #fff;
+  padding-top: 10px;
+  box-sizing: border-box;
+  box-shadow: 1px 2px 7px #000;
+}
+#main .main .l article .dateCon span {
+  text-align: center;
+  display: block;
+}
+#main .main .l article .dateCon span.day {
+  font-size: 30px;
+  font-weight: bold;
+}
+#main .main .l article .title_con {
+  padding: 20px 15px 0 15px;
+  box-sizing: border-box;
+  word-wrap: break-word;
+}
+#main .main .l article .title_con h1 {
+  font-size: 32px;
+  text-align: center;
+}
+#main .main .l article .title_con h1 a {
+  color: #3d4450;
+  line-height: 1.1em;
+  outline-style: none;
+  outline-width: 0;
+  transition: .15s all linear;
+}
+#main .main .l article .title_con h1 a:hover {
+  color: #e74c3c;
+}
+#main .main .l article .tag_article {
+  text-align: center;
+  line-height: 24px;
+  margin: 20px;
+}
+#main .main .l article .tag_article .label {
+  display: inline-block;
+  height: 18px;
+  padding: .2em .6em .3em;
+  font-weight: bold;
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+  background-color: #3d4450;
+  color: #fff;
+  vertical-align: baseline;
+  cursor: default;
+  border-radius: .25em;
+  transition: .2s all linear;
+  margin-right: 5px;
+  box-sizing: border-box;
+}
+#main .main .l article .tag_article .label a {
+  display: inline-block;
+  font-size: inherit;
+  text-decoration: none;
+  color: #fff;
+  box-sizing: border-box;
+}
+#main .main .l article .tag_article .label i.icon {
+  font-size: 13px;
+}
+#main .main .l article .tag_article .label:hover {
+  background-color: #e74c3c;
+}
+#main .main .l article .cover {
+  position: relative;
+  margin-bottom: 10px;
+}
+#main .main .l article .cover a {
+  display: inline-block;
+}
+#main .main .l article .cover a .mask {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  background-color: #fff;
+  opacity: 0;
+  transition: .2s opacity linear;
+}
+#main .main .l article .cover a img {
+  max-width: 100%;
+  margin: 0 auto;
+  opacity: 1;
+}
+#main .main .l article .cover:hover .mask {
+  opacity: .1;
+}
+#main .main .l article .desc {
+  display: inline-block;
+  color: #666;
+  background-color: #ecf0f1;
+  border: none;
+  padding: 15px;
+  margin-bottom: 20px;
+  border-radius: 4px;
+  overflow: auto;
+}
+#main .main .l article a.btn {
+  background-color: #c0392b;
+  color: #fff;
+  transition: all 0.2s ease-in-out;
+}
+#main .main .r {
+  width: 350px;
+  float: right;
+}
