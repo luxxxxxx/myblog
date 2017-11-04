@@ -278,6 +278,7 @@ window.Ajax = function (obj) {
 						this.addEventListener(event,func);
 					})
 				}
+
 			} else {  //IE 8 attachEvent 而且还要修改this指向
 				var evts = arguments[0],
 				    l = arguments.length;
@@ -295,7 +296,9 @@ window.Ajax = function (obj) {
 					})
 				}
 			}
+			return this;
 		},
+		
 		//Click
 		click : function (func) {
 			if (func) {
@@ -310,25 +313,26 @@ window.Ajax = function (obj) {
 			}
 		},
 		//Find
-		find : function (selector) {  //通过选择器名称来进行选择
-			var objectArr = [],
-				parentsL = this.length;
-			this.each(function (i) {
-				var targetDomArr = this.querySelectorAll(selector),
-					targetDomArrL = targetDomArr.length;
-				if (targetDomArrL != 0) {
-					for (var j = 0; j < targetDomArrL; j++) {
-						objectArr.push(targetDomArr[j])
-					};
-				};
-			})
-			var objectArrL = objectArr.length;
-			for (var i = 0; i < objectArrL; i++) {
-				this[i] = objectArr[i];
-			}
-			this.length = objectArrL;
-			return this;
-		},
+		// find : function (selector) {  //通过选择器名称来进行选择
+		// 	var objectArr = [],
+		// 		parentsL = this.length;
+		// 		console.log(this)
+		// 	this.each(function (i) {
+		// 		var targetDomArr = this.querySelectorAll(selector),
+		// 			targetDomArrL = targetDomArr.length;
+		// 		if (targetDomArrL != 0) {
+		// 			for (var j = 0; j < targetDomArrL; j++) {
+		// 				objectArr.push(targetDomArr[j])
+		// 			};
+		// 		};
+		// 	})
+		// 	var objectArrL = objectArr.length;
+		// 	for (var i = 0; i < objectArrL; i++) {
+		// 		this[i] = objectArr[i];
+		// 	}
+		// 	this.length = objectArrL;
+		// 	return this;
+		// },
 		//Is
 		is : function (selector) {  //用一个表达式来检查当前选择的元素集合如果其中至少有一个给定的表达式就返回true
 			var allDom = document.querySelectorAll(selector),
