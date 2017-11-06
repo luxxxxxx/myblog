@@ -345,6 +345,9 @@ header #h_content .r .login_sec span:nth-child(2) {
 #main .main .l article a.btn:hover {
   background-color: #c0392b;
 }
+#main .main .l #pages {
+  margin-bottom: 25px;
+}
 #main .main .l #pages ul.pagination {
   float: right;
   display: inline-block;
@@ -636,7 +639,6 @@ header #h_content .r .login_sec span:nth-child(2) {
   border-radius: 9px;
 }
 footer {
-  margin-top: 25px;
   height: 110px;
   background: #3d4450;
   text-align: center;

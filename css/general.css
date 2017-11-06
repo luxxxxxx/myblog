@@ -1,0 +1,169 @@
+body,
+html {
+  width: 100%;
+}
+body {
+  font-family: Helvetica, "Microsoft Yahei", Arial, sans-serif;
+  color: #3d4450;
+  min-width: 1160px;
+}
+header {
+  font-family: 'Giddyup Std' !important;
+  position: relative;
+  height: 70px;
+  background: #000000;
+}
+header #h_bg {
+  z-index: 1;
+  top: 0;
+  left: 0;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: url('../img/main_bg.jpg');
+  background-position: center top;
+  background-repeat: no-repeat;
+  background-size: cover;
+  filter: blur(1px);
+}
+header .mask {
+  z-index: 2;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: #020202 ;
+  opacity: 0;
+}
+header #h_content {
+  z-index: 3;
+  position: relative;
+  width: 1160px;
+  height: 100%;
+  margin: 0 auto;
+}
+header #h_content .l {
+  position: relative;
+  float: left;
+  width: 500px;
+  height: 100%;
+}
+header #h_content .l .pic {
+  float: left;
+  margin-right: 20px;
+}
+header #h_content .l .pic img {
+  height: 70px;
+}
+header #h_content .l #logo {
+  float: left;
+}
+header #h_content .l #logo img {
+  position: relative;
+  top: 24px;
+  height: 36px;
+}
+header #h_content .r {
+  float: right;
+  width: 520px;
+  height: 100%;
+  overflow: hidden;
+}
+header #h_content .r ul.nav {
+  position: relative;
+  display: inline-block;
+}
+header #h_content .r ul.nav li {
+  display: inline-block;
+  height: 100%;
+  float: left;
+  margin-right: 70px;
+  line-height: 70px;
+  text-align: center;
+}
+header #h_content .r ul.nav li:last-child {
+  margin-right: 0;
+}
+header #h_content .r ul.nav li a {
+  font-size: 20px;
+  color: rgba(255, 255, 255, 0.8);
+  transition: .1s all linear;
+  text-shadow: #ffffff 1px;
+}
+header #h_content .r ul.nav li a:hover {
+  color: #ffffff;
+}
+header #h_content .r ul.nav li.slide_bar {
+  position: absolute;
+  bottom: 15px;
+  left: 116px;
+  display: inline-block;
+  width: 25px;
+  height: 2px;
+  background: #fff;
+  opacity: .8;
+  border-radius: 1px;
+}
+header #h_content .r .login_sec {
+  float: right;
+  display: inline-block;
+  text-align: center;
+  line-height: 70px;
+}
+header #h_content .r .login_sec span {
+  display: inline-block;
+  color: #fff;
+  font-size: 20px;
+}
+header #h_content .r .login_sec span a {
+  color: rgba(255, 255, 255, 0.8);
+  transition: .1s all linear;
+}
+header #h_content .r .login_sec span a:hover {
+  color: #ffffff;
+}
+header #h_content .r .login_sec span:nth-child(2) {
+  margin: 0 5px;
+}
+#main_bg {
+  position: relative;
+  height: 400px;
+  margin: 0 auto;
+  background: url('../img/main_bg.jpg') no-repeat 50% -70px;
+  background-size: cover;
+}
+#main_bg .main {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -190px;
+  margin: 0 auto;
+  width: 700px;
+}
+#main_bg .main p {
+  position: relative;
+  top: -10px;
+  text-align: center;
+  color: #3d4450;
+  font-size: 20px;
+  cursor: default;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+#blank {
+  height: 200px;
+}
+footer {
+  height: 110px;
+  background: #3d4450;
+  text-align: center;
+  line-height: 110px;
+  color: #fff;
+}
+footer a {
+  transition: .2s color linear;
+  color: #fff;
+}
+footer a:hover {
+  color: #e74c3c;
+}

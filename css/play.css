@@ -1,0 +1,372 @@
+header #h_bg {
+  background: url('../img/2.png') no-repeat center top;
+  filter: blur(3px);
+}
+#main_bg {
+  position: relative;
+  background: url('../img/2.png') no-repeat 50% -70px;
+  height: 180px;
+}
+#main_bg a {
+  position: absolute;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+#main_bg a:hover .m .hint {
+  opacity: 1;
+}
+#main_bg a .m {
+  position: relative;
+  width: 1080px;
+  margin: 0 auto;
+}
+#main_bg a .m .hint {
+  position: absolute;
+  left: 186px;
+  top: 97px;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 5px 10px;
+  border-radius: 4px;
+  opacity: 0;
+  transition: .2s opacity ease;
+}
+#view_con {
+  width: 1160px;
+  margin: 0 auto;
+}
+#view_con .info {
+  float: left;
+  width: 705px;
+  height: 115px;
+  box-sizing: border-box;
+  padding: 5px 0 8px 0;
+}
+#view_con .info .t h1 {
+  display: block;
+  font-size: 16px;
+  color: #525659;
+  font-weight: 700;
+  overflow: hidden;
+  height: 24px;
+  line-height: 24px;
+  text-overflow: ellipsis;
+  font-weight: normal;
+  white-space: nowrap;
+  padding: 8px 0;
+  font-size: 18px;
+}
+#view_con .info .linkinfo {
+  float: left;
+  position: relative;
+  width: 100%;
+  margin-bottom: 12px;
+  height: 16px;
+  line-height: 16px;
+  color: #666;
+  font-size: 12px;
+  margin-top: 6px;
+  z-index: 10;
+  zoom: 1;
+}
+#view_con .info .linkinfo a {
+  color: #99a2aa;
+  transition: .2s all linear;
+}
+#view_con .info .linkinfo a:hover {
+  color: #00a1d6;
+}
+#view_con .info .linkinfo time {
+  margin-left: 50px;
+}
+#view_con .info .v_data {
+  margin-top: 5px;
+  height: 28px;
+  line-height: 28px;
+}
+#view_con .info .v_data div {
+  float: left;
+  margin-right: 30px;
+  height: 100%;
+  line-height: 28px;
+}
+#view_con .info .v_data i {
+  margin-right: 10px;
+}
+#view_con .info .v_data i.icon-icon1 {
+  font-size: 22px;
+}
+#view_con .info .v_data span {
+  position: relative;
+  top: -1.5px;
+}
+#view_con .info .v_data span.danmu {
+  top: -4.5px;
+}
+#view_con #uinfo {
+  width: 225px;
+  margin-top: 20px;
+  float: right;
+  background: #fff;
+  padding-left: 90px;
+  position: relative;
+}
+#view_con #uinfo .u_face {
+  position: absolute;
+  top: 5px;
+  left: 0;
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;
+  overflow: hidden;
+  text-align: center;
+  float: left;
+  margin: 0 10px 0 0;
+  z-index: 0;
+}
+#view_con #uinfo .u_face a {
+  display: block;
+}
+#view_con #uinfo .u_face a img {
+  width: 68px;
+  text-align: center;
+  float: left;
+  margin: 0 10px 0 0;
+  top: 0;
+  left: 0;
+  position: absolute;
+  z-index: 0;
+}
+#view_con #uinfo .top .r_info {
+  float: left;
+  max-width: 60%;
+}
+#view_con #uinfo .top .r_info .u_name {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+#view_con #uinfo .top .r_info .u_name a {
+  color: #00a1d6;
+  font-size: 14px;
+  transition: .2s color linear;
+}
+#view_con #uinfo .top .r_info .u_name a:hover {
+  color: #f25d8e;
+}
+#view_con #uinfo .top .rights {
+  float: right;
+  width: 30%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+#view_con #uinfo .top .rights i.icon {
+  position: relative;
+  top: 1px;
+  display: inline-block;
+  font-size: 15px;
+  color: gold;
+}
+#view_con #uinfo .top .rights span {
+  font-size: 14px;
+  color: gold;
+  cursor: pointer;
+}
+#view_con #uinfo .sign {
+  color: #333;
+  line-height: 20px;
+  min-height: 11px;
+  overflow: hidden;
+  word-wrap: break-word;
+  position: relative;
+  cursor: default;
+}
+#view_con #uinfo .up_video_msg div {
+  color: #99a2aa;
+  display: inline-block;
+  width: 100px;
+  cursor: default;
+}
+.player_wrp {
+  border-top: 1px solid #e5e9ef;
+  border-bottom: 1px solid #e5e9ef;
+  background-color: #f6f9fa;
+  margin-top: 30px;
+  padding: 20px 0;
+}
+.player_wrp .main {
+  width: 1160px;
+  margin: 0 auto;
+}
+.player_wrp .main .video_con {
+  position: relative;
+  float: left;
+  width: 860px;
+  height: 620px;
+  background: #000;
+}
+.player_wrp .main .video_con .hint {
+  position: relative;
+  height: 50px;
+  text-align: center;
+  background: #353535;
+  box-sizing: border-box;
+  padding: 8px 30px;
+}
+.player_wrp .main .video_con .hint a {
+  display: block;
+  height: 100%;
+  color: #fff;
+  text-align: center;
+  line-height: 34px;
+  background: #262626;
+}
+.player_wrp .main .video_con .hint a:hover font {
+  text-shadow: 0px 0px 5px #fff;
+}
+.player_wrp .main .video_con .hint a font {
+  transition: .2s all linear;
+  text-shadow: 0;
+}
+.player_wrp .main .video_con video {
+  width: 100%;
+  height: 570px;
+  color: #fff;
+}
+.player_wrp .main .video_con #danmu {
+  position: absolute;
+  left: 0;
+  top: 50px;
+  width: 100%;
+  height: 538px;
+}
+.player_wrp .main .danmu_con {
+  position: relative;
+  border-left: 1px solid #e2e2e2;
+  display: inline-block;
+  width: 300px;
+  background-color: #fff;
+  box-sizing: border-box;
+  height: 100%;
+  vertical-align: top;
+}
+.player_wrp .main .danmu_con .player_info {
+  width: 100%;
+  height: 60px;
+  line-height: 60px;
+  box-sizing: border-box;
+  padding-left: 20px;
+  text-align: left;
+  z-index: 20;
+  background-color: #fff;
+  position: relative;
+  color: #99a2aa;
+  cursor: default;
+}
+.player_wrp .main .danmu_con .player_info em {
+  font-size: 16px;
+  color: #222;
+  font-weight: bolder;
+  margin: 0 3px;
+}
+.player_wrp .main .danmu_con .dm_t > div {
+  float: left;
+  text-align: center;
+  line-height: 32px;
+  height: 32px;
+  box-sizing: border-box;
+  cursor: default;
+  color: #99a2aa;
+}
+.player_wrp .main .danmu_con .dm_t .time {
+  width: 58px;
+  text-align: left;
+  padding-left: 20px;
+  padding-right: 0;
+}
+.player_wrp .main .danmu_con .dm_t .content {
+  border: 0;
+  width: 146px;
+  padding: 0 8px;
+  cursor: pointer;
+  display: inline-block;
+  box-sizing: border-box;
+  position: relative;
+  text-align: left;
+}
+.player_wrp .main .danmu_con .dm_t .date {
+  border: 0;
+  padding: 0 8px;
+  cursor: pointer;
+  display: inline-block;
+  box-sizing: border-box;
+  position: relative;
+  width: 78px;
+  text-align: left;
+}
+.player_wrp .main .danmu_con .dm_list {
+  height: 1128px;
+}
+.player_wrp .main .danmu_con .dm_list li {
+  line-height: 24px;
+  height: 24px;
+  font-size: 12px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  cursor: pointer;
+  position: relative;
+  color: #99a2aa;
+}
+.player_wrp .main .danmu_con .dm_list li span {
+  display: inline-block;
+  box-sizing: border-box;
+}
+.player_wrp .main .danmu_con .dm_list li span.dm_time {
+  width: 58px;
+  position: relative;
+  text-align: left;
+  overflow: hidden;
+  padding-left: 20px;
+}
+.player_wrp .main .danmu_con .dm_list li span.dm_content {
+  width: 146px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  vertical-align: top;
+  padding: 0 6px;
+  box-sizing: border-box;
+  display: inline-block;
+}
+.player_wrp .main .danmu_con .dm_list li span.dm_date {
+  width: 78px;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.player_wrp .main .danmu_con .dm_list li:hover div.btn {
+  visibility: visible;
+  opacity: 1;
+  color: #fff;
+  background-color: #00a1d6;
+}
+.player_wrp .main .danmu_con .dm_list li div.btn {
+  position: absolute;
+  top: 0;
+  right: 22px;
+  height: 100%;
+  box-sizing: border-box;
+  padding: 0 5px;
+  text-align: center;
+  line-height: 24px;
+  border: 1px solid #00a1d6;
+  color: #00a1d6;
+  background: #fff;
+  visibility: hidden;
+  border-radius: 5px;
+  opacity: 0;
+  transition: .1s all linear;
+}
