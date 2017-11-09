@@ -92,8 +92,22 @@
 				<video src="./video/yourName.mp4" controls="controls">
 					您的浏览器不支持 video 标签。
 				</video>
+				<div id="senddm_con" class="clearfix">
+					<div class="fun_box">
+						
+					</div>
+					<div class="fun_box">
+						
+					</div>
+					<div class="fn dm_font"><i class="icon iconfont icon-icon1"></i></div>
+					<div class="fn dm_color"><i class="icon iconfont icon-color"></i></div>
+					<input type="text" id="input_dm" maxlength="100" placeholder="你可以在这里输入弹幕吐槽哟~~" />
+					<div class="send_bt">发送 ></div>
+					<div class="ban_dm"></div>
+				</div>
 				<div id="danmu">
-					
+					<span class="user">哈哈</span>
+					<div class="r"></div>
 				</div>
 			</div>
 			<div class="danmu_con">
@@ -142,3 +156,50 @@
 	</div>
 </body>
 </html>
+<script src="./js/jqq.js"></script>
+<script>
+
+	let $danmuScreen = $("#danmu"),
+		screenW = $danmuScreen.width(),
+		screenH = $danmuScreen.height(),
+		beaginH = parseFloat(screenH) * 0.9;
+
+
+	$('#input_dm').bind('keyup', function (e) {   //回车发送弹幕
+		if (e.keyCode == '13') {
+			$(".send_bt").click();
+		}
+	})
+
+
+
+	
+
+
+
+	function sendDm (dm_ele) {
+		$danmuScreen[0].appendChild(dm_ele);
+		let  $dm = $(dm_ele);
+		$dm.css({'left' : (screenW + 5) + 'px' , 'top' : (Math.random() * beaginH) + 'px' });
+		$dm.css({'width':'auto','display': 'inline'});
+		$dm.move({
+			targetJson : {left : 0 - $dm.width() },
+		mf : 'linear',
+		time : 16000,
+		callback : function () {
+			$dm.remove();
+		}
+	});
+	}
+
+
+	$(".send_bt").bind('click', function () {
+		console.log('click');
+		let danmu = $('#input_dm').val();
+		$('#input_dm').val('');
+		let span = document.createElement('span');
+			span.className = 'user';
+			span.innerHTML = danmu;
+		sendDm(span);
+	})
+</script>

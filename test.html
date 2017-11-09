@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>test</title>
+	<style>
+		.main {
+			width: 1000px;
+			height: 1000px;
+			border: 1px solid black;
+
+		}
+		.box {
+			width: 10px;
+			height: 10px;
+			background: black;
+		}
+		span {
+			display: inline-block;
+			background: red;
+			color: #fff;
+		}
+	</style>
+</head>
+<body>
+	<div class="main">
+		<div class="box"></div>
+		<span>haha </span>
+	</div>
+</body>
+</html>
+<script src="./js/jqq.js"></script>
+
+<script>
+
+	let ospan = document.createElement('span');
+		ospan.innerHTML = 'asasasass';
+		$('.box')[0].appendChild(ospan);
+	// $('.box').move({
+	// 	targetJson : {"width" : 200, "height" : 200},
+	// 	time : 1000,
+	// 	mf : "linear",
+	// 	callback : function () {
+	// 		console.log(this)
+	// 	}
+	// })
+
+</script>
