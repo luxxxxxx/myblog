@@ -103,11 +103,14 @@
 					<div class="fn dm_color"><i class="icon iconfont icon-color"></i></div>
 					<input type="text" id="input_dm" maxlength="100" placeholder="你可以在这里输入弹幕吐槽哟~~" />
 					<div class="send_bt">发送 ></div>
-					<div class="ban_dm"></div>
+					<div class="ban_dm" style="background: red;"></div>
 				</div>
 				<div id="danmu">
-					<span class="user">哈哈</span>
-					<div class="r"></div>
+					<div class="dm_info">
+						<div class="font">
+							<div class="t"></div>
+						</div>
+					</div>
 				</div>
 			</div>
 			<div class="danmu_con">
@@ -162,44 +165,128 @@
 	let $danmuScreen = $("#danmu"),
 		screenW = $danmuScreen.width(),
 		screenH = $danmuScreen.height(),
-		beaginH = parseFloat(screenH) * 0.9;
+		video = document.querySelector('video'),
+		beaginH = parseFloat(screenH) * 0.9,  //起始随机高度区域
+		$sendBt = $('.send_bt'),  //发送弹幕按钮
+		sendFlag = true,
+		videoPause = true,
+	    pause = true;  //弹幕暂停 flag
+
 
 
 	$('#input_dm').bind('keyup', function (e) {   //回车发送弹幕
 		if (e.keyCode == '13') {
-			$(".send_bt").click();
+			if (sendFlag) 
+				$sendBt.click();
+		}
+	})
+	$sendBt.bind('click', function () {
+		if (sendFlag) {
+			let danmu = $('#input_dm').val();
+			$('#input_dm').val('');
+			let span = document.createElement('span');
+				span.className = 'user';
+				span.innerHTML = danmu;
+			sendDm(span);
+			wait();  //等五秒后才能发送
 		}
 	})
 
+	//暂停 继续
+	$('.ban_dm').click (con_pause)
 
-
-	
-
-
-
-	function sendDm (dm_ele) {
-		$danmuScreen[0].appendChild(dm_ele);
-		let  $dm = $(dm_ele);
-		$dm.css({'left' : (screenW + 5) + 'px' , 'top' : (Math.random() * beaginH) + 'px' });
-		$dm.css({'width':'auto','display': 'inline'});
-		$dm.move({
-			targetJson : {left : 0 - $dm.width() },
-		mf : 'linear',
-		time : 16000,
-		callback : function () {
-			$dm.remove();
+	function con_pause () {  //暂停或者 继续
+		if (!pause) {
+			pause = true;
+		} else {
+			let spanArr = $danmuScreen[0].querySelectorAll('span');
+			pause = false;
+			// console.log(spanArr[0].timer());
+			for (let i = 0; i <= spanArr.length - 1; i++) {
+				console.log(spanArr[i])
+				spanArr[i].timer();
+			}
 		}
-	});
 	}
 
+	function video_con () {  //弹幕继续
+		pause = false;
+		let spanArr = $danmuScreen[0].querySelectorAll('span');
+		// console.log(spanArr[0].timer());
+		for (let i = 0; i <= spanArr.length - 1; i++) {
+			console.log(spanArr[i])
+			spanArr[i].timer();
+		}
 
-	$(".send_bt").bind('click', function () {
-		console.log('click');
-		let danmu = $('#input_dm').val();
-		$('#input_dm').val('');
-		let span = document.createElement('span');
-			span.className = 'user';
-			span.innerHTML = danmu;
-		sendDm(span);
-	})
+	}
+	function video_pause () {  //弹幕暂停
+		pause = true;
+	}
+
+	function sendDm (dm_ele) {
+		let This = dm_ele;
+		$danmuScreen[0].appendChild(This);
+		let  $dm = $(This);
+		This.width = $dm.width();
+		This.left = screenW + 5;
+
+		// 保证每一个弹幕从开始到尾部离开屏幕的时间一样  越长的弹幕速度越快
+
+		This.speed = (This.width + screenW)/6500 * 13;  
+
+		$dm.css({
+			'left' : This.left,
+			'top' : Math.random() * beaginH
+		})
+		This.clear = false;
+		This.timer = function () {
+			setTimeout(function () {
+				if (!pause) { 
+					if (This.clear) {  // 是否到达了 需要清除弹幕的时候
+						This.parentNode.removeChild(This);
+					} else {
+						This.left -= This.speed;
+						$dm.css({'left' :  This.left});
+						if (This.left < (This.width + 6 ) * -1) 
+							This.clear = true;
+						This.timer();
+					}
+				}
+			},13)
+		}
+		This.timer();
+	}
+	
+	// 等待五秒钟才能发弹幕
+	function wait (i) {
+		let num;
+		if (arguments.length === 0) {
+			num = 0;
+		} else {
+			num = i;
+		}
+		if (num === 0) {
+			sendFlag = false;
+			$sendBt.addClass('ban');
+			$sendBt.html('5s');
+		} 
+		if (num < 5) {
+			num ++;
+			setTimeout( function(){
+				$sendBt.html( (5-num) +'s')	
+				wait(num);
+			},1000)
+		} else {
+			sendFlag = true;
+			$sendBt.removeClass('ban');
+			$sendBt.html('发送');
+		}
+	}
+
+	video.onprogress = function (e) {
+		
+	}
+	video.onpause = video_pause;
+
+	video.onplay = video_con;
 </script>

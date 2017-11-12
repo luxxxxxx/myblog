@@ -244,6 +244,26 @@ header #h_bg {
   height: 538px;
   overflow: hidden;
 }
+.player_wrp .main .video_con #danmu div.dm_info {
+  display: inline-block;
+  display: none;
+  width: auto;
+  height: auto;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  padding: 12px 20px;
+  transition: .2s all linear;
+  background-color: #fff;
+}
+.player_wrp .main .video_con #danmu div.dm_info .font {
+  margin: 12px 0;
+}
+.player_wrp .main .video_con #danmu div.dm_info .font .t {
+  width: 30px;
+  color: #99a2aa;
+  text-align: center;
+}
 .player_wrp .main .video_con #danmu span {
   display: inline-block;
   font-size: 20px;
@@ -324,6 +344,12 @@ header #h_bg {
 }
 .player_wrp .main .video_con #senddm_con .send_bt:hover {
   background-color: #00b5e5;
+}
+.player_wrp .main .video_con #senddm_con .send_bt.ban {
+  background-color: #ccd0d7;
+  color: #fff;
+  border: 1px solid #ccd0d7;
+  cursor: not-allowed;
 }
 .player_wrp .main .video_con #senddm_con .ban_dm {
   float: right;
