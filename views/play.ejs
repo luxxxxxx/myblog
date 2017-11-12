@@ -95,10 +95,10 @@
 				</video>
 				<div id="senddm_con" class="clearfix">
 					<div class="fun_box">
-						
+
 					</div>
 					<div class="fun_box">
-						
+
 					</div>
 					<div class="fn dm_font"><i class="icon iconfont icon-icon1"></i></div>
 					<div class="fn dm_color"><i class="icon iconfont icon-color"></i></div>
@@ -177,7 +177,7 @@
 
 	$('#input_dm').bind('keyup', function (e) {   //回车发送弹幕
 		if (e.keyCode == '13') {
-			if (sendFlag) 
+			if (sendFlag)
 				$sendBt.click();
 		}
 	})
@@ -233,7 +233,7 @@
 
 		// 保证每一个弹幕从开始到尾部离开屏幕的时间一样  越长的弹幕速度越快
 
-		This.speed = (This.width + screenW)/6500 * 13;  
+		This.speed = (This.width + screenW)/6500 * 13;
 
 		$dm.css({
 			'left' : This.left,
@@ -242,13 +242,13 @@
 		This.clear = false;
 		This.timer = function () {
 			setTimeout(function () {
-				if (!pause) { 
+				if (!pause) {
 					if (This.clear) {  // 是否到达了 需要清除弹幕的时候
 						This.parentNode.removeChild(This);
 					} else {
 						This.left -= This.speed;
 						$dm.css({'left' :  This.left});
-						if (This.left < (This.width + 6 ) * -1) 
+						if (This.left < (This.width + 6 ) * -1)
 							This.clear = true;
 						This.timer();
 					}
@@ -257,7 +257,7 @@
 		}
 		This.timer();
 	}
-	
+
 	// 等待五秒钟才能发弹幕
 	function wait (i) {
 		let num;
@@ -270,11 +270,11 @@
 			sendFlag = false;
 			$sendBt.addClass('ban');
 			$sendBt.html('5s');
-		} 
+		}
 		if (num < 5) {
 			num ++;
 			setTimeout( function(){
-				$sendBt.html( (5-num) +'s')	
+				$sendBt.html( (5-num) +'s')
 				wait(num);
 			},1000)
 		} else {
@@ -285,7 +285,7 @@
 	}
 
 	video.onprogress = function (e) {
-		
+
 	}
 	video.onpause = video_pause;
 

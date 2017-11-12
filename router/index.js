@@ -4,4 +4,15 @@ const express = require("express"),
     router = express.Router();
 
 
+router.get("/play",(req,res) => {
+    res.render("play.ejs");
+});
+
+router.get("/techo",(req,res) => {
+    res.render("techo.ejs");
+});
+
+// router.use("/login",require("./login.js"));
+
+
 module.exports = router;
