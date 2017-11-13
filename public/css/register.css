@@ -1,0 +1,135 @@
+#t {
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  top: -125px;
+  width: 300px;
+  height: 100px;
+  text-align: center;
+}
+#t img {
+  height: 100%;
+  margin: 0 auto;
+}
+#main {
+  position: relative;
+  height: 800px;
+  margin: 213px auto;
+}
+#main .h {
+  position: relative;
+  z-index: 5;
+  height: 20px;
+  background: url(../img/borderImg.png) repeat;
+  background-size: 1.85%;
+}
+#main .main {
+  position: relative;
+  width: 1060px;
+  margin: 0 auto;
+}
+#main .main .lishi {
+  z-index: 7;
+  display: inline-block;
+  position: absolute;
+  left: 615px;
+  top: -265px;
+  width: 331px;
+  height: 469px;
+  background: url('../img/lishi.png');
+  background-size: cover;
+}
+#main form {
+  width: 800px;
+  margin: 0 auto;
+  overflow: hidden;
+}
+#main form .input_wrp {
+  position: relative;
+  margin-top: 45px;
+  height: 42px;
+}
+#main form .input_wrp input {
+  z-index: 9;
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 20px;
+  width: 395px;
+  margin: 0 auto;
+  border-radius: 3px;
+  padding: 10px;
+  outline: none;
+  border: 1px solid #dfdfdf;
+  color: #a5a5a5;
+  transition: 0.2s border-color linear;
+}
+#main form .input_wrp input:focus {
+  border: 1px solid #00a1d6;
+}
+#main form .input_wrp input.error {
+  border: 1px solid #ff1818;
+}
+#main form .input_wrp .safe_con {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -43px;
+  margin: 0 auto;
+  height: 40px;
+  box-sizing: border-box;
+  padding: 10px 0;
+  width: 415px;
+  font-size: 15px;
+}
+#main form .input_wrp .safe_con p {
+  float: left;
+  color: #717171;
+}
+#main form .input_wrp .safe_con p.desc {
+  margin-left: 6px;
+  font-size: 12px;
+  color: #49c519;
+}
+#main form .input_wrp .safe_con .a_pw {
+  float: left;
+  width: 277px;
+  line-height: 24px;
+}
+#main form .input_wrp .safe_con .a_pw .safe_line {
+  position: relative;
+  top: -2px;
+  display: inline-block;
+  width: 30px;
+  height: 5px;
+  margin-left: 15px;
+  border-radius: 5px;
+  margin-right: 7px;
+  background-color: #000;
+}
+#main form .input_wrp .safe_con .a_pw .safe_line:nth-child(1) {
+  background-color: red;
+}
+#main form .input_wrp .safe_con .a_pw .safe_line:nth-child(2) {
+  background-color: #ff7f00;
+}
+#main form .input_wrp .safe_con .a_pw .safe_line:nth-child(3) {
+  background-color: #f0f028;
+}
+#main form .input_wrp .safe_con .a_pw .safe_line:nth-child(4) {
+  background-color: #7ade18;
+}
+#main form .input_wrp .safe_con .a_pw .safe_line:nth-child(5) {
+  background-color: #49c519;
+}
+#main form .input_wrp p.err_msg {
+  width: 180px;
+  text-align: right;
+  margin: 0 auto;
+  height: 42px;
+  line-height: 42px;
+  display: inline-block;
+  font-size: 12px;
+  color: #f45d90;
+}
