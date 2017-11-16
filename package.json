@@ -8,6 +8,7 @@
     "express": "latest",
     "express-session": "^1.15.6",
     "multer": "^1.3.0",
-    "mysql": "latest"
+    "mysql": "latest",
+    "nodemailer": "^4.4.0"
   }
 }

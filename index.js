@@ -26,8 +26,8 @@ app.use(session( { secret : "luxxxxxx" } ));  //设置秘钥
 app.use('/',require('./router/index'));
 
 
+http.createServer(app).listen(233);
+
 //  http://localhost:233  /admim 这个路径已经被app.use匹配了
 //        /index 这个路径是来交给admin.js文件进行匹配的
 //app.use('/admin',require('./router/admin'));
-
-http.createServer(app).listen(233);

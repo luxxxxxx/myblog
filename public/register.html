@@ -5,9 +5,36 @@
 	<title>要优雅的注册</title>
 	<link rel="shortcut icon" href="./img/favicon.ico">
 	<link rel="stylesheet" href="./css/register.css">
+	<link rel="stylesheet" href="./css/general.css">
 	<link rel="stylesheet" href="./css/reset.css">
 </head>
 <body>
+	<header>
+		<div id="h_bg"></div>
+		<div class="mask"></div>
+		<div id="h_content">
+			<div class="l">
+				<div class="pic">
+					<img src="./img/heimao1.png" alt="要优雅" title="不要优雅，要污!ε=ε=(ノ≧∇≦)ノ">
+				</div>
+				<div id="logo"><img src="./img/logo.png" alt=""></div>
+			</div>
+			<div class="r">
+				<ul class="nav clearfix">
+					<li><a href="##">main</a><div class="bar"></div></li>
+					<li><a href="##">technology</a><div class="bar"></div></li>
+					<li><a href="##">anime</a><div class="bar"></div></li>
+					<li class="n-margin-r"><a href="##">music</a><div class="bar"></div></li>
+				</ul>
+				<!-- 登录板块，登录：yes，未登录 no -->
+				<div class="login_sec no">
+					<span><a href="##">login</a></span>
+					<span>|</span>
+					<span class="current"><a href="##">register</a></span>
+				</div>
+			</div>
+		</div>
+	</header>
 	<div id="main">
 		<div id="t"><img src="./img/reg.png" alt=""></div>
 		<div class="h"></div>
@@ -39,8 +66,17 @@
 				<p class="err_msg">错误信息</p>
 			</div>
 		</form>
+		<div class="getCode">
+			获取验证码
+		</div>
 	</div>
 
 
 </body>
 </html>
+<script src="./js/jqq.js"></script>
+<script>
+	$('.getCode').css({'width':'100px','height':'100px','backgroundColor' : 'red'}).click(function(){
+		alert(1)
+	}) 
+</script>

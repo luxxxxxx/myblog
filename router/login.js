@@ -5,9 +5,9 @@ const express = require("express"),
 
 
 router.get("/",( req, res ) => {
-    res.render("404.html")
-})
+    res.render("play.ejs")
+});
 
 
 
-router.exports = router;
+module.exports = router;

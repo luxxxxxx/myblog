@@ -73,17 +73,49 @@ header #h_content .r ul.nav {
   display: inline-block;
 }
 header #h_content .r ul.nav li {
+  position: relative;
   display: inline-block;
   height: 100%;
   float: left;
   margin-right: 70px;
   line-height: 70px;
+  cursor: pointer;
   text-align: center;
+}
+header #h_content .r ul.nav li:hover .bar {
+  visibility: visible;
+  opacity: .8;
+}
+header #h_content .r ul.nav li .bar {
+  position: absolute;
+  bottom: 16px;
+  left: 0;
+  right: 0;
+  width: 20px;
+  height: 2px;
+  margin : 0 auto;
+  border-radius: 1px;
+  background: #fff;
+  visibility: hidden;
+  opacity: 0;
+  transition: .2s all linear;
+}
+header #h_content .r ul.nav li.current {
+  opacity: 1;
+}
+header #h_content .r ul.nav li.current .bar {
+  visibility: visible;
+  opacity: 1;
+}
+header #h_content .r ul.nav li.current a {
+  color: #fff;
 }
 header #h_content .r ul.nav li:last-child {
   margin-right: 0;
 }
 header #h_content .r ul.nav li a {
+  display: block;
+  height: 100%;
   font-size: 20px;
   color: rgba(255, 255, 255, 0.8);
   transition: .1s all linear;
@@ -113,6 +145,9 @@ header #h_content .r .login_sec span {
   display: inline-block;
   color: #fff;
   font-size: 20px;
+}
+header #h_content .r .login_sec span.current  a {
+  color: #fff;
 }
 header #h_content .r .login_sec span a {
   color: rgba(255, 255, 255, 0.8);

@@ -1,7 +1,8 @@
 /**
  *  Created on 2017/4/7
- *  version jqq-1.21
+ *  version jqq-1.22
  	修改 val方法
+ 	修正了 ajax
  *  Author luxxxxxx
 **/
 
@@ -459,7 +460,7 @@
  	}
 	window.$ = window.jqq = $;
 	//Ajax
-	window.Ajax = function (obj) {
+	window.Ajax = function (json) {
 		var xhr = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP'),  //兼容老版本IE 
 		method = json.method || 'get',
 		asyn = json.asyn ? true : json.asyn == false ? false : true,
@@ -467,8 +468,16 @@
 		success = json.success,
 		error = json.error,
 		url = json.url;
-		if ( method.toLowerCase() === 'get' ) 
-			url += '?'+ data +'&'+new Date().getTime();
+		if ( method.toLowerCase() === 'get' ) {
+            url += '?'+ data +'&'+new Date().getTime();
+        } else {
+			var newData = "";
+			for (var key in data) {
+				newData += key + '=' + data[key] + '&';
+			}
+			data = newData.slice(0,newData.length - 1);
+        }
+
 		xhr.onreadystatechange = function(){
 			if ( xhr.readyState == 4 ) {
 				if ( xhr.status >= 200 && xhr.status < 300 )
