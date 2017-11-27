@@ -311,7 +311,6 @@
 		find : function (selector) {
 			return $(this[0].querySelectorAll(selector)); 
 		},
-
 		is : function (selector) {  //用一个表达式来检查当前选择的元素集合如果其中至少有一个给定的表达式就返回true
 			var allDom = document.querySelectorAll(selector),
 				l = allDom.length,
@@ -351,6 +350,12 @@
 				}
 			})
 			return this;
+		},
+		//Class 
+		class : function (classN) {
+			this.each(function () {
+				this.className = classN;
+			})
 		},
 		//RemoveClass
 		removeClass : function (clN) {

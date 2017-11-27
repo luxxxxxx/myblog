@@ -1,82 +1,225 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<title>要优雅的注册</title>
-	<link rel="shortcut icon" href="./img/favicon.ico">
-	<link rel="stylesheet" href="./css/register.css">
-	<link rel="stylesheet" href="./css/general.css">
-	<link rel="stylesheet" href="./css/reset.css">
+    <meta charset="UTF-8">
+    <title>要优雅的注册</title>
+    <link rel="shortcut icon" href="./img/favicon.ico">
+    <link rel="stylesheet" href="./css/register.css">
+    <link rel="stylesheet" href="./css/general.css">
+    <link rel="stylesheet" href="./css/reset.css">
 </head>
 <body>
-	<header>
-		<div id="h_bg"></div>
-		<div class="mask"></div>
-		<div id="h_content">
-			<div class="l">
-				<div class="pic">
-					<img src="./img/heimao1.png" alt="要优雅" title="不要优雅，要污!ε=ε=(ノ≧∇≦)ノ">
-				</div>
-				<div id="logo"><img src="./img/logo.png" alt=""></div>
-			</div>
-			<div class="r">
-				<ul class="nav clearfix">
-					<li><a href="##">main</a><div class="bar"></div></li>
-					<li><a href="##">technology</a><div class="bar"></div></li>
-					<li><a href="##">anime</a><div class="bar"></div></li>
-					<li class="n-margin-r"><a href="##">music</a><div class="bar"></div></li>
-				</ul>
-				<!-- 登录板块，登录：yes，未登录 no -->
-				<div class="login_sec no">
-					<span><a href="##">login</a></span>
-					<span>|</span>
-					<span class="current"><a href="##">register</a></span>
-				</div>
-			</div>
+<header>
+    <div id="h_bg"></div>
+    <div class="mask"></div>
+    <div id="h_content">
+        <div class="l">
+            <div class="pic">
+                <img src="./img/heimao1.png" alt="要优雅" title="不要优雅，要污!ε=ε=(ノ≧∇≦)ノ">
+            </div>
+            <div id="logo"><img src="./img/logo.png" alt=""></div>
+        </div>
+        <div class="r">
+            <ul class="nav clearfix">
+                <li><a href="##">main</a><div class="bar"></div></li>
+                <li><a href="##">technology</a><div class="bar"></div></li>
+                <li><a href="##">anime</a><div class="bar"></div></li>
+                <li class="n-margin-r"><a href="##">music</a><div class="bar"></div></li>
+            </ul>
+            <!-- 登录板块，登录：yes，未登录 no -->
+            <div class="login_sec no">
+                <span><a href="##">login</a></span>
+                <span>|</span>
+                <span class="current"><a href="##">register</a></span>
+            </div>
+        </div>
+    </div>
+</header>
+<div id="main">
+    <div id="t"><img src="./img/reg.png" alt=""></div>
+    <div class="h"></div>
+    <div class="main">
+        <div class="lishi"></div>
+    </div>
+    <form action="" >
+        <div class="input_wrp">
+            <input type="text" id="userName" name="userName" placeholder="昵称 ( 例 : 要优雅 )">
+            <p class="err_msg"></p>
+        </div>
+        <div class="input_wrp">
+            <div id="safeBar" class="safe_con">
+                <p>安全系数</p>
+                <div class="a_pw l1">
+                    <div class="safe_line"></div>
+                    <div class="safe_line"></div>
+                    <div class="safe_line"></div>
+                    <div class="safe_line"></div>
+                    <div class="safe_line"></div>
+                </div>
+                <p class="desc">弱</p>
+            </div>
+            <input type="passWord" id="passWord" name="passWord" placeholder="密码( 6-16个字符组成,区分大小写 )">
+            <p class="err_msg"></p>
+        </div>
+		<div class="input_wrp">
+			<input type="passWord" id="repeatPassWord" name="passWord" placeholder="重复密码">
+			<p class="err_msg"></p>
 		</div>
-	</header>
-	<div id="main">
-		<div id="t"><img src="./img/reg.png" alt=""></div>
-		<div class="h"></div>
-		<div class="main">
-			<div class="lishi"></div>
-		</div>
-		<form action="" >
-			<div class="input_wrp">
-				<input type="text" name="userName" placeholder="昵称 ( 例 : 要优雅 )">
-				<p class="err_msg">错误信息</p>
-			</div>
-			<div class="input_wrp">
-				<div class="safe_con">
-					<p>安全系数</p>
-					<div class="a_pw">
-						<div class="safe_line"></div>
-						<div class="safe_line"></div>
-						<div class="safe_line"></div>
-						<div class="safe_line"></div>
-						<div class="safe_line"></div>
-					</div>
-					<p class="desc">安全</p>
-				</div>
-				<input type="text" name="userName" placeholder="密码( 6-16个字符组成,区分大小写 )">
-				<p class="err_msg">错误信息</p>
-			</div>
-			<div class="input_wrp">
-				<input type="text" name="email" placeholder="邮箱">
-				<p class="err_msg">错误信息</p>
-			</div>
-		</form>
-		<div class="getCode">
-			获取验证码
-		</div>
-	</div>
 
+        <div class="input_wrp">
+            <input type="text" name="email" id="email" value="981236133@qq.com" placeholder="邮箱" maxlength="45">
+            <p class="err_msg"></p>
+            <div class="send false">发送邮件</div>
+        </div>
+        <div class="input_wrp">
+        	<div class="regBtn">注册</div>
+        </div>
+    </form>
+</div>
+<footer>
+	要优雅~ (゜-゜)つロ 干杯~   powered by <a href="##">要优雅</a>
+</footer>
 
 </body>
 </html>
 <script src="./js/jqq.js"></script>
 <script>
-	$('.getCode').css({'width':'100px','height':'100px','backgroundColor' : 'red'}).click(function(){
-		alert(1)
-	}) 
+    let $email = $("#email"),
+    	$userName = $("#userName"),
+    	$passWord = $("#passWord"),
+    	$rpassWord = $("#repeatPassWord"),
+    	$errMsgs = $(".err_msg"),
+    	$levelCon = $('#safeBar .a_pw'),
+    	$safeLevelInfo = $('#safeBar .desc'),
+    	fUser = false,
+    	fpass1 = false,
+    	fpass2 = false,
+    	femail = false;
+
+    // $(".send").click(function () {
+    //     console.log(1)
+    //     Ajax({
+    //         'method' : 'post',
+    //         'url' : '/reg/sendMail',
+    //         'data' : {
+    //             'email' : $email.val()
+    //         },
+    //         success : function (data) {
+    //             console.log(data);
+    //         }
+    //     })
+    // })
+
+    $userName.bind('focus',function() {
+    }).bind('keyup',function() {
+    	let userName = this.value.replace(/\s+$/,''),  //去掉末尾空格
+    		$msg = $errMsgs.eq(0);
+    	if (userName.length < 6 || userName.length > 16 ) {
+    		$msg.html('用户名必须在6-16位之间');
+    		;
+    		fUser = false;
+    	}else {
+    		let reg = /^([a-zA-Z]|[\u4e00-\u9fa5])/;
+    		if (!reg.test(userName)) {
+    			$msg.html('用户名必须以中英文名开头');
+    			fUser = false;
+    		} else {
+	    		let reg = /^([a-zA-Z]|[\u4e00-\u9fa5])(\w|[\u4e00-\u9fa5]){5,17}$/;
+	    		if (!reg.test(userName)) {
+					$msg.html('用户名中不能包含特殊符号');
+					fUser = false; 
+	    		} else {
+	    			$msg.html('检测中...');
+	    			fUser = true;
+	    		}
+    		}
+    	}
+    }).bind('blur',function () {
+
+    })
+
+
+    $passWord.bind('focus',function () {
+
+    }).bind('keyup',function () {
+
+    	let safeLevel = 1,  //安全等级
+    		$msg = $errMsgs.eq(1),
+    		pass = this.value,
+    		l = pass.length,
+    		fresh = (level) => {
+    			switch (level) {
+    				case 1: 
+    					$levelCon.class('a_pw l1');
+    					$safeLevelInfo.html('弱');
+    					$safeLevelInfo.css('color:#bc0001')
+    				break;
+    				case 2:
+    					$levelCon.class('a_pw l2');
+    					$safeLevelInfo.html('弱');
+    					$safeLevelInfo.css('color:#bc0001');
+    				break;
+    				case 3:
+    					$levelCon.class('a_pw l3');
+    					$safeLevelInfo.html('中');
+    					$safeLevelInfo.css('color:#ffd800');
+    				break;
+    				case 4:
+    					$levelCon.class('a_pw l4');
+    					$safeLevelInfo.html('中');
+    					$safeLevelInfo.css('color:#ffd800');
+    				break;
+    				case 5:
+    					$levelCon.class('a_pw l5');
+    					$safeLevelInfo.html('安全');
+    					$safeLevelInfo.css('color:#49c519');
+    				break;
+    			}
+    		};
+    		let modify = 0, //度量 密码安全度
+    			numReg = /\d+/,  //匹配密码中是否有数字
+    			charReg = /\w+/,  //匹配普通字母字符
+    			signReg = /[\.\?\+\$\^\[\]\(\)\{\}\|\\\/<>:=`;,'"@&#!\s]/;  //匹配特殊字符
+    		if (numReg.test(pass)) {
+    			modify ++;
+    		}
+    		if (charReg.test(pass)) {
+    			modify ++;
+    		}
+    		if (signReg.test(pass)) {
+    			modify ++;
+    		}
+    		if (l < 6 ) {
+    			$msg.html('密码不能够少于6个字符')
+    			safeLevel = 1;
+    			fresh(1 + modify - 1);
+    			fpass1 = false;
+    		} else if (l > 16) {
+    			$msg.html('密码不能够超过16个字符')
+    			safeLevel = 3;
+    			fresh(3 + modify - 1);
+    			fpass1 = false;
+    		} else {
+    			$msg.html('');
+    			if (l >= 6 && l <= 9) {
+    				fresh (2 + modify - 1);
+    			} else if (l > 9) {
+    				fresh (3 + modify - 1);
+    			}
+    			fpass1 = true;
+    		}
+    }).bind('blur',function () {
+
+    });
+    $rpassWord.bind('blur', function () {
+    	$msg = $errMsgs.eq(2);
+    	console.log($msg);
+    	if ($rpassWord.val() === $passWord.val()) {
+    		$msg.html('')
+    	} else {
+    		$msg.html('两次输入密码不一致')
+    	}
+    });
+
+
 </script>

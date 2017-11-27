@@ -1,3 +1,7 @@
+html,
+body {
+  min-height: 540px !important;
+}
 #t {
   position: absolute;
   left: 0;
@@ -14,8 +18,7 @@
 }
 #main {
   position: relative;
-  height: 800px;
-  margin: 230px auto;
+  margin: 230px auto 50px;
 }
 #main .h {
   position: relative;
@@ -71,6 +74,50 @@
 #main form .input_wrp input.error {
   border: 1px solid #ff1818;
 }
+#main form .input_wrp .send {
+  z-index: 20;
+  position: absolute;
+  right: 192px;
+  top: 1px;
+  width: 100px;
+  height: 40px;
+  background: #00a1d6;
+  color: #fff;
+  font-size: 13px;
+  text-align: center;
+  line-height: 40px;
+  border-top-right-radius: 3px;
+  border-bottom-right-radius: 3px;
+  cursor: pointer;
+  transition: .2s all linear;
+}
+#main form .input_wrp .send.false {
+  cursor: not-allowed;
+  background: #999;
+}
+#main form .input_wrp .regBtn {
+  z-index: 9;
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 40px;
+  width: 415px;
+  margin: 0 auto;
+  border-radius: 3px;
+  outline: none;
+  border: 1px solid #f9f9f9;
+  background: #f9f9f9;
+  color: #aaa;
+  text-align: center;
+  line-height: 42px;
+  cursor: not-allowed;
+  transition: .2s all linear;
+}
+#main form .input_wrp .regBtn .success {
+  background: #00a1d6;
+  color: #fff;
+  cursor: pointer;
+}
 #main form .input_wrp .safe_con {
   position: absolute;
   left: 0;
@@ -90,12 +137,59 @@
 #main form .input_wrp .safe_con p.desc {
   margin-left: 6px;
   font-size: 12px;
-  color: #49c519;
+  /*color: rgb(73, 197, 25);*/
+  color: #bc0001;
+  transition: .2s color linear;
 }
 #main form .input_wrp .safe_con .a_pw {
   float: left;
   width: 277px;
   line-height: 24px;
+}
+#main form .input_wrp .safe_con .a_pw.l1 .safe_line:nth-child(1) {
+  opacity: 1;
+}
+#main form .input_wrp .safe_con .a_pw.l2 .safe_line:nth-child(1) {
+  opacity: 1;
+}
+#main form .input_wrp .safe_con .a_pw.l2 .safe_line:nth-child(2) {
+  opacity: 1;
+}
+#main form .input_wrp .safe_con .a_pw.l3 .safe_line:nth-child(1) {
+  opacity: 1;
+}
+#main form .input_wrp .safe_con .a_pw.l3 .safe_line:nth-child(2) {
+  opacity: 1;
+}
+#main form .input_wrp .safe_con .a_pw.l3 .safe_line:nth-child(3) {
+  opacity: 1;
+}
+#main form .input_wrp .safe_con .a_pw.l4 .safe_line:nth-child(1) {
+  opacity: 1;
+}
+#main form .input_wrp .safe_con .a_pw.l4 .safe_line:nth-child(2) {
+  opacity: 1;
+}
+#main form .input_wrp .safe_con .a_pw.l4 .safe_line:nth-child(3) {
+  opacity: 1;
+}
+#main form .input_wrp .safe_con .a_pw.l4 .safe_line:nth-child(4) {
+  opacity: 1;
+}
+#main form .input_wrp .safe_con .a_pw.l5 .safe_line:nth-child(1) {
+  opacity: 1;
+}
+#main form .input_wrp .safe_con .a_pw.l5 .safe_line:nth-child(2) {
+  opacity: 1;
+}
+#main form .input_wrp .safe_con .a_pw.l5 .safe_line:nth-child(3) {
+  opacity: 1;
+}
+#main form .input_wrp .safe_con .a_pw.l5 .safe_line:nth-child(4) {
+  opacity: 1;
+}
+#main form .input_wrp .safe_con .a_pw.l5 .safe_line:nth-child(5) {
+  opacity: 1;
 }
 #main form .input_wrp .safe_con .a_pw .safe_line {
   position: relative;
@@ -107,6 +201,8 @@
   border-radius: 5px;
   margin-right: 7px;
   background-color: #000;
+  opacity: 0;
+  transition: .2s opacity linear;
 }
 #main form .input_wrp .safe_con .a_pw .safe_line:nth-child(1) {
   background-color: red;
