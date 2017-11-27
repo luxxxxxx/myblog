@@ -67,7 +67,7 @@
 		</div>
 
         <div class="input_wrp">
-            <input type="text" name="email" id="email" value="981236133@qq.com" placeholder="邮箱" maxlength="45">
+            <input type="email" name="email" id="email" value="981236133@qq.com" placeholder="邮箱" maxlength="45">
             <p class="err_msg"></p>
             <div class="send false">发送邮件</div>
         </div>
@@ -91,6 +91,7 @@
     	$errMsgs = $(".err_msg"),
     	$levelCon = $('#safeBar .a_pw'),
     	$safeLevelInfo = $('#safeBar .desc'),
+    	$sendMailBtn = $('#main > form > div:nth-child(4) > div'),
     	fUser = false,
     	fpass1 = false,
     	fpass2 = false,
@@ -134,8 +135,9 @@
 	    		}
     		}
     	}
+    	emailble();
     }).bind('blur',function () {
-
+    	emailble();
     })
 
 
@@ -208,18 +210,63 @@
     			}
     			fpass1 = true;
     		}
+    		emailble();
     }).bind('blur',function () {
-
+    	emailble();
     });
     $rpassWord.bind('blur', function () {
     	$msg = $errMsgs.eq(2);
-    	console.log($msg);
     	if ($rpassWord.val() === $passWord.val()) {
     		$msg.html('')
+    		fpass2 = true;
     	} else {
-    		$msg.html('两次输入密码不一致')
+    		$msg.html('两次输入密码不一致');
+    		fpass2 = false;
     	}
+    	emailble();
     });
+
+    let emailble = () => {
+    	if (fUser && fpass1 && fpass2 && femail) {
+    		$sendMailBtn.removeClass('false');
+    	} else {
+    		$sendMailBtn.addClass('false');
+    	}
+    }
+
+    $sendMailBtn.bind('click', function () {
+    	let $msg = $errMsgs.eq(3);
+    	if (!$(this).hasClass('false')) {
+			let email = $email.val(),
+				reg = /^[0-9a-zA-Z]\w+(@\w+\.[a-zA-Z]{2,})$/;
+			console.log(reg.test(email))
+    	} else {
+    		if (!fpass1 || fpass2) 
+    			$msg.html('请检查你的密码');
+
+    		if (!fUser) {
+    			$msg.html('请输入有效的用户名');
+    		}
+    		if (!femail) {
+    			$msg.html('请输入一个有效的邮箱地址');
+    		}
+    	}
+    })
+
+    $email.bind('keyup', function () {
+    	let email = $(this).val(),
+    		$msg = $errMsgs.eq(3),
+			reg = /^[0-9a-zA-Z]\w+(@\w+\.[a-zA-Z]{2,})$/;
+		if (!reg.test(email)) {
+			$msg.html('请输入一个有效的邮箱地址');
+			femail = false;
+			emailble();
+		} else {
+			$msg.html('');
+			femail = true;
+			emailble();
+		}
+    })
 
 
 </script>
