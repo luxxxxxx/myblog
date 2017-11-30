@@ -144,7 +144,6 @@
     $passWord.bind('focus',function () {
 
     }).bind('keyup',function () {
-
     	let safeLevel = 1,  //安全等级
     		$msg = $errMsgs.eq(1),
     		pass = this.value,
@@ -243,7 +242,6 @@
     	} else {
     		if (!fpass1 || fpass2) 
     			$msg.html('请检查你的密码');
-
     		if (!fUser) {
     			$msg.html('请输入有效的用户名');
     		}
@@ -266,7 +264,17 @@
 			femail = true;
 			emailble();
 		}
+    }).bind('blur',function () {
+    	let reg = /^[0-9a-zA-Z]\w+(@\w+\.[a-zA-Z]{2,})$/,
+    		$msg = $errMsgs.eq(3),
+    		email = $(this).val();
+    	if (reg.test(email)) {
+    		femail = true;
+    		$msg.html('');
+    		emailble();
+    	}
     })
-
+    
+    
 
 </script>

@@ -10,20 +10,20 @@ router.get("/",(req,res) => {
 
 router.get("/checkCode",(req,res) => {
     res.send("gg");
-    let userName =  req.query.userName,
-
+    let userName =  req.query.userName
 });
-// router.post('/sendMail',(req,res) => {
-//     let mail = {
-//         from : "luxxxxxx <wy981236133@126.com>",
-//         subject : "测试2",
-//         // to : req.body["email"],
-//         to : "1933521558@qq.com",
-//         html : "哇啊啊啊啊 啊"
-//     };
-//     send(mail);
-// })
+router.post('/sendMail',(req,res) => {
+    let mail = {
+        from : "luxxxxxx <wy981236133@126.com>",
+        subject : "测试2",
+        // to : req.body["email"],
+        to : "981236133@qq.com",
+        html : "欢迎来到要优雅官方注册页面，请点击以下链接，完成邮箱校检.</br> <a>www.</a>"
+    };
+    send(mail);
+})
 
+router.get()
 module.exports = router;
 
 

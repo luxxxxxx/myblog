@@ -43,52 +43,251 @@
     </div>
     <form action="" >
         <div class="input_wrp">
-            <input type="text" name="userName" placeholder="昵称 ( 例 : 要优雅 )">
-            <p class="err_msg">错误信息</p>
+            <input type="text" id="userName" name="userName" placeholder="昵称 ( 例 : 要优雅 )">
+            <p class="err_msg"></p>
         </div>
         <div class="input_wrp">
-            <div class="safe_con">
+            <div id="safeBar" class="safe_con">
                 <p>安全系数</p>
-                <div class="a_pw">
+                <div class="a_pw l1">
                     <div class="safe_line"></div>
                     <div class="safe_line"></div>
                     <div class="safe_line"></div>
                     <div class="safe_line"></div>
                     <div class="safe_line"></div>
                 </div>
-                <p class="desc">安全</p>
+                <p class="desc">弱</p>
             </div>
-            <input type="text" name="userName" placeholder="密码( 6-16个字符组成,区分大小写 )">
-            <p class="err_msg">错误信息</p>
+            <input type="passWord" id="passWord" name="passWord" placeholder="密码( 6-16个字符组成,区分大小写 )">
+            <p class="err_msg"></p>
         </div>
         <div class="input_wrp">
-            <input type="text" name="email" id="email" value="981236133@qq.com" placeholder="邮箱">
-            <p class="err_msg">错误信息</p>
-            <div class="send">send email</div>
+            <input type="passWord" id="repeatPassWord" name="passWord" placeholder="重复密码">
+            <p class="err_msg"></p>
+        </div>
+
+        <div class="input_wrp">
+            <input type="email" name="email" id="email" value="981236133@qq.com" placeholder="邮箱" maxlength="45">
+            <p class="err_msg"></p>
+            <div class="send false">发送邮件</div>
+        </div>
+        <div class="input_wrp">
+            <div class="regBtn">注册</div>
         </div>
     </form>
-    <div class="getCode">
-        获取验证码
-    </div>
 </div>
-
+<footer>
+    要优雅~ (゜-゜)つロ 干杯~   powered by <a href="##">要优雅</a>
+</footer>
 
 </body>
 </html>
 <script src="./js/jqq.js"></script>
 <script>
-    let $email = $("#email");
-    $(".getCode").click(function () {
-        console.log(1)
-        Ajax({
-            'method' : 'post',
-            'url' : '/reg/sendMail',
-            'data' : {
-                'email' : $email.val()
-            },
-            success : function (data) {
-                console.log(data);
+    let $email = $("#email"),
+        $userName = $("#userName"),
+        $passWord = $("#passWord"),
+        $rpassWord = $("#repeatPassWord"),
+        $errMsgs = $(".err_msg"),
+        $levelCon = $('#safeBar .a_pw'),
+        $safeLevelInfo = $('#safeBar .desc'),
+        $sendMailBtn = $('#main > form > div:nth-child(4) > div'),
+        fUser = false,
+        fpass1 = false,
+        fpass2 = false,
+        femail = false;
+
+    // $(".send").click(function () {
+    //     console.log(1)
+    //     Ajax({
+    //         'method' : 'post',
+    //         'url' : '/reg/sendMail',
+    //         'data' : {
+    //             'email' : $email.val()
+    //         },
+    //         success : function (data) {
+    //             console.log(data);
+    //         }
+    //     })
+    // })
+
+    $userName.bind('focus',function() {
+    }).bind('keyup',function() {
+        let userName = this.value.replace(/\s+$/,''),  //去掉末尾空格
+            $msg = $errMsgs.eq(0);
+        if (userName.length < 6 || userName.length > 16 ) {
+            $msg.html('用户名必须在6-16位之间');
+            ;
+            fUser = false;
+        }else {
+            let reg = /^([a-zA-Z]|[\u4e00-\u9fa5])/;
+            if (!reg.test(userName)) {
+                $msg.html('用户名必须以中英文名开头');
+                fUser = false;
+            } else {
+                let reg = /^([a-zA-Z]|[\u4e00-\u9fa5])(\w|[\u4e00-\u9fa5]){5,17}$/;
+                if (!reg.test(userName)) {
+                    $msg.html('用户名中不能包含特殊符号');
+                    fUser = false;
+                } else {
+                    $msg.html('检测中...');
+                    fUser = true;
+                }
             }
-        })
+        }
+        emailble();
+    }).bind('blur',function () {
+        emailble();
     })
+
+
+    $passWord.bind('focus',function () {
+
+    }).bind('keyup',function () {
+        let safeLevel = 1,  //安全等级
+            $msg = $errMsgs.eq(1),
+            pass = this.value,
+            l = pass.length,
+            fresh = (level) => {
+                switch (level) {
+                    case 1:
+                        $levelCon.class('a_pw l1');
+                        $safeLevelInfo.html('弱');
+                        $safeLevelInfo.css('color:#bc0001')
+                        break;
+                    case 2:
+                        $levelCon.class('a_pw l2');
+                        $safeLevelInfo.html('弱');
+                        $safeLevelInfo.css('color:#bc0001');
+                        break;
+                    case 3:
+                        $levelCon.class('a_pw l3');
+                        $safeLevelInfo.html('中');
+                        $safeLevelInfo.css('color:#ffd800');
+                        break;
+                    case 4:
+                        $levelCon.class('a_pw l4');
+                        $safeLevelInfo.html('中');
+                        $safeLevelInfo.css('color:#ffd800');
+                        break;
+                    case 5:
+                        $levelCon.class('a_pw l5');
+                        $safeLevelInfo.html('安全');
+                        $safeLevelInfo.css('color:#49c519');
+                        break;
+                }
+            };
+        let modify = 0, //度量 密码安全度
+            numReg = /\d+/,  //匹配密码中是否有数字
+            charReg = /\w+/,  //匹配普通字母字符
+            signReg = /[\.\?\+\$\^\[\]\(\)\{\}\|\\\/<>:=`;,'"@&#!\s]/;  //匹配特殊字符
+        if (numReg.test(pass)) {
+            modify ++;
+        }
+        if (charReg.test(pass)) {
+            modify ++;
+        }
+        if (signReg.test(pass)) {
+            modify ++;
+        }
+        if (l < 6 ) {
+            $msg.html('密码不能够少于6个字符')
+            safeLevel = 1;
+            fresh(1 + modify - 1);
+            fpass1 = false;
+        } else if (l > 16) {
+            $msg.html('密码不能够超过16个字符')
+            safeLevel = 3;
+            fresh(3 + modify - 1);
+            fpass1 = false;
+        } else {
+            $msg.html('');
+            if (l >= 6 && l <= 9) {
+                fresh (2 + modify - 1);
+            } else if (l > 9) {
+                fresh (3 + modify - 1);
+            }
+            fpass1 = true;
+        }
+        emailble();
+    }).bind('blur',function () {
+        emailble();
+    });
+    $rpassWord.bind('blur', function () {
+        $msg = $errMsgs.eq(2);
+        if ($rpassWord.val() === $passWord.val()) {
+            $msg.html('')
+            fpass2 = true;
+        } else {
+            $msg.html('两次输入密码不一致');
+            fpass2 = false;
+        }
+        emailble();
+    });
+
+    let emailble = () => {
+        if (fUser && fpass1 && fpass2 && femail) {
+            $sendMailBtn.removeClass('false');
+        } else {
+            $sendMailBtn.addClass('false');
+        }
+    }
+
+    $sendMailBtn.bind('click', function () {
+        Ajax ({
+            'method' : 'post',
+            'data' : $email.val(),
+            'url' : '/reg/sendMail',
+            'success' : function (data) {
+                console.log('success');
+                console.log(data);
+            },
+            'error' : function (data) {
+                console.log('error');
+                    console.log(data);
+            }
+        });
+        //  	let $msg = $errMsgs.eq(3);
+        //  	if (!$(this).hasClass('false')) {
+        // let email = $email.val(),
+        // 	reg = /^[0-9a-zA-Z]\w+(@\w+\.[a-zA-Z]{2,})$/;
+        // console.log(reg.test(email))
+        //  	} else {
+        //  		if (!fpass1 || fpass2)
+        //  			$msg.html('请检查你的密码');
+        //  		if (!fUser) {
+        //  			$msg.html('请输入有效的用户名');
+        //  		}
+        //  		if (!femail) {
+        //  			$msg.html('请输入一个有效的邮箱地址');
+        //  		}
+        //  	}
+    })
+
+    $email.bind('keyup', function () {
+        let email = $(this).val(),
+            $msg = $errMsgs.eq(3),
+            reg = /^[0-9a-zA-Z]\w+(@\w+\.[a-zA-Z]{2,})$/;
+        if (!reg.test(email)) {
+            $msg.html('请输入一个有效的邮箱地址');
+            femail = false;
+            emailble();
+        } else {
+            $msg.html('');
+            femail = true;
+            emailble();
+        }
+    }).bind('blur',function () {
+        let reg = /^[0-9a-zA-Z]\w+(@\w+\.[a-zA-Z]{2,})$/,
+            $msg = $errMsgs.eq(3),
+            email = $(this).val();
+        if (reg.test(email)) {
+            femail = true;
+            $msg.html('');
+            emailble();
+        }
+    })
+
+
+
 </script>
