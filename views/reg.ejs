@@ -233,17 +233,22 @@
         }
     }
 
+
+
     $sendMailBtn.bind('click', function () {
+        console.log('click');
         Ajax ({
             'method' : 'post',
-            'data' : $email.val(),
+            'data' : {
+                'email' : $email.val()
+            },
             'url' : '/reg/sendMail',
             'success' : function (data) {
-                console.log('success');
+                console.log('success').
                 console.log(data);
             },
             'error' : function (data) {
-                console.log('error');
+                console.log('error'),
                     console.log(data);
             }
         });
@@ -291,3 +296,6 @@
 
 
 </script>
+
+
+

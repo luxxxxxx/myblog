@@ -233,22 +233,37 @@
     	}
     }
 
+    
+
     $sendMailBtn.bind('click', function () {
-    	let $msg = $errMsgs.eq(3);
-    	if (!$(this).hasClass('false')) {
-			let email = $email.val(),
-				reg = /^[0-9a-zA-Z]\w+(@\w+\.[a-zA-Z]{2,})$/;
-			console.log(reg.test(email))
-    	} else {
-    		if (!fpass1 || fpass2) 
-    			$msg.html('请检查你的密码');
-    		if (!fUser) {
-    			$msg.html('请输入有效的用户名');
+    	Ajax ({
+    		'method' : 'post',
+    		'data' : $email.val(),
+    		'url' : '/reg/sendMail',
+    		'success' : function (data) {
+    			console.log('success').
+    			console.log(data);
+    		},
+    		'error' : function (data) {
+    			console.log('error'),
+    			console.log(data);
     		}
-    		if (!femail) {
-    			$msg.html('请输入一个有效的邮箱地址');
-    		}
-    	}
+    	});
+   //  	let $msg = $errMsgs.eq(3);
+   //  	if (!$(this).hasClass('false')) {
+			// let email = $email.val(),
+			// 	reg = /^[0-9a-zA-Z]\w+(@\w+\.[a-zA-Z]{2,})$/;
+			// console.log(reg.test(email))
+   //  	} else {
+   //  		if (!fpass1 || fpass2) 
+   //  			$msg.html('请检查你的密码');
+   //  		if (!fUser) {
+   //  			$msg.html('请输入有效的用户名');
+   //  		}
+   //  		if (!femail) {
+   //  			$msg.html('请输入一个有效的邮箱地址');
+   //  		}
+   //  	}
     })
 
     $email.bind('keyup', function () {
@@ -274,7 +289,10 @@
     		emailble();
     	}
     })
-    
-    
+
+
 
 </script>
+
+
+
