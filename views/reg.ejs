@@ -245,11 +245,14 @@
             'url' : '/reg/sendMail',
             'success' : function (data) {
                 console.log('success');
-                console.log(data);
+                if(/\berr\b/.test(data)) {
+                    alert('数据库发生未知错误,请刷新后再试')
+                }
             },
             'error' : function (data) {
                 console.log('error'),
                     console.log(data);
+                
             }
         });
         //  	let $msg = $errMsgs.eq(3);
