@@ -9,8 +9,9 @@ router.get("/",(req,res) => {
 });
 
 let decode = (str) => {  //解密
-    let deCodeStr = decodeURIComponent(str),
-        arr = [];
+    try {
+        let deCodeStr = decodeURIComponent(str),
+            arr = [];
         for (let i = 0; i < deCodeStr.length ; i ++) {
             arr[i] = deCodeStr.charCodeAt(i) - i;
         }
@@ -19,6 +20,10 @@ let decode = (str) => {  //解密
             string += String.fromCharCode(arr[i])
         }
         return string;
+    } catch (e) {
+        return 'err'
+    }
+
 };
 router.get("/checkCode",(req,res) => {
     res.send("gg");
@@ -76,25 +81,28 @@ router.get("/activeEmail",(req,res) => {
             console.log(err);
             console.log(data);
             if (!err) {  //null 成功
-                if (!data[0].isActive) {
-                    mysql({
-                        sql : 'update t_user_email set isActive = 1 where t_user_email.email = ?',
-                        args : [email],
-                        callback(err,info) {
-                            if (err) {  //失败
-                                res.render('email_callback.ejs',{data : '更新数据库发生未知错误，请联系网站管理员email:981236133@qq.com'})
-                            } else {
-                                res.render('email_callback.ejs',{data : '恭喜！你的邮箱激活成功!请返回注册界面完成注册~'});
+                if (data.length) {
+                    if (!data[0].isActive) {
+                        mysql({
+                            sql : 'update t_user_email set isActive = 1 where t_user_email.email = ?',
+                            args : [email],
+                            callback(err,info) {
+                                if (err) {  //失败
+                                    res.render('email_callback.ejs',{data : '更新数据库发生未知错误，请联系网站管理员email:981236133@qq.com'})
+                                } else {
+                                    res.render('email_callback.ejs',{data : '恭喜！你的邮箱激活成功!请返回注册界面完成注册~'});
+                                }
                             }
-                        }
-                    })
-                } else {
-                    res.render('email_callback.ejs',{data : '你的邮箱已经处于激活状态~'});
+                        })
+                    } else {
+                        res.render('email_callback.ejs',{data : '你的邮箱已经处于激活状态~'});
 
+                    }
+                } else {
+                    res.render('email_callback.ejs',{data : '请按流程在注册页面注册!小孩子别捣乱'});
                 }
             } else {
-                console.log('err+++');
-                console.log(err);
+                res.render('email_callback.ejs',{data : '激活邮箱失败,数据库操作发生错误,请重新发送邮件'});
             }
         }
     })
@@ -125,7 +133,6 @@ router.post ('/vertifyUserName',(req,res) => {
             };
         }
     })
-
 })
 router.post ('/vertifyEmail',(req,res) => {
     let email = req.body.email;
@@ -153,6 +160,64 @@ router.post ('/vertifyEmail',(req,res) => {
                 res.json({
                     err : 1,
                     status : '0'
+                })
+            }
+        }
+    })
+})
+
+router.post('/register',(req,res) => {
+    let userName = req.body.userName,
+        passWord = req.body.passWord,
+        email = req.body.email;
+    const md5 = crypto.createHash("md5"),
+            newPass = md5.update(passWord).digest("hex");
+    mysql ({
+        sql : 'SELECT * FROM `t_user_email` WHERE `email` = ?',
+        args : [email],
+        callback : (err,data) => {
+            console.log('-----------');
+            console.log(err);
+            console.log(data);
+            if (!err) {
+                if (data.length) {
+                    if (Number(data[0].isActive)) {
+                        mysql({
+                            sql : 'INSERT INTO `t_user` (`user_id`, `user_name`, `user_pass`, `user_email`) VALUES (NULL,?,?,?);',
+                            args : [userName,newPass,email],
+                            callback : (err,data) => {
+                                if (!err) {
+                                    console.log(data);
+                                    res.json({
+                                        err : 0,
+                                        info : '注册成功。'
+                                    });
+                                } else {
+                                    console.log(err);
+                                    res.json({
+                                        err : 1,
+                                        info : '用户信息插入数据库失败。'
+                                    });
+                                };
+                            }
+                        })
+                    } else {
+                        res.json ({
+                            err : 1,
+                            info : '邮箱未激活,请先激活邮箱。'
+                        })
+                    }
+                } else {
+                    res.json({
+                        err : 1,
+                        info : '请先进行邮箱验证。'
+                    })
+                }
+
+            } else {
+                res.json ({
+                    err : 1,
+                    info : '用户邮箱激活验证失败。'
                 })
             }
         }

@@ -72,6 +72,7 @@
             <div class="send false">发送邮件</div>
         </div>
         <div class="input_wrp">
+            <!-- success 成功 -->
             <div class="regBtn">注册</div>
         </div>
     </form>
@@ -92,6 +93,7 @@
         $levelCon = $('#safeBar .a_pw'),
         $safeLevelInfo = $('#safeBar .desc'),
         $sendMailBtn = $('#main > form > div:nth-child(4) > div'),
+        $registerBtn = $('#main > form > div:nth-child(5) > div'),
         fUser = false,
         fpass1 = false,
         fpass2 = false,
@@ -131,6 +133,8 @@
                     fUser = false;
                 } else {
                     $msg.html('检测中...');
+                    fUser = false;
+                    emailble();
                     Ajax({
                         url : '/reg/vertifyUserName',
                         method : 'post',
@@ -140,7 +144,6 @@
                         success : function (data) {
                             let jData = JSON.parse(data);
                             //err 1 数据库错误 , status : 0 重名,1 可以使用
-                            console.log(jData);
                             if (!Number(jData.err)) {
                                 if (Number(jData.status)) {
                                     $msg.html('');
@@ -207,12 +210,10 @@
     $passWord.bind('focus',function () {
 
     }).bind('keyup',function () {
-        console.log('keyup');
         let safeLevel = 1,  //安全等级
             $msg = $errMsgs.eq(1),
             pass = this.value,
             l = pass.length;
-        console.log(l);
         let modify = 0, //度量 密码安全度
             numReg = /\d+/,  //匹配密码中是否有数字
             charReg = /\w+/,  //匹配普通字母字符
@@ -251,7 +252,11 @@
     });
 
 
-    $rpassWord.bind('blur', function () {
+
+
+
+
+    $rpassWord.bind('keyup', function () {
         $msg = $errMsgs.eq(2);
         if ($rpassWord.val() === $passWord.val()) {
             $msg.html('')
@@ -266,46 +271,43 @@
     let emailble = () => {
         if (fUser && fpass1 && fpass2 && femail) {
             $sendMailBtn.removeClass('false');
+            $registerBtn.addClass('success');
         } else {
             $sendMailBtn.addClass('false');
+            $registerBtn.removeClass('success');
         }
     }
 
 
     $sendMailBtn.bind('click', function () {
-        console.log('click');
-        Ajax ({
-            'method' : 'post',
-            'data' : {
-                'email' : $email.val()
-            },
-            'url' : '/reg/sendMail',
-            'success' : function (data) {
-                console.log('success');
-                if(/\berr\b/.test(data)) {
-                    alert('数据库发生未知错误,请刷新后再试')
-                }
-            },
-            'error' : function (data) {
-                console.log('error'),
+
+        let $msg = $errMsgs.eq(3);
+        if (!$(this).hasClass('false')) {
+            Ajax ({
+                'method' : 'post',
+                'data' : {
+                    'email' : $email.val()
+                },
+                'url' : '/reg/sendMail',
+                'success' : function (data) {
+                    if(/\berr\b/.test(data)) {
+                        alert('数据库发生未知错误,请刷新后再试')
+                    }
+                },
+                'error' : function (data) {
                     console.log(data);
+                }
+            });
+        } else {
+            if (!fpass1 || fpass2)
+                $msg.html('请检查你的密码');
+            if (!fUser) {
+                $msg.html('请输入有效的用户名');
             }
-        });
-        //  	let $msg = $errMsgs.eq(3);
-        //  	if (!$(this).hasClass('false')) {
-        // let email = $email.val(),
-        // 	reg = /^[0-9a-zA-Z]\w+(@\w+\.[a-zA-Z]{2,})$/;
-        // console.log(reg.test(email))
-        //  	} else {
-        //  		if (!fpass1 || fpass2)
-        //  			$msg.html('请检查你的密码');
-        //  		if (!fUser) {
-        //  			$msg.html('请输入有效的用户名');
-        //  		}
-        //  		if (!femail) {
-        //  			$msg.html('请输入一个有效的邮箱地址');
-        //  		}
-        //  	}
+            if (!femail) {
+                $msg.html('请输入一个有效的邮箱地址');
+            }
+        }
     })
 
     $email.bind('keyup', function () {
@@ -318,6 +320,8 @@
             emailble();
         } else {
             $msg.html('检测中...');
+            femail = false;
+            emailble();
             Ajax({
                 url : 'reg/vertifyEmail',
                 data : {
@@ -356,6 +360,34 @@
     })
 
 
+    $registerBtn.click (function () {
+        if ($(this).hasClass('success')) {
+            let userName = $userName.val(),
+                passWord = $passWord.val(),
+                email = $email.val();
+            Ajax({
+                method : 'post',
+                data : {
+                    userName : userName,
+                    email : email,
+                    passWord : passWord
+                },
+                url : '/reg/register',
+                success : function (data) {
+                    let jData = JSON.parse(data);
+                    console.log(jData);
+                    if (Number(jData.err)) { //发生错误
+                        alert('发生错误:' + jData.info);
+                    } else {
+                        alert(jData.info);
+                    }
+                },
+                error : function (data) {
+                    console.log(data);
+                }
+            })
+        }
+    })
 
 </script>
 

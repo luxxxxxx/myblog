@@ -113,7 +113,7 @@ body {
   cursor: not-allowed;
   transition: .2s all linear;
 }
-#main form .input_wrp .regBtn .success {
+#main form .input_wrp .regBtn.success {
   background: #00a1d6;
   color: #fff;
   cursor: pointer;
