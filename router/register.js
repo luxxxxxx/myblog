@@ -99,7 +99,66 @@ router.get("/activeEmail",(req,res) => {
         }
     })
 })
+router.post ('/vertifyUserName',(req,res) => {
+    let userName = req.body.userName;
+    mysql({
+        sql : 'select * from t_user where user_name = ?',
+        args : [userName],
+        callback : (err,data) => {
+            if (!err) {
+                if (data.length) {  //用户名重复
+                    res.json({
+                        err : 0,
+                        status : 0
+                    });
+                } else {  //可用
+                    res.json({
+                        err : 0,
+                        status : 1
+                    });
+                };
+            } else {  //数据库查询发生错误
+                res.json ({
+                    err : 1,
+                    status : 0
+                })
+            };
+        }
+    })
 
+})
+router.post ('/vertifyEmail',(req,res) => {
+    let email = req.body.email;
+    mysql ({
+        sql : 'select * from t_user where user_email = ?',
+        args : [email],
+        callback : (err,data) => {
+            console.log('111111111111');
+            console.log(err);
+            console.log(data);
+            console.log(data.length);
+            if (!err) {
+                if (data.length === 1) {
+                    res.json({
+                        err : 0,
+                        status : "0"
+                    })
+                } else {
+                    res.json({
+                        err : 0,
+                        status : '1'
+                    })
+                }
+            } else {
+                res.json({
+                    err : 1,
+                    status : '0'
+                })
+            }
+        }
+    })
+
+})
 
 module.exports = router;
 

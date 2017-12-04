@@ -131,7 +131,36 @@
                     fUser = false;
                 } else {
                     $msg.html('检测中...');
-                    fUser = true;
+                    Ajax({
+                        url : '/reg/vertifyUserName',
+                        method : 'post',
+                        data : {
+                            userName : userName
+                        },
+                        success : function (data) {
+                            let jData = JSON.parse(data);
+                            //err 1 数据库错误 , status : 0 重名,1 可以使用
+                            console.log(jData);
+                            if (!Number(jData.err)) {
+                                if (Number(jData.status)) {
+                                    $msg.html('');
+                                    fUser = true;
+                                    emailble();
+
+                                } else {
+                                    $msg.html('该用户名已经被使用了哟~');
+                                    fUser = false;
+                                    emailble();
+                                }
+                            } else {
+                                $msg.html('用户名校检 数据库发生未知错误')
+                            }
+
+                        },
+                        error : function (err) {
+                            console.log(err);
+                        }
+                    })
                 }
             }
         }
@@ -141,42 +170,49 @@
     })
 
 
+    $passWord.fresh = (level) => {
+        switch (level) {
+            case 0:
+                $levelCon.class('a_pw l1');
+                $safeLevelInfo.html('弱');
+                $safeLevelInfo.css('color:#bc0001')
+                break;
+            case 1:
+                $levelCon.class('a_pw l1');
+                $safeLevelInfo.html('弱');
+                $safeLevelInfo.css('color:#bc0001')
+                break;
+            case 2:
+                $levelCon.class('a_pw l2');
+                $safeLevelInfo.html('弱');
+                $safeLevelInfo.css('color:#bc0001');
+                break;
+            case 3:
+                $levelCon.class('a_pw l3');
+                $safeLevelInfo.html('中');
+                $safeLevelInfo.css('color:#ffd800');
+                break;
+            case 4:
+                $levelCon.class('a_pw l4');
+                $safeLevelInfo.html('中');
+                $safeLevelInfo.css('color:#ffd800');
+                break;
+            case 5:
+                $levelCon.class('a_pw l5');
+                $safeLevelInfo.html('安全');
+                $safeLevelInfo.css('color:#49c519');
+                break;
+        }
+    };
     $passWord.bind('focus',function () {
 
     }).bind('keyup',function () {
+        console.log('keyup');
         let safeLevel = 1,  //安全等级
             $msg = $errMsgs.eq(1),
             pass = this.value,
-            l = pass.length,
-            fresh = (level) => {
-                switch (level) {
-                    case 1:
-                        $levelCon.class('a_pw l1');
-                        $safeLevelInfo.html('弱');
-                        $safeLevelInfo.css('color:#bc0001')
-                        break;
-                    case 2:
-                        $levelCon.class('a_pw l2');
-                        $safeLevelInfo.html('弱');
-                        $safeLevelInfo.css('color:#bc0001');
-                        break;
-                    case 3:
-                        $levelCon.class('a_pw l3');
-                        $safeLevelInfo.html('中');
-                        $safeLevelInfo.css('color:#ffd800');
-                        break;
-                    case 4:
-                        $levelCon.class('a_pw l4');
-                        $safeLevelInfo.html('中');
-                        $safeLevelInfo.css('color:#ffd800');
-                        break;
-                    case 5:
-                        $levelCon.class('a_pw l5');
-                        $safeLevelInfo.html('安全');
-                        $safeLevelInfo.css('color:#49c519');
-                        break;
-                }
-            };
+            l = pass.length;
+        console.log(l);
         let modify = 0, //度量 密码安全度
             numReg = /\d+/,  //匹配密码中是否有数字
             charReg = /\w+/,  //匹配普通字母字符
@@ -193,26 +229,28 @@
         if (l < 6 ) {
             $msg.html('密码不能够少于6个字符')
             safeLevel = 1;
-            fresh(1 + modify - 1);
+            $passWord.fresh(1 + modify - 1);
             fpass1 = false;
         } else if (l > 16) {
             $msg.html('密码不能够超过16个字符')
             safeLevel = 3;
-            fresh(3 + modify - 1);
+            $passWord.fresh(3 + modify - 1);
             fpass1 = false;
         } else {
             $msg.html('');
             if (l >= 6 && l <= 9) {
-                fresh (2 + modify - 1);
+                $passWord.fresh (2 + modify - 1);
             } else if (l > 9) {
-                fresh (3 + modify - 1);
+                $passWord.fresh (3 + modify - 1);
             }
             fpass1 = true;
         }
         emailble();
     }).bind('blur',function () {
-        emailble();
+
     });
+
+
     $rpassWord.bind('blur', function () {
         $msg = $errMsgs.eq(2);
         if ($rpassWord.val() === $passWord.val()) {
@@ -234,7 +272,6 @@
     }
 
 
-
     $sendMailBtn.bind('click', function () {
         console.log('click');
         Ajax ({
@@ -252,7 +289,6 @@
             'error' : function (data) {
                 console.log('error'),
                     console.log(data);
-                
             }
         });
         //  	let $msg = $errMsgs.eq(3);
@@ -281,9 +317,32 @@
             femail = false;
             emailble();
         } else {
-            $msg.html('');
-            femail = true;
-            emailble();
+            $msg.html('检测中...');
+            Ajax({
+                url : 'reg/vertifyEmail',
+                data : {
+                    email : email
+                },
+                method : 'post',
+                success : function (data) {
+                    let jData = JSON.parse(data);
+                    if (Number(jData.err)) {
+                        console.log('err??? 数据库异常校检邮箱发生异常');
+                        femail = false;
+                        emailble();
+                    } else {
+                        if (Number(jData.status)) {  //0 表示邮箱已经被使用  1表示邮箱可以使用
+                            $msg.html('');
+                            femail = true;
+                            emailble();
+                        } else {
+                            $msg.html('邮箱已经被使用');
+                            femail = false;
+                            emailble();
+                        }
+                    }
+                }
+            })
         }
     }).bind('blur',function () {
         let reg = /^[0-9a-zA-Z]\w+(@\w+\.[a-zA-Z]{2,})$/,
