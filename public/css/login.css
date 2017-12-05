@@ -1,3 +1,57 @@
+body {
+  position: relative;
+}
+body #info {
+  z-index: 999;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 300px;
+  height: 180px;
+  background: #fff;
+  border: 1px solid #4444441f;
+  box-sizing: border-box;
+  padding: 20px;
+  border-radius: 4px;
+  visibility: hidden;
+  opacity: 0;
+  transition: .1s all linear;
+}
+body #info p {
+  font-size: 15px;
+  text-align: center;
+}
+body #info.success a {
+  display: block;
+}
+body #info.show {
+  visibility: visible;
+  opacity: 1;
+}
+body #info a {
+  display: none;
+  font-size: 13px;
+  margin-top: 40px;
+  text-align: center;
+  color: lightgreen;
+}
+body #info .close {
+  position: absolute;
+  right: 6px;
+  top: 6px;
+  width: 16px;
+  height: 16px;
+  text-align: center;
+  line-height: 16px;
+  font-size: 24px;
+  transition: .2s all linear;
+  color: #333;
+  cursor: pointer;
+}
+body #info .close:hover {
+  transform: rotate(90deg);
+}
 section {
   position: relative;
   height: 600px;

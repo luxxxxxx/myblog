@@ -13,7 +13,12 @@
 </head>
 
 <body>
- 
+    <!-- show：出现   success ： 成功 -->
+    <div id="info">
+        <div class="close">×</div>
+        <p>后台数据库查询出错,请刷新后重试，如果不行，请联系网站管理员</p>
+        <a href="./techo">如果长时间没有跳转，请点击这里</a>
+    </div>
     <header>
        
         <div id="h_bg"></div>
@@ -89,6 +94,7 @@
         要优雅~ (゜-゜)つロ 干杯~ powered by
         <a href="##">要优雅</a>
     </footer>
+
 </body>
 
 </html>
@@ -96,7 +102,11 @@
 <script>
     let $pass = $('#pass'),
         $user = $('#user')
-    $loginBth = $('#login'),
+        $loginBth = $('#login'),
+        $infoBox = $('#info'),
+        $info_close = $('#info .close'),
+        $info_msg = $('#info p'),
+        isLoginClick = false,  //阻值连续多次点击登录按钮
         $pic = $('#pic');
 
     console.log($pass);
@@ -112,30 +122,56 @@
         }
     })
 
-    function login() {
-        console.log('login')
-        Ajax({
-            method: 'post',
-            url: './',
-            data: {
-                userName: $user.val(),
-                password: $pass.val()
-            },
-            success: function (info) {
-                let data = JSON.parse(info);
-                // data.err 0 用户名或者密码错误, 1 后台数据库查询出错 2没有错误直接成功
-                if (data.err == 0) {  //
-                    alert('用户名或者密码出错')
-                } else if (data.err == 1) {
-                    alert('后台数据库查询出错')
-                } else {
-                    alert('登陆成功，即将跳转到首页')
-                }
-            },
-            error: function (data) {
-                console.log(data)
-            }
+    function msg_callback (obj) {
+        //success 成功状态 0失败  1成功   msg: 错误或者成功信息
+        if(obj.success) {
+            $infoBox.addClass('success');
+        }
+        $info_msg.html(obj.msg);
+        $infoBox.addClass('show');
+        $info_close.click(function () {
+            $infoBox.removeClass('show');
         })
+    }
+
+
+    function login() {
+        if (!isLoginClick) {  
+            isLoginClick = true;
+            Ajax({
+                method: 'post',
+                url: './login',
+                data: {
+                    userName: $user.val(),
+                    passWord: $pass.val()
+                },
+                success: function (info) {
+                    let data = JSON.parse(info);
+                    // data.err 0 用户名或者密码错误, 1 后台数据库查询出错 2没有错误直接成功
+                    if (data.err == 0) {  //
+                        msg_callback({
+                            success : 0,
+                            msg : '用户名或者密码出错'
+                        })
+                    } else if (data.err == 1) {
+                        msg_callback({
+                            success: 0,
+                            msg: '后台数据库查询出错,请刷新后重试，如果不行，请联系网站管理员'
+                        })
+                    } else {
+                        msg_callback({
+                            success: 1,
+                            msg: '登陆成功，即将跳转到首页'
+                        })
+                    }
+                    isLoginClick = false;
+                },
+                error: function (data) {
+                    isLoginClick = false;
+                    console.log(data)
+                }
+            })
+        }
     };
 
     $loginBth.click(login);

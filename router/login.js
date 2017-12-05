@@ -1,5 +1,5 @@
 const express = require("express"),
-    // mysql = require("../module/mysql"),
+    mysql = require("../module/mysql"),
     crypto = require("crypto"),
     router = express.Router();
 
@@ -17,8 +17,12 @@ router.post('/',(req,res) => {
         sql : 'select * from t_user where user_name = ? and user_pass = ?',
         args : [userName,newPass],
         callback : (err,info) => {
+            console.log(err);
+            console.log(info);
             if (!err) {
                 if (info.length) {
+                    //1.cookie 名称  2.数据  3.过期时间
+                    res.cookie('login',{name : userName},{maxAge : 1000*60*60*24});
                     res.json({  //查询成功,登陆成功
                         err : 2
                     })
