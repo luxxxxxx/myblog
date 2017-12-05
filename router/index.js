@@ -13,6 +13,7 @@ router.get("/techo",(req,res) => {
     res.render("techo.ejs");
 });
 
+router.use("/login",require("./login.js"));
 router.use("/reg",require("./register.js"));
 
 

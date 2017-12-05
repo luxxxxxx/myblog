@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,83 +11,117 @@
     <link rel="stylesheet" href="./css/login.css">
     <title>要优雅的登录</title>
 </head>
+
 <body>
+ 
     <header>
+       
         <div id="h_bg"></div>
         <div class="mask"></div>
         <div id="h_content">
             <div class="l">
                 <div class="pic">
+                   
                     <img src="./img/heimao1.png" alt="要优雅" title="不要优雅，要污!ε=ε=(ノ≧∇≦)ノ">
                 </div>
-                <div id="logo"><img src="./img/logo.png" alt=""></div>
+                <div id="logo">
+                    <img src="./img/logo.png" alt="">
+                </div>
             </div>
             <div class="r">
                 <ul class="nav clearfix">
-                    <li><a href="##">main</a><div class="bar"></div></li>
-                    <li><a href="##">technology</a><div class="bar"></div></li>
-                    <li><a href="##">anime</a><div class="bar"></div></li>
-                    <li class="n-margin-r"><a href="##">music</a><div class="bar"></div></li>
+                    <li>
+                        <a href="##">main</a>
+                        <div class="bar"></div>
+                    </li>
+                    <li>
+                        <a href="##">technology</a>
+                        <div class="bar"></div>
+                    </li>
+                    <li>
+                        <a href="##">anime</a>
+                        <div class="bar"></div>
+                    </li>
+                    <li class="n-margin-r">
+                        <a href="##">music</a>
+                        <div class="bar"></div>
+                    </li>
                 </ul>
                 <!-- 登录板块，登录：yes，未登录 no -->
                 <div class="login_sec no">
-                    <span><a href="##">login</a></span>
+                    <span>
+                        <a href="##">login</a>
+                    </span>
                     <span>|</span>
-                    <span class="current"><a href="##">register</a></span>
+                    <span class="current">
+                        <a href="##">register</a>
+                    </span>
                 </div>
             </div>
         </div>
     </header>
     <section>
+        
         <div class="t"></div>
         <div id="loginCon">
             <div class="pic" id="pic">
-                <img src="./img/dragon3.png" alt="康纳">
+                <img id="dragonPic" style="opacity : 0" />                
+                <script>
+                    var oImg = document.querySelector('#dragonPic'),
+                        number = parseInt( Math.random() * 3 ) + 1,
+                        str = './img/dragon' + number + '.png';
+                        oImg.src = str;
+                        oImg.style.opacity = 1;
+                </script>
             </div>
-            <input type="text" id="user" class="input" placeholder="用户名">    
+            <input type="text" id="user" class="input" placeholder="用户名">
             <input type="password" id="pass" class="input" placeholder="密码">
             <div class="btn_con">
                 <div class="btn" id="login">登录</div>
-                <div class="btn"><a href="./reg">注册</a></div>
+                <div class="btn">
+                    <a href="./reg">注册</a>
+                </div>
             </div>
         </div>
-        
+
     </section>
     <footer>
-        要优雅~ (゜-゜)つロ 干杯~   powered by <a href="##">要优雅</a>
+        要优雅~ (゜-゜)つロ 干杯~ powered by
+        <a href="##">要优雅</a>
     </footer>
 </body>
+
 </html>
 <script src="./js/jqq.js"></script>
 <script>
     let $pass = $('#pass'),
         $user = $('#user')
-        $loginBth = $('#login'),
+    $loginBth = $('#login'),
         $pic = $('#pic');
 
     console.log($pass);
-    $pass.bind('focus',function () {
+    $pass.bind('focus', function () {
         console.log(this);
         $pic.addClass('hidden');
-    }).bind('blur',function () {
+    }).bind('blur', function () {
         $pic.removeClass('hidden');
-    }).bind('keyup',function (e) {
+    }).bind('keyup', function (e) {
         let event = e || window.event;
         if (e.keyCode === 13) {
             login();
         }
     })
-    
-    function login () {
+
+    function login() {
         console.log('login')
-        Ajax ({
+        Ajax({
             method: 'post',
             url: './',
             data: {
-                userName : $user.val(),
-                password : $pass.val() 
+                userName: $user.val(),
+                password: $pass.val()
             },
-            success : function (info) {
+            success: function (info) {
                 let data = JSON.parse(info);
                 // data.err 0 用户名或者密码错误, 1 后台数据库查询出错 2没有错误直接成功
                 if (data.err == 0) {  //
@@ -97,7 +132,7 @@
                     alert('登陆成功，即将跳转到首页')
                 }
             },
-            error : function (data) {
+            error: function (data) {
                 console.log(data)
             }
         })
@@ -108,4 +143,4 @@
 
 
 
-</script>    
+</script>
