@@ -9,6 +9,14 @@
     <link rel="stylesheet" href="./css/reset.css">
 </head>
 <body>
+    <div id="info">
+        <!-- show：出现   success ： 成功 -->
+        <div id="info">
+            <div class="close">×</div>
+            <p></p>
+            <a href="./login">注册成功，即将转到登录界面,如果长时间未跳转，请点击这里</a>
+        </div>
+    </div>
 <header>
     <div id="h_bg"></div>
     <div class="mask"></div>
@@ -94,6 +102,11 @@
         $safeLevelInfo = $('#safeBar .desc'),
         $sendMailBtn = $('#main > form > div:nth-child(4) > div'),
         $registerBtn = $('#main > form > div:nth-child(5) > div'),
+        //消息弹框
+        $infoBox = $('#info'),
+        $info_close = $('#info .close'),
+        $info_msg = $('#info p'),
+
         fUser = false,
         fpass1 = false,
         fpass2 = false,
@@ -112,6 +125,19 @@
     //         }
     //     })
     // })
+
+    //消息弹框 方法
+    let msg_callback = (obj) => {
+        //success 成功状态 0失败  1成功   msg: 错误或者成功信息
+        if (obj.success) {
+            $infoBox.addClass('success');
+        }
+        $info_msg.html(obj.msg);
+        $infoBox.addClass('show');
+        $info_close.click(function () {
+            $infoBox.removeClass('show');
+        })
+    }
 
     $userName.bind('focus',function() {
     }).bind('keyup',function() {
@@ -208,7 +234,7 @@
         }
     };
     $passWord.bind('focus',function () {
-
+        
     }).bind('keyup',function () {
         let safeLevel = 1,  //安全等级
             $msg = $errMsgs.eq(1),
@@ -279,8 +305,8 @@
     }
 
 
+    //发送邮件
     $sendMailBtn.bind('click', function () {
-
         let $msg = $errMsgs.eq(3);
         if (!$(this).hasClass('false')) {
             Ajax ({
@@ -291,7 +317,10 @@
                 'url' : '/reg/sendMail',
                 'success' : function (data) {
                     if(/\berr\b/.test(data)) {
-                        alert('数据库发生未知错误,请刷新后再试')
+                        msg_callback({
+                            success : 0,
+                            msg : '数据库发生未知错误,请刷新后再试.' 
+                        })
                     }
                 },
                 'error' : function (data) {
@@ -377,9 +406,18 @@
                     let jData = JSON.parse(data);
                     console.log(jData);
                     if (Number(jData.err)) { //发生错误
-                        alert('发生错误:' + jData.info);
+                        msg_callback({
+                            success : 0,
+                            msg : '发生错误:' + jData.info
+                        })
                     } else {
-                        alert(jData.info);
+                        msg_callback({
+                            success : 1,
+                            msg : jData.info
+                        })
+                        setTimeout(() => {
+                            self.location = '../login'
+                        }, 1800);
                     }
                 },
                 error : function (data) {

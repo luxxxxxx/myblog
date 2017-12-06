@@ -25,7 +25,6 @@ app.use(session( { secret : "luxxxxxx" } ));  //设置秘钥
 
 app.use('/',require('./router/index'));
 
-
 http.createServer(app).listen(233);
 
 //  http://localhost:233  /admim 这个路径已经被app.use匹配了

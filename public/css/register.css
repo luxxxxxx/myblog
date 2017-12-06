@@ -1,6 +1,65 @@
 html,
 body {
+  position: relative;
   min-height: 540px !important;
+}
+html #info,
+body #info {
+  z-index: 999;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 300px;
+  height: 180px;
+  background: #fff;
+  border: 1px solid #4444441f;
+  box-sizing: border-box;
+  padding: 20px;
+  border-radius: 4px;
+  visibility: hidden;
+  opacity: 0;
+  transition: .1s all linear;
+}
+html #info p,
+body #info p {
+  font-size: 15px;
+  text-align: center;
+}
+html #info.success a,
+body #info.success a {
+  display: block;
+}
+html #info.show,
+body #info.show {
+  visibility: visible;
+  opacity: 1;
+}
+html #info a,
+body #info a {
+  display: none;
+  font-size: 13px;
+  margin-top: 40px;
+  text-align: center;
+  color: lightgreen;
+}
+html #info .close,
+body #info .close {
+  position: absolute;
+  right: 6px;
+  top: 6px;
+  width: 16px;
+  height: 16px;
+  text-align: center;
+  line-height: 16px;
+  font-size: 24px;
+  transition: .2s all linear;
+  color: #333;
+  cursor: pointer;
+}
+html #info .close:hover,
+body #info .close:hover {
+  transform: rotate(90deg);
 }
 #t {
   position: absolute;
