@@ -1,6 +1,7 @@
 body,
 html {
   width: 100%;
+  cursor: default;
 }
 body {
   font-family: Helvetica, "Microsoft Yahei", Arial, sans-serif;
@@ -140,7 +141,18 @@ header #h_content .r .login_sec li.user {
   box-sizing: border-box;
   padding: 0 13px;
   margin: 10px auto 0;
-  background: green;
+}
+header #h_content .r .login_sec li.user:hover .i_face {
+  left: -8px;
+  top: 15px;
+  height: 64px;
+  width: 64px;
+  border: 2px solid #fff;
+}
+header #h_content .r .login_sec li.user:hover > a + .profile {
+  top: 50px;
+  visibility: visible;
+  opacity: 1;
 }
 header #h_content .r .login_sec li.user > a {
   z-index: 9;
@@ -148,7 +160,6 @@ header #h_content .r .login_sec li.user > a {
   width: 100%;
   height: 100%;
   display: block;
-  background: red;
 }
 header #h_content .r .login_sec li.user > a .i_face {
   position: absolute;
@@ -158,7 +169,7 @@ header #h_content .r .login_sec li.user > a .i_face {
   height: 50px;
   border-radius: 50%;
   overflow: hidden;
-  transition: .2s all ease;
+  transition: .4s all ease;
   border: 0px solid #fff;
 }
 header #h_content .r .login_sec li.user > a .i_face img {
@@ -166,28 +177,124 @@ header #h_content .r .login_sec li.user > a .i_face img {
   width: 100%;
   height: 100%;
 }
-header #h_content .r .login_sec li.user > a:hover .i_face {
-  left: -8px;
-  top: 15px;
-  height: 64px;
-  width: 64px;
-  border: 2px solid #fff;
-}
 header #h_content .r .login_sec li.user .profile {
   z-index: 8;
   position: absolute;
+  top: 70px;
   left: 50%;
   transform: translateX(-50%);
-  padding-top: 18px;
+  padding-top: 38px;
   width: 260px;
   background: #fff;
   border-bottom-left-radius: 4px;
   border-bottom-right-radius: 4px;
   overflow: hidden;
+  visibility: hidden;
+  opacity: 0;
+  transition: .2s all linear;
 }
 header #h_content .r .login_sec li.user .profile b.name {
+  display: block;
+  height: 20px;
+  line-height: 20px;
   text-align: center;
   font-weight: bold;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  margin-bottom: 20px;
+}
+header #h_content .r .login_sec li.user .profile .user_status {
+  height: 20px;
+  box-sizing: border-box;
+  padding: 0 18px;
+  margin-bottom: 12px;
+}
+header #h_content .r .login_sec li.user .profile .user_status > div {
+  display: inline-block;
+  width: 50%;
+}
+header #h_content .r .login_sec li.user .profile .user_status > div span {
+  float: left;
+  display: inline-block;
+  text-align: center;
+  line-height: 20px;
+  font-family: 'Arial';
+}
+header #h_content .r .login_sec li.user .profile .user_status > div span:nth-child(1) {
+  margin-right: 8px;
+}
+header #h_content .r .login_sec li.user .profile .user_status .l {
+  float: left;
+}
+header #h_content .r .login_sec li.user .profile .user_status .l .status {
+  width: 48px;
+  height: 100%;
+  font-weight: bold;
+  letter-spacing: 2px;
+  color: #fff;
+  background: #ffe600;
+}
+header #h_content .r .login_sec li.user .profile .user_status .r {
+  float: right;
+}
+header #h_content .r .login_sec li.user .profile .user_status .r .rights_level {
+  font-weight: bold;
+}
+header #h_content .r .login_sec li.user .profile .lv_con {
+  box-sizing: border-box;
+  padding: 0 18px;
+  height: 25px;
+}
+header #h_content .r .login_sec li.user .profile .lv_con span {
+  display: inline-block;
+  float: left;
+  height: 100%;
+  text-align: center;
+  line-height: 29px;
+}
+header #h_content .r .login_sec li.user .profile .lv_con span:nth-child(1) {
+  margin-right: 10px;
+}
+header #h_content .r .login_sec li.user .profile .lv_con em {
+  display: inline-block;
+  font-weight: bold;
+  height: 100%;
+  line-height: 29px;
+  float: left;
+  margin-right: 10px;
+}
+header #h_content .r .login_sec li.user .profile .lv_con .lv_bar {
+  display: inline-block;
+  float: left;
+  background: lightskyblue;
+  position: relative;
+  width: 138px;
+  height: 18px;
+  margin-top: 3.5px;
+  text-align: center;
+  border-radius: 9px;
+  overflow: hidden;
+}
+header #h_content .r .login_sec li.user .profile .lv_con .lv_bar .process {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 80%;
+  background: gold;
+}
+header #h_content .r .login_sec li.user .profile .lv_con .lv_bar .exp {
+  display: block;
+  position: absolute;
+  height: 18px;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  color: #fff;
+  font-size: 8px;
+  line-height: 18px;
+  font-family: 'Arial';
 }
 header #h_content .r .login_sec li.user .profile .footer {
   margin-top: 50px;
