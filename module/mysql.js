@@ -2,7 +2,7 @@ const mysql = require("mysql");
 module.exports = (obj) => {
     //obj 参数：sql，args：查询数据 （例username）的数组形式，callback：回调函数
     let config = mysql.createConnection({
-        host : "localhost",
+        host: "127.0.0.1",
         port : "3306",
         user : "root",
         password : "",

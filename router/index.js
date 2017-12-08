@@ -9,12 +9,19 @@ router.get("/play",(req,res) => {
 });
 
 
-router.get("/techo",(req,res) => {
-    res.render("techo.ejs");
-});
+
+
+router.get('/logout', (req,res) => {
+    res.clearCookie('login');
+        
+    res.redirect('/techo');
+})
+
+
 
 router.use("/login",require("./login.js"));
 router.use("/reg",require("./register.js"));
+router.use("/techo",require('./techo.js'));
 
 
 // router.use('/reg',function () {

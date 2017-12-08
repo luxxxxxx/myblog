@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="./css/animate.css">
 </head>
 <body>
+    
 <header>
     <div id="h_bg"></div>
     <div class="mask"></div>
@@ -30,7 +31,12 @@
                 <li class="slide_bar"></li>
             </ul>
             <!-- 登录板块，登录：yes，未登录 no -->
+        <% if (locals.login) { %>
             <div class="login_sec yes">
+        <% } else { %>
+            <div class="login_sec no">
+        <% } %>
+
                 <span><a href="./login">login</a></span>
                 <span>|</span>
                 <span><a href="./reg">register</a></span>
@@ -60,6 +66,9 @@
                                 <span class="exp">888/999</span>
                             </div>
                         </div> 
+                        <div class="selection">
+                            <a href="##">修改资料</a>
+                        </div>
                         <div class="footer">
                             <a href="./logout">退出</a>    
                         </div>  
@@ -236,7 +245,11 @@
                 <div class="search_btn "><i class="icon iconfont icon-search animated"></i></div>
             </div>
             <div id="login_con">
-                <div class="heading">(｡･ω･｡)   请登录</div>
+                <% if(!locals.login) { %>
+                    <div class="heading">(｡･ω･｡) 请登录</div>
+                <% } else { %>
+                    <div class="heading">(｡･ω･｡) 欢迎 <%- locals.login.userName %></div> 
+                <% } %>
                 <form>
                     <div class="form_group">
                         <div class="icon clearfix">

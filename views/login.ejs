@@ -16,7 +16,7 @@
     <!-- show：出现   success ： 成功 -->
     <div id="info">
         <div class="close">×</div>
-        <p>后台数据库查询出错,请刷新后重试，如果不行，请联系网站管理员</p>
+        <p></p>
         <a href="./techo">如果长时间没有跳转，请点击这里</a>
     </div>
     <header>
@@ -156,13 +156,16 @@
                     } else if (data.err == 1) {
                         msg_callback({
                             success: 0,
-                            msg: '后台数据库查询出错,请刷新后重试，如果不行，请联系网站管理员'
+                            msg: '后台数据库查询出错,请刷新后重试，如果不行，请联系网站管理员</br>管理员QQ 981236133'
                         })
                     } else {
                         msg_callback({
                             success: 1,
                             msg: '登陆成功，即将跳转到首页'
                         })
+                        setTimeout(() => {
+                            self.location = '../techo';
+                        }, 1800);
                     }
                     isLoginClick = false;
                 },

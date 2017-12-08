@@ -2,47 +2,36 @@ const express = require("express"),
     mysql = require("../module/mysql"),
     crypto = require("crypto"),
     send = require("../module/sendMail"),
+    encrypt = require("../module/encrypt"),
     router = express.Router();
 
 router.get("/",(req,res) => {
     res.render("./reg.ejs")
 });
 
-let decode = (str) => {  //解密
-    try {
-        let deCodeStr = decodeURIComponent(str),
-            arr = [];
-        for (let i = 0; i < deCodeStr.length ; i ++) {
-            arr[i] = deCodeStr.charCodeAt(i) - i;
-        }
-        let string = '';
-        for (let i in arr) {
-            string += String.fromCharCode(arr[i])
-        }
-        return string;
-    } catch (e) {
-        return 'err'
-    }
-
-};
+// let decode = (str) => {  //解密
+//     try {
+//         let deCodeStr = decodeURIComponent(str),
+//             arr = [];
+//         for (let i = 0; i < deCodeStr.length ; i ++) {
+//             arr[i] = deCodeStr.charCodeAt(i) - i;
+//         }
+//         let string = '';
+//         for (let i in arr) {
+//             string += String.fromCharCode(arr[i])
+//         }
+//         return string;
+//     } catch (e) {
+//         return 'err'
+//     }
+// };
 router.get("/checkCode",(req,res) => {
     res.send("gg");
     let userName =  req.query.userName
 });
 router.post('/sendMail',(req,res) => {
-    let encode = (str) => {
-        let arr = [];
-        for (var i = 0; i < str.length; i++) {
-            arr[i] = str.charCodeAt(i) + i;
-        }
-        let string = '';
-        for (let j in arr) {
-            string += String.fromCharCode(arr[j]);
-        }
-        let encodeStr = encodeURIComponent(string);
-        return encodeStr;
-    },
-    activeEmail = encode(req.body.email),
+   
+    activeEmail = encrypt.encode(req.body.email),
 
     mail = {
         from : "luxxxxxx <wy981236133@126.com>",
@@ -73,7 +62,7 @@ router.post('/sendMail',(req,res) => {
 });
 
 router.get("/activeEmail",(req,res) => {
-    let email = decode(req.query.email);
+    let email = encrypt.decode(req.query.email);
     mysql({
         sql : 'select * from t_user_email where email = ?',
         args : [email],
