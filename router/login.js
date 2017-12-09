@@ -22,7 +22,6 @@ router.post('/',(req,res) => {
         sql : 'select * from t_user where user_name = ? and user_pass = ?',
         args : [userName,newPass],
         callback : (err,info) => {
-        
             if (!err) {
                 if (info.length) {
                     console.log(info[0].user_pass)
@@ -30,6 +29,7 @@ router.post('/',(req,res) => {
                     res.cookie('login',{ 
                         name : userName,
                         id : info[0].user_id,
+                        admin : info[0].user_admin,  //管理权限
                         pass : encrypt.encode(info[0].user_pass)
                     },{maxAge : 1000*60*60*24});
                     
