@@ -25,14 +25,14 @@ router.post('/',(req,res) => {
             if (!err) {
                 if (info.length) {
                     console.log(info[0].user_pass)
-                    //1.cookie 名称  2.数据  3.过期时间
+                    // 1.cookie 名称  2.数据  3.过期时间
                     res.cookie('login',{ 
                         name : userName,
                         id : info[0].user_id,
                         admin : info[0].user_admin,  //管理权限
                         pass : encrypt.encode(info[0].user_pass)
                     },{maxAge : 1000*60*60*24});
-                    
+                    req.session.test = 1;
                     res.json({  //查询成功,登陆成功
                          err : 2
                     })

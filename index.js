@@ -15,17 +15,14 @@ app.use(bodyParser.json());// 用来接收json的数据
 // extended:true 可以接收任何数据类型的数据
 
 
-// app.use( session ({
-//     secret : 'testapp',
-//     cookie : {maxAge:80000},
-//     resave: false,
-//     saveUninitialized
-// }))
-
 
 app.use(bodyParser.urlencoded( { extended:true } ));
 app.use(cookieParser("sakldlsadlhjkhjksadhjk"));
-app.use(session( { secret : "sadaskhdasuusadhuisduixb" } ));  //设置秘钥
+app.use(session({ 
+    resave : true,  //don't save session  if unmoified
+    saveUninitialized : false,
+    secret : "sadaskhdasuusadhuisduixb"
+}));  //设置秘钥
 
 
 
@@ -42,13 +39,13 @@ app.use ((req,res,next) => {
 })
 
 app.use ((req,res,next) => {
-    console.log('step1');
-    if (req.cookies.login) {  //存在cookie 但是不存在session 的情况下，
-                             //根据cookie里面的存放的用户名以及用户密码(加密后的)
-                             //从数据库里面获取管理员权限 但凡获取失败 ,需要使用管理员权限的时候
-                             //必须重新进行登录
-        console.log('step2');
+    if (req.cookies.login) {  
+        //存在cookie 但是不存在session 的情况下，
+        //根据cookie里面的存放的用户名以及用户密码(加密后的)
+        //从数据库里面获取管理员权限 但凡获取失败 ,需要使用管理员权限的时候
+        //必须重新进行登录
         console.log(req.session.login);
+        console.log('test=' + req.session.test);
         if (!req.session.login) {
             console.log('session deny');
             let cookies = req.cookies.login;
@@ -65,25 +62,23 @@ app.use ((req,res,next) => {
                                 'email': info[0].user_email
                              }
                              req.session.test = 1;
+                             console.log('session recover');
                         } else {
                             console.log('按理说不应该存在这种错误的');
                         }
                     } else {
                         console.log('获取管理员权限失败,数据库执行错误')
                     }
-                    console.log('sessssssssssssssssssss');
-                    console.log(req.session);
-                    console.log('req.session.admin = ' + req.session.login.admin);
-                    console.log('req.session.userName =' + req.session.login.userName);
-                    console.log('email=' + req.session.login.email);
-                    next();
-                }
+                } //callback
             })
         } else {
+            
             console.log('session access');
         }
-        next();
+    } else {
+        console.log('no cookie');
     }
+    console.log(req.session.login);
     next();
 })
 
