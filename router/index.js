@@ -13,7 +13,6 @@ router.get("/play",(req,res) => {
 
 router.get('/logout', (req,res) => {
     res.clearCookie('login');
-        
     res.redirect('/techo');
 })
 

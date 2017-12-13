@@ -1,8 +1,8 @@
 const express = require("express"),
-    mysql = require("../module/mysql"),
-    crypto = require("crypto"),
-    encrypt = require("../module/encrypt"),
-    router = express.Router();
+        mysql = require("../module/mysql"),
+        crypto = require("crypto"),
+        encrypt = require("../module/encrypt"),
+        router = express.Router();
 
 
 
@@ -15,9 +15,8 @@ router.get("/",( req, res ) => {
 router.post('/',(req,res) => {
     let userName = req.body.userName,
         passWord = req.body.passWord;
-        
     const md5 = crypto.createHash("md5"),
-        newPass = md5.update(passWord).digest("hex");
+          newPass = md5.update(passWord).digest("hex");
     mysql({
         sql : 'select * from t_user where user_name = ? and user_pass = ?',
         args : [userName,newPass],
@@ -32,7 +31,6 @@ router.post('/',(req,res) => {
                         admin : info[0].user_admin,  //管理权限
                         pass : encrypt.encode(info[0].user_pass)
                     },{maxAge : 1000*60*60*24});
-                    req.session.test = 1;
                     res.json({  //查询成功,登陆成功
                          err : 2
                     })

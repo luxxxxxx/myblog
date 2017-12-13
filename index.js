@@ -1,11 +1,11 @@
 const http = require("http"),
-    express = require("express"),
-    bodyParser = require("body-parser"),
-    cookieParser = require("cookie-parser"),
-    session = require("express-session"),
-    mysql = require("./module/mysql"),
-    encrypt = require("./module/encrypt"),
-    app = express();
+      express = require("express"),
+      bodyParser = require("body-parser"),
+      cookieParser = require("cookie-parser"),
+      session = require("express-session"),
+      mysql = require("./module/mysql"),
+      encrypt = require("./module/encrypt"),
+      app = express();
 
 app.set('views',__dirname+'/views');// 设置模板引擎的目录
 app.set('view engine','ejs');// 设置使用的模板引擎是什么
@@ -29,8 +29,12 @@ app.use(session({
 app.use ((req,res,next) => {
     if(req.cookies['login']) {
         let cookies = req.cookies['login'];
-        // res.locals.login.pass = req.cookies.login.pass;
-        // res.locals.login.userName = req.cookies.login.name;
+        res.locals.login = {
+            status : 1,  //1 登录中
+            userName : cookies.name,
+            email : cookies.email
+        }
+        // res.locals.login.pass = r = req.cookies.login.name;
         // console.log(res.locals.login);
     } else {
         res.locals.login = null;
@@ -38,7 +42,8 @@ app.use ((req,res,next) => {
     next();
 })
 
-app.use ((req,res,next) => {
+let gSess = {};
+app.post ((req,res,next) => {
     if (req.cookies.login) {  
         //存在cookie 但是不存在session 的情况下，
         //根据cookie里面的存放的用户名以及用户密码(加密后的)
@@ -61,7 +66,7 @@ app.use ((req,res,next) => {
                                 'userName': info[0].user_name,
                                 'email': info[0].user_email
                              }
-                             req.session.test = 1;
+                             console.log(req.session.login);
                              console.log('session recover');
                         } else {
                             console.log('按理说不应该存在这种错误的');
@@ -72,7 +77,6 @@ app.use ((req,res,next) => {
                 } //callback
             })
         } else {
-            
             console.log('session access');
         }
     } else {
@@ -81,9 +85,6 @@ app.use ((req,res,next) => {
     console.log(req.session.login);
     next();
 })
-
-
-
 
 app.use('/',require('./router/index'));
 

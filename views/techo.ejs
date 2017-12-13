@@ -31,11 +31,15 @@
                 <li class="slide_bar"></li>
             </ul>
             <!-- 登录板块，登录：yes，未登录 no -->
-        <% if (locals.login) { %>
-            <div class="login_sec yes">
-        <% } else { %>
-            <div class="login_sec no">
-        <% } %>
+            <% if (locals.login) { %>
+                <% if (locals.login.status) { %>
+                    <div class="login_sec yes">
+                <% } else { %>
+                    <div class="login_sec no">
+                <% } %>
+            <% } else { %>
+                <div class="login_sec no">
+            <% } %>
 
                 <span><a href="./login">login</a></span>
                 <span>|</span>
@@ -244,32 +248,45 @@
                 <input type="text" placeholder="搜索..."  />
                 <div class="search_btn "><i class="icon iconfont icon-search animated"></i></div>
             </div>
-            <div id="login_con">
-                <% if(!locals.login) { %>
-                    <div class="heading">(｡･ω･｡) 请登录</div>
+                <!-- 登录状态下  login  -->
+            <% if(locals.login) {  %>
+                <% if(!locals.login.status) { %>   
+                    <div id="login_con" >  
+                        <div class="heading">(｡･ω･｡) 请登录</div>
                 <% } else { %>
-                    <div class="heading">(｡･ω･｡) 欢迎 <%- locals.login.userName %></div> 
+                    <div id="login_con" class="login">
+                        <div class="heading">(｡･ω･｡) 欢迎 <%- locals.login.userName %></div> 
                 <% } %>
+            <% } else { %>
+                <div id="login_con">
+                    <div class="heading">(｡･ω･｡) 请登录</div>
+            <% } %>
                 <form>
                     <div class="form_group">
                         <div class="icon clearfix">
                             <i class="icon iconfont icon-account"></i>
                         </div>
-                        <input type="text" />
+                        <input id="userName" type="text" />
                     </div>
                     <div class="form_group">
                         <div class="icon clearfix">
                             <i class="icon iconfont icon-mima"></i>
                         </div>
-                        <input type="password" />
+                        <input id="passWord" type="password" />
                     </div>
                     <!-- 错误信息 show 出现 -->
                     <div class="errmsg clearfix">
-                        <span>你的用户名木马错误</span>
+                        <span></span>
                     </div>
-                    <input type="submit" class="login btn" value="登录">
-                    <a href="##" class="btn reg">注册</a>
+                    <input type="button" id="loginBtn" class="login btn" value="登录">
+                    <a href="./reg" class="btn reg">注册</a>
                 </form>
+                <div class="login">
+                    <div class="img">
+                        <img src="./img/lux.png" alt="lux" />
+                    </div>
+                    <div class="logout"><a href="./logout">退出登录</a></div>
+                </div>
             </div>
             <aside id="latest_posts">
                 <div class="h clearfix">
@@ -318,9 +335,47 @@
 <script src="./js/jqq.js"></script>
 <script></script>
 <script>
-    $('#search').bind('mouseover',() => {
-        $("#search i.icon").addClass("rubberBand");
+
+    let $userName = $('#userName'),
+        $passWord = $('#passWord'),
+        $loginBtn = $('#loginBtn'),  //登录按钮
+        $errMsg = $('.errmsg'),  //登录错误信息框  show: 出现
+
+        $search = $('#search'),  //搜索框
+        $search_icon = $('#search i.icon');  //搜索框下面的icon 
+        
+    //搜索icon 动画
+    $search.bind('mouseover',() => {
+        $search_icon.addClass("rubberBand");
     }).bind('mouseleave',() => {
-        $("#search i.icon").removeClass("rubberBand");
+        $search_icon.removeClass("rubberBand");
+    })
+
+    //登录
+    $loginBtn.click(function () {
+        Ajax({
+            url : './techo/login',
+            method : 'post',
+            data : {
+                userName : $userName.val(),
+                passWord : $passWord.val()
+            },
+            success : function (params) {
+                $errMsg.addClass('show');
+                $errMsg.html('请等待...')
+                let data = null;
+                if (params) 
+                    data = JSON.parse(params);
+                if (data) {
+                    $errMsg.html(data.info);
+                    if (data.success) {
+                        self.location = './techo';
+                    }
+                }
+            },
+            error : function (info) {
+                console.log(info)
+            }
+        })
     })
 </script>
