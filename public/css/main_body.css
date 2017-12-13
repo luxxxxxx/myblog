@@ -198,6 +198,7 @@
   opacity: .1;
 }
 #main .main .l article .desc {
+  width: 100%;
   display: inline-block;
   color: #666;
   background-color: #ecf0f1;
@@ -206,6 +207,7 @@
   margin-bottom: 20px;
   border-radius: 4px;
   overflow: auto;
+  box-sizing: border-box;
 }
 #main .main .l article a.btn {
   display: inline-block;
