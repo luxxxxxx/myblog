@@ -4,11 +4,6 @@ const express = require("express"),
     router = express.Router();
 
 
-router.get("/play",(req,res) => {
-    res.render("play.ejs");
-});
-
-
 
 
 router.get('/logout', (req,res) => {
@@ -17,7 +12,7 @@ router.get('/logout', (req,res) => {
 })
 
 
-
+router.use("/play",require("./play.js"));
 router.use("/login",require("./login.js"));
 router.use("/reg",require("./register.js"));
 router.use("/techo",require('./techo.js'));

@@ -367,6 +367,17 @@ header #h_bg {
   height: 100%;
   vertical-align: top;
 }
+.player_wrp .main .danmu_con .err {
+  width: 100%;
+  height: 500px;
+  text-align: center;
+  line-height: 500px;
+  height: 588px;
+}
+.player_wrp .main .danmu_con .err a {
+  color: red;
+  font-size: 14px;
+}
 .player_wrp .main .danmu_con .player_info {
   width: 100%;
   height: 60px;

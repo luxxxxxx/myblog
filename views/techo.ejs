@@ -111,7 +111,8 @@
                         <div class="tag_article">
                                 <span class="label">
                                     <i class="icon iconfont icon-date"></i>
-                                    <%- (new Date(locals.articles[i].a_date)).toUTCString() %>
+                                    <% var time = new Date(locals.articles[i].a_date)   %>
+                                    <%- time.getFullYear() + '-' + time.getMonth() + '-' + time.getDay()  %>
                                 </span>
                             <span class="label">
                                 <i class="icon iconfont icon-biaoqian"></i>

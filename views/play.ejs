@@ -6,7 +6,8 @@
 	<title>要优雅~</title>
 	<link rel="shortcut icon" href="./img/favicon.ico">
 	<link rel="stylesheet" href="./css/reset.css">
-	<link rel="stylesheet" href="./css/general.css">
+	<!-- <link rel="stylesheet" href="./css/general.css"> -->
+	<link rel="stylesheet" href="./css/header.css">
 	<link rel="stylesheet" href="./css/play.css">
 	<link rel="stylesheet" href="./css/iconfont.css">
 	<link rel="stylesheet" href="./css/animate.css">
@@ -20,24 +21,80 @@
 				<div class="pic">
 					<img src="./img/heimao1.png" alt="要优雅" title="不要优雅，要污!ε=ε=(ノ≧∇≦)ノ">
 				</div>
-				<div id="logo"><img src="./img/logo.png" alt=""></div>
+				<div id="logo">
+					<img src="./img/logo.png" alt="">
+				</div>
 			</div>
 			<div class="r">
 				<ul class="nav clearfix">
-					<li><a href="##">main</a></li>
-					<li><a href="##">technology</a></li>
-					<li><a href="##">anime</a></li>
-					<li class="n-margin-r"><a href="##">music</a></li>
+					<li>
+						<a href="##">main</a>
+					</li>
+					<li>
+						<a href="##">technology</a>
+					</li>
+					<li>
+						<a href="##">anime</a>
+					</li>
+					<li class="n-margin-r">
+						<a href="##">music</a>
+					</li>
 					<li class="slide_bar"></li>
 				</ul>
 				<!-- 登录板块，登录：yes，未登录 no -->
-				<div class="login_sec no">
-					<span><a href="##">login</a></span>
-					<span>|</span>
-					<span><a href="##">register</a></span>
-				</div>
-			</div>
-		</div>
+				<% if (locals.login) { %>
+					<% if (locals.login.status) { %>
+						<div class="login_sec yes">
+							<% } else { %>
+								<div class="login_sec no">
+									<% } %>
+										<% } else { %>
+											<div class="login_sec no">
+												<% } %>
+													<span>
+														<a href="./login">login</a>
+													</span>
+													<span>|</span>
+													<span>
+														<a href="./reg">register</a>
+													</span>
+													<li class="user">
+														<a href="##">
+															<div class="i_face">
+																<img src="./img/lux.png" alt="站长~">
+															</div>
+														</a>
+														<div class="profile">
+															<b class="name">小朋友你很皮哦小朋友你很皮哦小炮</b>
+															<div class="user_status">
+																<div class="l ">
+																	<span>身份：</span>
+																	<span class="status">站长</span>
+																</div>
+																<div class="r ">
+																	<span>权限等级：</span>
+																	<span class="rights_level">Lv3</span>
+																</div>
+															</div>
+															<div class="lv_con">
+																<span>等级：</span>
+																<em>Lv9</em>
+																<div class="lv_bar">
+																	<div class="process"></div>
+																	<span class="exp">888/999</span>
+																</div>
+															</div>
+															<div class="selection">
+																<a href="##">修改资料</a>
+															</div>
+															<div class="footer">
+																<a href="./logout">退出</a>
+															</div>
+														</div>
+													</li>
+											</div>
+								</div>
+						</div>
 	</header>
 	<section id="main_bg">
 		<a href="##">
@@ -70,7 +127,8 @@
 			</div>
 			<div class="top clearfix">
 				<div class="r_info">
-					<div class="u_name"><a href="##">船长sama</a></div>
+					
+					<div class="u_name"><a href="##">要优雅</a></div>
 				</div>
 				<div class="rights" title="权限等级">
 					<!-- 权限等级说明 -->
@@ -115,46 +173,33 @@
 				</div>
 			</div>
 			<div class="danmu_con">
-				<div class="player_info">
-					一共<em>5</em>条弹幕
-				</div>
-				<div class="dm_t clearfix">
-					<div class="time">时间</div>
-					<div class="content">弹幕内容</div>
-					<div class="date">发送时间</div>
-				</div>
-				<ul class="dm_list">
-					<li>
-						<span class="dm_time">00:52</span>
-						<span class="dm_content">好多可爱的小柯基</span>
-						<span class="dm_date">08-14 19:25</span>
-						<div class="btn">删除弹幕</div>
-					</li>
-					<li>
-						<span class="dm_time">00:52</span>
-						<span class="dm_content">好多可爱的小柯基</span>
-						<span class="dm_date">08-14 19:25</span>
-						<div class="btn">删除弹幕</div>
-					</li>
-					<li>
-						<span class="dm_time">00:52</span>
-						<span class="dm_content">好多可爱的小柯基</span>
-						<span class="dm_date">08-14 19:25</span>
-						<div class="btn">删除弹幕</div>
-					</li>
-					<li>
-						<span class="dm_time">00:52</span>
-						<span class="dm_content">好多可爱的小柯基</span>
-						<span class="dm_date">08-14 19:25</span>
-						<div class="btn">删除弹幕</div>
-					</li>
-					<li>
-						<span class="dm_time">00:52</span>
-						<span class="dm_content">好多可爱的小柯基</span>
-						<span class="dm_date">08-14 19:25</span>
-						<div class="btn">删除弹幕</div>
-					</li>
-				</ul>
+				<%  if (locals.dm_load) { %>
+					<div class="player_info">
+						一共
+						<em><%- locals.dm.length %></em>条弹幕
+					</div>
+					
+					<div class="dm_t clearfix">
+						<div class="time">时间</div>
+						<div class="content">弹幕内容</div>
+						<div class="date">发送时间</div> 
+					</div>
+					<ul class="dm_list">
+						<% for (let i = 0; i < locals.dm.length ; i++) { %>
+							<li user='<%- locals.dm[i].d_userId %>' id= '<%- locals.dm[i].d_id %>'> 
+								<span class="dm_time"><%- locals.dm[i].d_time %></span>
+								<span class="dm_content"><%- locals.dm[i].d_content %></span>
+								<% var t = locals.dm[i].d_sendTime %> 
+								<span class="dm_date"><%- (t.getMonth() + 1) + '-' + t.getDay() + ' ' + t.getHours() + ':' + t.getMinutes() %></span>
+								<div class="btn">删除弹幕</div>
+							</li>
+						<% } %>
+					</ul>
+				<% } else { %>
+				<% console.log(locals.dm_load) %>
+					<div class="err"> <a id="dm_refresh" href="./dm_refresh">弹幕加载失败,点击重试</a></div>
+				<% } %>
+				
 			</div>
 		</div>
 	</div>
@@ -214,6 +259,7 @@
 		pause = false;
 		let spanArr = $danmuScreen[0].querySelectorAll('span');
 		// console.log(spanArr[0].timer());
+		video_progress_listener();
 		for (let i = 0; i <= spanArr.length - 1; i++) {
 			console.log(spanArr[i])
 			spanArr[i].timer();
@@ -285,8 +331,26 @@
 	}
 
 	video.onprogress = function (e) {
-
+		// console.log(e)
 	}
+	
+	video.onpause = function () {
+		pause = true;
+	}
+
+	function video_progress_listener (e) {
+		if (!pause) {
+			setTimeout(() => {
+				console.log(video.currentTime.toFixed(0));
+				video_progress_listener();
+			}, 1000);
+		}
+		
+	}
+
+	
+
+
 	video.onpause = video_pause;
 
 	video.onplay = video_con;
