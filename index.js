@@ -82,6 +82,7 @@ app.post ((req,res,next) => {
     } else {
         console.log('no cookie');
     }
+    console.log('req session?');
     console.log(req.session.login);
     next();
 })

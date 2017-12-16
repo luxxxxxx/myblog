@@ -244,6 +244,37 @@ header #h_bg {
   height: 538px;
   overflow: hidden;
 }
+.player_wrp .main .video_con #danmu .msg {
+  position: absolute;
+  box-sizing: border-box;
+  padding-left: 10px;
+  left: 0;
+  bottom: 0;
+  width: 300px;
+  color: red;
+  display: inline-block;
+  transition: .2s all linear;
+  visibility: visible;
+  opacity: 1;
+  background: transparent;
+}
+.player_wrp .main .video_con #danmu .msg.hidden {
+  visibility: hidden;
+  opacity: 0;
+}
+.player_wrp .main .video_con #danmu .msg li {
+  visibility: visible;
+  transition: .2s all linear;
+  opacity: 1;
+  width: 100%;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.player_wrp .main .video_con #danmu .msg li.hidden {
+  visibility: hidden;
+  opacity: 0;
+}
 .player_wrp .main .video_con #danmu div.dm_info {
   display: inline-block;
   display: none;

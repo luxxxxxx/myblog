@@ -2,7 +2,8 @@
  *  Created on 2017/4/7
  *  version jqq-1.22
  	修改 val方法
- 	修正了 ajax
+	修正了 ajax
+	增加了对cookie 的操作
  *  Author luxxxxxx
 **/
 
@@ -464,6 +465,23 @@
 
  	}
 	window.$ = window.jqq = $;
+
+
+
+	//cookie
+	window.getCookie = function (key) {
+		var r = new RegExp('\\b' + key + '=([^;]+)(; |\$)');
+		var val = document.cookie.match(r);
+		return val ? val[1] : '';
+	}
+	window.setCookie = function (key, value, time) {
+		document.cookie = key + '=' + value + ';expires=' + (new Date(new Date().getTime() + time)).toGMTString();
+	}
+
+	window.removeCookie = function (key) {
+		setCookie(key, '', -1);
+	}
+
 	//Ajax
 	window.Ajax = function (json) {
 		var xhr = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP'),  //兼容老版本IE 

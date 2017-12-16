@@ -165,6 +165,11 @@
 					<div class="ban_dm" style="background: red;"></div>
 				</div>
 				<div id="danmu">
+					<!-- 各种消息  如弹幕加载功能 ，视频是否成功加载  hidden 消失-->
+					<ul class="msg ">
+						<!-- <li>测试</li>
+						<li>弹幕加载成功弹幕加载成功弹幕加载成功</li> -->
+					</ul>
 					<div class="dm_info">
 						<div class="font">
 							<div class="t"></div>
@@ -212,12 +217,12 @@
 		screenW = $danmuScreen.width(),
 		screenH = $danmuScreen.height(),
 		video = document.querySelector('video'),
+		dms = [],  //存放弹幕数组
 		beaginH = parseFloat(screenH) * 0.9,  //起始随机高度区域
 		$sendBt = $('.send_bt'),  //发送弹幕按钮
 		sendFlag = true,
 		videoPause = true,
 	    pause = true;  //弹幕暂停 flag
-
 
 
 	$('#input_dm').bind('keyup', function (e) {   //回车发送弹幕
@@ -226,61 +231,92 @@
 				$sendBt.click();
 		}
 	})
-	$sendBt.bind('click', function () {
+
+	
+	
+
+	$sendBt.bind('click', function () {  //点击按钮发送弹幕
 		if (sendFlag) {
 			let danmu = $('#input_dm').val();
 			$('#input_dm').val('');
-			let span = document.createElement('span');
+			let span = document.createElement('span'),
+				flag = true;  //保证用户多次点击
 				span.className = 'user';
-				span.innerHTML = danmu;
-			sendDm(span);
+			if (flag) {
+				flag = false;
+				Ajax({
+					url: '/play/dm',
+					method: 'post',
+					data: {
+						content : danmu,
+						crt_time : time_format(video.currentTime.toFixed(0)),
+						type : 'random',
+						color : '#fff',
+						size : '1'
+					},
+					success: function (params) {
+						let data = JSON.parse(params);
+						if (data.err) {  //发送失败
+							console.log(data.info)
+						} else {
+							span.innerHTML = danmu;
+							sendDm(span);
+						}
+						flag = true;
+					},
+					error: function (err) {
+						console.log(err);
+						flag = true;
+					}
+				})
+			}
 			wait();  //等五秒后才能发送
 		}
 	})
 
-	//暂停 继续
+	//暂停 继续 测试功能
 	$('.ban_dm').click (con_pause)
-
+	
 	function con_pause () {  //暂停或者 继续
 		if (!pause) {
-			pause = true;
+			video_pause();
 		} else {
-			let spanArr = $danmuScreen[0].querySelectorAll('span');
-			pause = false;
-			// console.log(spanArr[0].timer());
-			for (let i = 0; i <= spanArr.length - 1; i++) {
-				console.log(spanArr[i])
-				spanArr[i].timer();
-			}
+			video_con();
 		}
 	}
 
-	function video_con () {  //弹幕继续
+	
+	function video_con () {  // 视频继续
 		pause = false;
 		let spanArr = $danmuScreen[0].querySelectorAll('span');
 		// console.log(spanArr[0].timer());
-		video_progress_listener();
+		if (vpl_flag) {  // 监听 视频当前播放
+			video_progress_listener();
+			vpl_flag = false;
+		}
+		// 弹幕 滚动
 		for (let i = 0; i <= spanArr.length - 1; i++) {
 			console.log(spanArr[i])
 			spanArr[i].timer();
 		}
-
 	}
-	function video_pause () {  //弹幕暂停
+
+	
+	function video_pause () {  //视频暂停API
 		pause = true;
+		vpl_flag = true;
 	}
+	
+	
 
-	function sendDm (dm_ele) {
+	function sendDm (dm_ele) {  //发送弹幕
 		let This = dm_ele;
 		$danmuScreen[0].appendChild(This);
 		let  $dm = $(This);
 		This.width = $dm.width();
 		This.left = screenW + 5;
-
 		// 保证每一个弹幕从开始到尾部离开屏幕的时间一样  越长的弹幕速度越快
-
 		This.speed = (This.width + screenW)/6500 * 13;
-
 		$dm.css({
 			'left' : This.left,
 			'top' : Math.random() * beaginH
@@ -290,6 +326,7 @@
 			setTimeout(function () {
 				if (!pause) {
 					if (This.clear) {  // 是否到达了 需要清除弹幕的时候
+						This.timer = null;
 						This.parentNode.removeChild(This);
 					} else {
 						This.left -= This.speed;
@@ -303,6 +340,8 @@
 		}
 		This.timer();
 	}
+
+	//加载弹幕
 
 	// 等待五秒钟才能发弹幕
 	function wait (i) {
@@ -330,28 +369,62 @@
 		}
 	}
 
-	video.onprogress = function (e) {
-		// console.log(e)
-	}
 	
-	video.onpause = function () {
-		pause = true;
+	function dm_load (arr) {  //加载弹幕 存放在传入的 arr里面并刷新弹幕列表
+		Ajax({
+			url : './play/get_dm',
+			method : 'post',
+			success : function (data) {
+				let dm = JSON.parse(data);
+				console.log(dm);
+				for(var key in dm) {
+					console.log(key)
+				}
+			},
+			error : function (params) {
+				console.log('弹幕ajax加载失败错误状态-'+params.status)
+			}
+		})
 	}
 
-	function video_progress_listener (e) {
-		if (!pause) {
+	dm_load();
+
+	function time_format (t) {  
+		//整理时间 格式 将 0:23 处理成  00:23  
+		//或者可以将 秒钟数处理成 分秒格式
+		if (isNaN(Number(t))) {
+			var arr = t.split(':');
+			console.log(Number(arr[0]) * 60 + Number(arr[1]));
+			time_format(Number(arr[0])*60 + Number(arr[1]));
+		} else {
+			let m = parseInt(t/60),
+				s = t % 60;
+			if (m.toString().length === 1)
+				m = '0' + m;
+			if (s.toString().length === 1) 
+				s = '0' + s;
+			return (m + ':' + s);			
+		};
+	}
+
+
+	console.log(getCookie('login'))
+
+	var vpl_flag = true;  //监听 视频播放定时器flag （防止多个定时器）
+
+	function video_progress_listener (e) {  //监听视频当前播放时间定时器
+		if (!pause) {  
 			setTimeout(() => {
 				console.log(video.currentTime.toFixed(0));
 				video_progress_listener();
 			}, 1000);
 		}
-		
 	}
 
-	
-
-
+	// video  绑定事件
+	video.onprogress = function (e) {  //
+			// console.log(e)
+	}
 	video.onpause = video_pause;
-
 	video.onplay = video_con;
 </script>

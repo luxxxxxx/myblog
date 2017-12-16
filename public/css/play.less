@@ -254,13 +254,44 @@ header #h_bg {
 				color: #fff;
 			}
 			#danmu {
-
 				position: absolute;
 				left: 0;
 				top: 50px;
 				width: 100%;
 				height: 538px;
 				overflow: hidden;
+				.msg {
+					position: absolute;
+					box-sizing: border-box;
+					padding-left: 10px;
+					left: 0;
+					bottom: 0;
+					width: 300px;
+					color: red;
+					display: inline-block;
+					transition: .2s all linear;
+					visibility: visible;
+					opacity: 1;
+					background: transparent;
+					&.hidden {
+						visibility: hidden;
+						opacity: 0;
+					}
+					li {
+						visibility: visible;
+						transition: .2s all linear;
+						opacity: 1;
+						width: 100%;
+						text-overflow: ellipsis;
+						overflow: hidden;
+						white-space: nowrap;
+						&.hidden {
+							visibility: hidden;
+							opacity: 0;
+							
+						}
+					}
+				}
 				div.dm_info {
 					display: inline-block;
 					display: none;
