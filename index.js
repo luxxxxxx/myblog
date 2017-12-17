@@ -87,6 +87,8 @@ app.post ((req,res,next) => {
     next();
 })
 
+
+
 app.use('/',require('./router/index'));
 
 http.createServer(app).listen(233);

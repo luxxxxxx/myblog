@@ -57,7 +57,7 @@ router.post("/dm",(req,res) => {
 })
 
 
-router.post("./play/get_dm",(req,res) => {
+router.post("/get_dm",(req,res) => {
     mysql({
         sql : 'select * from t_dm',
         args : [],
@@ -67,7 +67,7 @@ router.post("./play/get_dm",(req,res) => {
                     err : 0,
                     info : info
                 });
-            } else {
+            } else { 
                 res.json({
                     err : 1,
                     info : '数据库查询错误,弹幕获取失败'

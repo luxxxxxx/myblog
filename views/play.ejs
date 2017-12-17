@@ -127,7 +127,6 @@
 			</div>
 			<div class="top clearfix">
 				<div class="r_info">
-					
 					<div class="u_name"><a href="##">要优雅</a></div>
 				</div>
 				<div class="rights" title="权限等级">
@@ -178,10 +177,10 @@
 				</div>
 			</div>
 			<div class="danmu_con">
-				<%  if (locals.dm_load) { %>
+				
 					<div class="player_info">
 						一共
-						<em><%- locals.dm.length %></em>条弹幕
+						<em></em>条弹幕
 					</div>
 					
 					<div class="dm_t clearfix">
@@ -190,20 +189,9 @@
 						<div class="date">发送时间</div> 
 					</div>
 					<ul class="dm_list">
-						<% for (let i = 0; i < locals.dm.length ; i++) { %>
-							<li user='<%- locals.dm[i].d_userId %>' id= '<%- locals.dm[i].d_id %>'> 
-								<span class="dm_time"><%- locals.dm[i].d_time %></span>
-								<span class="dm_content"><%- locals.dm[i].d_content %></span>
-								<% var t = locals.dm[i].d_sendTime %> 
-								<span class="dm_date"><%- (t.getMonth() + 1) + '-' + t.getDay() + ' ' + t.getHours() + ':' + t.getMinutes() %></span>
-								<div class="btn">删除弹幕</div>
-							</li>
-						<% } %>
+						
 					</ul>
-				<% } else { %>
-				<% console.log(locals.dm_load) %>
-					<div class="err"> <a id="dm_refresh" href="./dm_refresh">弹幕加载失败,点击重试</a></div>
-				<% } %>
+					<!-- <div class="err"> <a id="dm_refresh" href="./dm_refresh">弹幕加载失败,点击重试</a></div> -->
 				
 			</div>
 		</div>
@@ -217,7 +205,9 @@
 		screenW = $danmuScreen.width(),
 		screenH = $danmuScreen.height(),
 		video = document.querySelector('video'),
-		dms = [],  //存放弹幕数组
+		gdms = [],  //存放弹幕数组
+		$dmNum = $('div.danmu_con > div.player_info > em'),  //弹幕数量
+		$dm_list = $('ul.dm_list'),
 		beaginH = parseFloat(screenH) * 0.9,  //起始随机高度区域
 		$sendBt = $('.send_bt'),  //发送弹幕按钮
 		sendFlag = true,
@@ -240,7 +230,7 @@
 			let danmu = $('#input_dm').val();
 			$('#input_dm').val('');
 			let span = document.createElement('span'),
-				flag = true;  //保证用户多次点击
+				flag = true;  //防止用户多次点击
 				span.className = 'user';
 			if (flag) {
 				flag = false;
@@ -285,7 +275,7 @@
 		}
 	}
 
-	
+
 	function video_con () {  // 视频继续
 		pause = false;
 		let spanArr = $danmuScreen[0].querySelectorAll('span');
@@ -306,7 +296,6 @@
 		pause = true;
 		vpl_flag = true;
 	}
-	
 	
 
 	function sendDm (dm_ele) {  //发送弹幕
@@ -341,7 +330,8 @@
 		This.timer();
 	}
 
-	//加载弹幕
+	
+	
 
 	// 等待五秒钟才能发弹幕
 	function wait (i) {
@@ -369,25 +359,74 @@
 		}
 	}
 
+	function crt_dm_record (obj) {  //增加弹幕记录到弹幕列表
+		/*obj 
+			userId			
+			date 
+			content
+			time
+			dmId
+		*/
+		let oLi = document.createElement('li'),
+			oDm_time = document.createElement('span'),
+			oDm_content = document.createElement('span'),  //弹幕内容
+			oDm_date = document.createElement('span'),
+			t = new Date(obj.date),  //时间  
+			oDelete = document.createElement('div');  //删除弹幕按钮
+		oDm_time.className = 'dm_time';
+		oDm_content.className = 'dm_content';
+		oDm_date.className = 'dm_date';
+		oDelete.className = 'btn';
+		oLi.setAttribute('user', obj.userId);
+		oLi.setAttribute('dm_id', obj.dmId);
+		oDm_time.innerHTML = obj.time;
+		oDm_content.innerHTML = obj.content;
+		oDm_date.innerHTML = t.getFullYear().toString().substr(2, 3) + '-' + (t.getMonth() + 1) + '-' + t.getDay() + ' ' + t.getHours() + ':' + t.getMinutes();
+		oDelete.innerHTML = '删除弹幕';
+
+		oLi.appendChild(oDm_time);
+		oLi.appendChild(oDm_content);
+		oLi.appendChild(oDm_date);
+		oLi.appendChild(oDelete);
+		$dm_list[0].appendChild(oLi);
+	}
 	
 	function dm_load (arr) {  //加载弹幕 存放在传入的 arr里面并刷新弹幕列表
 		Ajax({
 			url : './play/get_dm',
 			method : 'post',
 			success : function (data) {
-				let dm = JSON.parse(data);
-				console.log(dm);
-				for(var key in dm) {
-					console.log(key)
+				let jData = JSON.parse (data);
+				if (!jData.err) {  //弹幕加载成功
+					let dms = jData['info'];
+					
+					$dmNum.html(dms.length);   //渲染弹幕数量
+					for(var i in dms) {
+						arr[i] = dms[i];  //将弹幕存储在 全局弹幕数组
+						crt_dm_record({  //添加弹幕记录
+							content : dms[i].d_content,
+							date : dms[i].d_sendTime,
+							time : dms[i].d_time,
+							dmId : dms[i].d_id,
+							userId : dms[i].d_userId
+						})
+					}
+					console.log(dms[0])
+					//加载成功后 渲染页面
+
+				} else {
+					console.log('弹幕加载失败');
+					return null;
 				}
+				return arr;
 			},
-			error : function (params) {
-				console.log('弹幕ajax加载失败错误状态-'+params.status)
+			error : function () {
+				console.log('弹幕ajax加载失败错误-')
 			}
 		})
 	}
 
-	dm_load();
+	dm_load(gdms);
 
 	function time_format (t) {  
 		//整理时间 格式 将 0:23 处理成  00:23  
@@ -408,14 +447,23 @@
 	}
 
 
-	console.log(getCookie('login'))
+	console.log(getCookie('login'));
 
 	var vpl_flag = true;  //监听 视频播放定时器flag （防止多个定时器）
-
-	function video_progress_listener (e) {  //监听视频当前播放时间定时器
+	
+	function video_progress_listener (e) {  //监听视频当前播放时间定时器结合发送弹幕功能
 		if (!pause) {  
 			setTimeout(() => {
-				console.log(video.currentTime.toFixed(0));
+				let t = time_format(video.currentTime.toFixed(0));
+				console.log(gdms)
+				for (let i = 0; i < gdms.length; i++) {
+					if (gdms[i].d_time === t) {
+						let oSpan = document.createElement('span');
+						
+						oSpan.innerHTML = gdms[i].d_content;
+						sendDm(oSpan);
+					}
+				}
 				video_progress_listener();
 			}, 1000);
 		}
