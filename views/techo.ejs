@@ -140,7 +140,8 @@
                         </p>
                     </div>
                     <div class="con clearfix">
-                        <a href="##" class="btn play_online">在线观看</a>
+                        <% var str = '/play?source=' + locals.articles[i].a_id; %>
+                        <a href= <%- str %>  class="btn play_online">在线观看</a>
                     </div>
                 </article>
             <% } %>

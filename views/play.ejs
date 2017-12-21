@@ -65,20 +65,26 @@
 															</div>
 														</a>
 														<div class="profile">
-															<b class="name">小朋友你很皮哦小朋友你很皮哦小炮</b>
+															<b class="name"><%- locals.login.userName %></b>
 															<div class="user_status">
 																<div class="l ">
 																	<span>身份：</span>
-																	<span class="status">站长</span>
+																	<% var user; %>
+																	<% if (locals.user) { %>
+																	<%   user = locals.user; %>	
+																	<% } else { %>
+																	<%   user = {} %>	
+																	<% } %>	
+																	<span class="status"><%- user.status %></span>
 																</div>
 																<div class="r ">
 																	<span>权限等级：</span>
-																	<span class="rights_level">Lv3</span>
+																	<span class="rights_level">Lv<%- user.admin %></span>
 																</div>
 															</div>
 															<div class="lv_con">
 																<span>等级：</span>
-																<em>Lv9</em>
+																<em>Lv1</em>
 																<div class="lv_bar">
 																	<div class="process"></div>
 																	<span class="exp">888/999</span>
@@ -106,17 +112,18 @@
 	<section id="view_con" class="clearfix">
 		<div class="info">
 			<div class="t">
-				<h1>你的名字 日语中字</h1>
+				<h1><%- locals.data.a_title %></h1>
 			</div>
 			<div class="linkinfo">
 				<a href="##">主页</a>
 				>
-				<a href="##">动漫</a>
-				<time>2017-11-01 23:07</time>
+				<a href="##"><%- locals.data.a_tags.split(',')[0] %></a>
+				<% var t = locals.data.a_date;  %>
+				<time><%- t.getFullYear() + '-' + t.getMonth() + '-' + t.getDay() + ' ' + t.getHours() + ':' + t.getMinutes() %></time>
 			</div>
 			<div class="v_data clearfix">
-				<div><i class="icon iconfont icon-play"></i><span>8.6k</span></div>
-				<div><i class="icon iconfont icon-icon1"></i><span class="danmu">999</span></div>
+				<div><i class="icon iconfont icon-play"></i><span><%- locals.data.a_views %></span></div>
+				<div><i class="icon iconfont icon-icon1"></i><span class="danmu">loading...</span></div>
 			</div>
 		</div>
 		<div id="uinfo">
@@ -206,13 +213,28 @@
 		screenH = $danmuScreen.height(),
 		video = document.querySelector('video'),
 		gdms = [],  //存放弹幕数组
+		$dmNum2 = $('#view_con > div.info > div.v_data > div:nth-child(2) > span'), //视频名称下面的弹幕数量
 		$dmNum = $('div.danmu_con > div.player_info > em'),  //弹幕数量
 		$dm_list = $('ul.dm_list'),
 		beaginH = parseFloat(screenH) * 0.9,  //起始随机高度区域
 		$sendBt = $('.send_bt'),  //发送弹幕按钮
+		$testBt = $('.ban_dm'),  //测试按钮
 		sendFlag = true,
 		videoPause = true,
 	    pause = true;  //弹幕暂停 flag
+
+
+		/*  API
+			video_con  视频继续播放
+			video_pause  视频暂停播放
+			sendDm(span)  发送弹幕  参数：spanElement object
+			wait()  发送弹幕后等待 五秒钟才能继续发送
+			crt_dm_record(dm_obj)  添加弹幕对象到右边弹幕列表
+			dm_load(dm_arr)  加载弹幕渲染页面 并将所有弹幕对象填充到dm_arr数组
+			time_format(time)  将时间改成 mm:ss 格式并返回
+			video_progress_listener()  //监听视频当前播放时间定时器结合发送弹幕功能
+			vpl_flag  //变量 监听 视频播放定时器flag （防止多个定时器）
+		*/
 
 
 	$('#input_dm').bind('keyup', function (e) {   //回车发送弹幕
@@ -222,7 +244,6 @@
 		}
 	})
 
-	
 	
 
 	$sendBt.bind('click', function () {  //点击按钮发送弹幕
@@ -246,10 +267,13 @@
 					},
 					success: function (params) {
 						let data = JSON.parse(params);
+						console.log(data);
 						if (data.err) {  //发送失败
 							console.log(data.info)
 						} else {
-							span.innerHTML = danmu;
+							span.textContent = danmu;
+							span.d_id = data.d_id;
+							console.log(data.d_id);
 							sendDm(span);
 						}
 						flag = true;
@@ -265,7 +289,9 @@
 	})
 
 	//暂停 继续 测试功能
-	$('.ban_dm').click (con_pause)
+	$testBt.click (function (params) {
+		console.log($danmuScreen[0].querySelector('span').d_id);
+	})
 	
 	function con_pause () {  //暂停或者 继续
 		if (!pause) {
@@ -300,6 +326,7 @@
 
 	function sendDm (dm_ele) {  //发送弹幕
 		let This = dm_ele;
+		console.log(This.d_id);
 		$danmuScreen[0].appendChild(This);
 		let  $dm = $(This);
 		This.width = $dm.width();
@@ -401,6 +428,7 @@
 					let dms = jData['info'];
 					
 					$dmNum.html(dms.length);   //渲染弹幕数量
+					$dmNum2.html(dms.length);
 					for(var i in dms) {
 						arr[i] = dms[i];  //将弹幕存储在 全局弹幕数组
 						crt_dm_record({  //添加弹幕记录
@@ -447,6 +475,12 @@
 	}
 
 
+	// Array.prototype.has = function (arr_obj,val) {  //遍历数组 并判断数组对象是否存在一个满足表达式
+		
+	// 	let flag = false;
+	// 	for(let i = 0; i < arr_obj.length)
+	// }
+
 	console.log(getCookie('login'));
 
 	var vpl_flag = true;  //监听 视频播放定时器flag （防止多个定时器）
@@ -455,13 +489,25 @@
 		if (!pause) {  
 			setTimeout(() => {
 				let t = time_format(video.currentTime.toFixed(0));
-				console.log(gdms)
 				for (let i = 0; i < gdms.length; i++) {
 					if (gdms[i].d_time === t) {
-						let oSpan = document.createElement('span');
+						let crt_dms = $danmuScreen[0].querySelectorAll('span'), //当前视频存在的弹幕;
+						    exist = false;  //是否存在当前弹幕已经发送
+							for (let i = 0; i < crt_dms.length; i++) {
+								const element = crt_dms[i];
+								if (element.d_id == gdms[i].d_id) {
+									console.log('exist');
+									exist = true;
+									break;
+								}
+							};
+						if (!exist) {
+							let oSpan = document.createElement('span');
+							oSpan.textContent = gdms[i].d_content;
+							oSpan.d_id = gdms[i].d_id;
+							sendDm(oSpan);
+						}
 						
-						oSpan.innerHTML = gdms[i].d_content;
-						sendDm(oSpan);
 					}
 				}
 				video_progress_listener();

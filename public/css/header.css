@@ -203,6 +203,7 @@ header #h_content .r .login_sec li.user .profile b.name {
   overflow: hidden;
   white-space: nowrap;
   margin-bottom: 20px;
+  font-size: 16px;
 }
 header #h_content .r .login_sec li.user .profile .user_status {
   height: 20px;

@@ -43,47 +43,48 @@ app.use ((req,res,next) => {
 })
 
 let gSess = {};
-app.post ((req,res,next) => {
+app.use ((req,res,next) => {
+    // console.log(req.cookies.login)
     if (req.cookies.login) {  
         //存在cookie 但是不存在session 的情况下，
         //根据cookie里面的存放的用户名以及用户密码(加密后的)
-        //从数据库里面获取管理员权限 但凡获取失败 ,需要使用管理员权限的时候
+        //从数据库里面获取管理员权限并存放在session 内部 但凡获取失败 ,需要使用管理员权限的时候
         //必须重新进行登录
-        console.log(req.session.login);
-        console.log('test=' + req.session.test);
         if (!req.session.login) {
-            console.log('session deny');
+            // console.log('session deny');
             let cookies = req.cookies.login;
             mysql({
                 sql : 'select * from t_user where user_name = ? and user_pass = ?',
                 args : [cookies.name,encrypt.decode(cookies.pass)],
                 callback : (err,info) => {
-                    console.log('获取session执行数据库操作ing')
+                    // console.log('获取session执行数据库操作ing')
                     if (!err) {
                         if (info.length) {
                             req.session.login = {
+                                'userId' : info[0].user_id,
                                 'admin': info[0].user_admin,
                                 'userName': info[0].user_name,
-                                'email': info[0].user_email
+                                'email': info[0].user_email,
+                                'status' : info[0].user_status
                              }
-                             console.log(req.session.login);
-                             console.log('session recover');
+                            //  console.log(req.session.login);
+                            //  console.log('session recover');
                         } else {
                             console.log('按理说不应该存在这种错误的');
                         }
                     } else {
-                        console.log('获取管理员权限失败,数据库执行错误')
+                        console.log('获取管理员权限失败,数据库执行错误 index.js')
                     }
                 } //callback
             })
         } else {
-            console.log('session access');
+            // console.log('session access');
         }
     } else {
-        console.log('no cookie');
+        // console.log('no cookie');
     }
-    console.log('req session?');
-    console.log(req.session.login);
+    // console.log('req session?');
+    // console.log(req.session.login);
     next();
 })
 

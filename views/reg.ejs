@@ -305,40 +305,85 @@
             $registerBtn.removeClass('success');
         }
     }
+    //  倒计时 
 
+    function back(t) {
+        let time;
+        if (!arguments.length) {  //没有传递参数 默认60
+            time = 60;
+        } else {
+            time = t;
+        }
+        $sendMailBtn.addClass('ban');
+        $sendMailBtn.html(time+'s');
+        if (time == -1) {
+            $sendMailBtn.removeClass('ban');
+            $sendMailBtn.html('发送邮件');
+            return 100;
+        }
+        time--;
+        return time;
+    }
+    
+
+    let sendFlag = false;  //阻值用户进行多次点击操作
 
     //发送邮件
     $sendMailBtn.bind('click', function () {
-        let $msg = $errMsgs.eq(3);
-        if (!$(this).hasClass('false')) {
-            Ajax ({
-                'method' : 'post',
-                'data' : {
-                    'email' : $email.val()
-                },
-                'url' : '/reg/sendMail',
-                'success' : function (data) {
-                    if(/\berr\b/.test(data)) {
-                        msg_callback({
-                            success : 0,
-                            msg : '数据库发生未知错误,请刷新后再试.' 
-                        })
-                    }
-                },
-                'error' : function (data) {
-                    console.log(data);
+        
+        let $msg = $errMsgs.eq(3),
+            lastTime = 60;  //剩余时间
+            if (!sendFlag) {  
+                sendFlag = true;  //
+                $sendMailBtn.addClass('ban');
+                function timeback (params) {  //倒计时
+                    lastTime = back(lastTime);
+                    console.log(lastTime)
+                    setTimeout(function () {
+                        if (lastTime == 100) {
+                            sendFlag = false;
+                            return;
+                        } else {
+                            timeback();
+                        }
+                    }, 1000);
                 }
-            });
-        } else {
-            if (!fpass1 || fpass2)
-                $msg.html('请检查你的密码');
-            if (!fUser) {
-                $msg.html('请输入有效的用户名');
+                timeback();
+                if (!$(this).hasClass('false')) {
+                    Ajax({
+                        'method': 'post',
+                        'data': {
+                            'email': $email.val()
+                        },
+                        'url': '/reg/sendMail',
+                        'success': function (data) {
+                            if (/\berr\b/.test(data)) {
+                                msg_callback({
+                                    success: 0,
+                                    msg: '数据库发生错误'
+                                })
+                            }
+                        },
+                        'error': function (data) {
+                            console.log(data);
+                        }
+                    });
+                } else {
+                    if (!fpass1 || fpass2)
+                        $msg.html('请检查你的密码');
+                    if (!fUser) {
+                        $msg.html('请输入有效的用户名');
+                    }
+                    if (!femail) {
+                        $msg.html('请输入一个有效的邮箱地址');
+                    }
+                };
+
             }
-            if (!femail) {
-                $msg.html('请输入一个有效的邮箱地址');
-            }
-        }
+        
+
+
+        
     })
 
     $email.bind('keyup', function () {

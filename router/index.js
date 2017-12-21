@@ -5,7 +5,6 @@ const express = require("express"),
 
 
 
-
 router.get('/logout', (req,res) => {
     res.clearCookie('login');
     res.redirect('/techo');

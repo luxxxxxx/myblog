@@ -154,6 +154,10 @@ body #info .close:hover {
   cursor: not-allowed;
   background: #999;
 }
+#main form .input_wrp .send.ban {
+  cursor: not-allowed;
+  background: #999;
+}
 #main form .input_wrp .regBtn {
   z-index: 9;
   position: absolute;
