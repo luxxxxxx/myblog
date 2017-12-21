@@ -141,7 +141,7 @@
         })
     }
 
-    $userName.bind('focus',function() {
+    $userName.bind('focus',function() {  //用户名
     }).bind('keyup',function() {
         let userName = this.value.replace(/\s+$/,''),  //去掉末尾空格
             $msg = $errMsgs.eq(0);
@@ -150,14 +150,14 @@
             ;
             fUser = false;
         }else {
-            let reg = /^([a-zA-Z]|[\u4e00-\u9fa5])/;
+            let reg = /^([a-zA-Z])/;
             if (!reg.test(userName)) {
-                $msg.html('用户名必须以中英文名开头');
+                $msg.html('用户名必须以英文名开头');
                 fUser = false;
             } else {
-                let reg = /^([a-zA-Z]|[\u4e00-\u9fa5])(\w|[\u4e00-\u9fa5]){5,17}$/;
+                let reg = /^([a-zA-Z])\w{5,17}$/;
                 if (!reg.test(userName)) {
-                    $msg.html('用户名中不能包含特殊符号');
+                    $msg.html('用户名只能支持英文和数字');
                     fUser = false;
                 } else {
                     $msg.html('检测中...');
@@ -184,9 +184,9 @@
                                     emailble();
                                 }
                             } else {
+                                fUser = false;
                                 $msg.html('用户名校检 数据库发生未知错误')
                             }
-
                         },
                         error : function (err) {
                             console.log(err);
@@ -235,7 +235,7 @@
                 break;
         }
     };
-    $passWord.bind('focus',function () {
+    $passWord.bind('focus',function () {  //密码
         
     }).bind('keyup',function () {
         let safeLevel = 1,  //安全等级
@@ -278,7 +278,6 @@
     }).bind('blur',function () {
 
     });
-
 
 
 

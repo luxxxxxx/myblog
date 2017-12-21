@@ -40,7 +40,6 @@ router.post('/sendMail',(req,res) => {
         to : "981236133@qq.com",
         html : "欢迎来到要优雅官方注册页面，点击以下链接，以此来完成邮箱校检.</br> <a>localhost:233/reg/activeEmail?email="+ activeEmail +"</a>"
     };
-    console.log(req.body.email);
     mysql({
         sql : 'insert into t_user_email (email,isActive) values (?,0)',
         args : [req.body.email],
@@ -67,8 +66,7 @@ router.get("/activeEmail",(req,res) => {
         sql : 'select * from t_user_email where email = ?',
         args : [email],
         callback(err,data) {
-            console.log(err);
-            console.log(data);
+          
             if (!err) {  //null 成功
                 if (data.length) {
                     if (!data[0].isActive) {
@@ -129,10 +127,7 @@ router.post ('/vertifyEmail',(req,res) => {
         sql : 'select * from t_user where user_email = ?',
         args : [email],
         callback : (err,data) => {
-            console.log('111111111111');
-            console.log(err);
-            console.log(data);
-            console.log(data.length);
+         
             if (!err) {
                 if (data.length === 1) {
                     res.json({
@@ -165,9 +160,6 @@ router.post('/register',(req,res) => {
         sql : 'SELECT * FROM `t_user_email` WHERE `email` = ?',
         args : [email],
         callback : (err,data) => {
-            console.log('-----------');
-            console.log(err);
-            console.log(data);
             if (!err) {
                 if (data.length) {
                     if (Number(data[0].isActive)) {
@@ -176,13 +168,11 @@ router.post('/register',(req,res) => {
                             args : [userName,newPass,email],
                             callback : (err,data) => {
                                 if (!err) {
-                                    console.log(data);
                                     res.json({
                                         err : 0,
                                         info : '注册成功。'
                                     });
                                 } else {
-                                    console.log(err);
                                     res.json({
                                         err : 1,
                                         info : '用户信息插入数据库失败。'
