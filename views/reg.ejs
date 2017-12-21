@@ -171,6 +171,7 @@
                         },
                         success : function (data) {
                             let jData = JSON.parse(data);
+                            console.log(jData);
                             //err 1 数据库错误 , status : 0 重名,1 可以使用
                             if (!Number(jData.err)) {
                                 if (Number(jData.status)) {
