@@ -25,14 +25,13 @@ router.get("/",(req,res) => {
 //         return 'err'
 //     }
 // };
-router.get("/checkCode",(req,res) => {
+router.get("/checkCode",(req,res) => {  
     res.send("gg");
     let userName =  req.query.userName
 });
 router.post('/sendMail',(req,res) => {
    
     activeEmail = encrypt.encode(req.body.email),
-
     mail = {
         from : "luxxxxxx <wy981236133@126.com>",
         subject : "测试2",
@@ -66,7 +65,6 @@ router.get("/activeEmail",(req,res) => {
         sql : 'select * from t_user_email where email = ?',
         args : [email],
         callback(err,data) {
-          
             if (!err) {  //null 成功
                 if (data.length) {
                     if (!data[0].isActive) {
@@ -100,6 +98,8 @@ router.post ('/vertifyUserName',(req,res) => {
         sql : 'select * from t_user where user_name = ?',
         args : [userName],
         callback : (err,data) => {
+            console.log(err);
+            console.log(data);
             if (!err) {
                 if (data.length) {  //用户名重复
                     res.json({
