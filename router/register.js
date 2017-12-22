@@ -94,14 +94,11 @@ router.get("/activeEmail",(req,res) => {
 })
 router.post ('/vertifyUserName',(req,res) => {
     let userName = req.body.userName;
-    
-    console.log(userName);
     mysql({
         sql : 'select * from t_user where user_name = ?',
         args : [userName],
         callback : (err,data) => {
             console.log(err);
-            console.log(data);
             if (!err) {
                 if (data.length) {  //用户名重复
                     res.json({
