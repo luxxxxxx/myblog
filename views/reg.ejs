@@ -88,11 +88,14 @@
     </form>
 </div>
 <footer>
-    要优雅 v 0.82   powered by <a href="##">要优雅</a>
+    要优雅 v 0.83   powered by <a href="##">要优雅</a>
 </footer>
 
 </body>
 </html>
+<script>
+    alert('test');
+</script>
 <script src="./js/jqq.js"></script>
 <script>
     let $email = $("#email"),
@@ -142,7 +145,6 @@
     }
 
     $userName.bind('focus',function() {  //用户名
-        alert('focus');
     }).bind('keyup',function() {
         let userName = this.value.replace(/\s+$/,''),  //去掉末尾空格
             $msg = $errMsgs.eq(0);
@@ -199,7 +201,6 @@
         }
         emailble();
     }).bind('blur',function () {
-        alert('blur');
         emailble();
     })
 
