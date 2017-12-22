@@ -88,7 +88,7 @@
     </form>
 </div>
 <footer>
-    要优雅 v 0.83   powered by <a href="##">要优雅</a>
+    要优雅 v 0.84   powered by <a href="##">要优雅</a>
 </footer>
 
 </body>
@@ -98,7 +98,7 @@
 </script>
 <script src="./js/jqq.js"></script>
 <script>
-    let $email = $("#email"),
+    var $email = $("#email"),
         $userName = $("#userName"),
         $passWord = $("#passWord"),
         $rpassWord = $("#repeatPassWord"),
@@ -116,9 +116,9 @@
         fpass1 = false,
         fpass2 = false,
         femail = false;
-        
+        alert (isPc());
     //消息弹框 方法
-    let msg_callback = (obj) => {
+    var msg_callback = (obj) => {
         //success 成功状态 0失败  1成功   msg: 错误或者成功信息
         if (obj.success) {
             $infoBox.addClass('success');
@@ -132,19 +132,19 @@
 
     $userName.bind('focus',function() {  //用户名
     }).bind('keyup',function() {
-        let userName = this.value.replace(/\s+$/,''),  //去掉末尾空格
+        var userName = this.value.replace(/\s+$/,''),  //去掉末尾空格
             $msg = $errMsgs.eq(0);
         if (userName.length < 6 || userName.length > 16 ) {
             $msg.html('用户名必须在6-16位之间');
             ;
             fUser = false;
         } else {
-            let reg = /^([a-zA-Z])/;
+            var reg = /^([a-zA-Z])/;
             if (!reg.test(userName)) {
                 $msg.html('用户名必须以英文名开头');
                 fUser = false;
             } else {
-                let reg = /^([a-zA-Z])\w{5,17}$/;
+                var reg = /^([a-zA-Z])\w{5,17}$/;
                 if (!reg.test(userName)) {
                     $msg.html('用户名只能支持英文和数字');
                     fUser = false;
@@ -159,7 +159,7 @@
                             userName : userName
                         },
                         success : function (data) {
-                            let jData = JSON.parse(data);
+                            var jData = JSON.parse(data);
                             console.log(jData);
                             //err 1 数据库错误 , status : 0 重名,1 可以使用
                             if (!Number(jData.err)) {
@@ -227,11 +227,11 @@
     $passWord.bind('focus',function () {  //密码
     }).bind('keyup',passWordTest).bind('blur',passWordTest);
     function passWordTest (params) {
-        let safeLevel = 1,  //安全等级
+        var safeLevel = 1,  //安全等级
             $msg = $errMsgs.eq(1),
             pass = this.value,
             l = pass.length;
-        let modify = 0, //度量 密码安全度
+        var modify = 0, //度量 密码安全度
             numReg = /\d+/,  //匹配密码中是否有数字
             charReg = /\w+/,  //匹配普通字母字符
             signReg = /[\.\?\+\$\^\[\]\(\)\{\}\|\\\/<>:=`;,'"@&#!\s]/;  //匹配特殊字符
@@ -280,7 +280,7 @@
         emailble();
     });
 
-    let emailble = () => {
+    var emailble = () => {
         if (fUser && fpass1 && fpass2 && femail) {
             $sendMailBtn.removeClass('false');
             $registerBtn.addClass('success');
@@ -292,7 +292,7 @@
     //  倒计时 
 
     function back(t) {
-        let time;
+        var time;
         if (!arguments.length) {  //没有传递参数 默认60
             time = 60;
         } else {
@@ -310,12 +310,12 @@
     }
     
 
-    let sendFlag = false;  //阻值用户进行多次点击操作
+    var sendFlag = false;  //阻值用户进行多次点击操作
 
     //发送邮件
     $sendMailBtn.bind('click', function () {
         
-        let $msg = $errMsgs.eq(3),
+        var $msg = $errMsgs.eq(3),
             lastTime = 60;  //剩余时间
             if (!sendFlag) {  
                 sendFlag = true;  //
@@ -371,7 +371,7 @@
     })
 
     $email.bind('keyup', function () {
-        let email = $(this).val(),
+        var email = $(this).val(),
             $msg = $errMsgs.eq(3),
             reg = /^[0-9a-zA-Z]\w+(@\w+\.[a-zA-Z]{2,})$/;
         if (!reg.test(email)) {
@@ -389,7 +389,7 @@
                 },
                 method : 'post',
                 success : function (data) {
-                    let jData = JSON.parse(data);
+                    var jData = JSON.parse(data);
                     if (Number(jData.err)) {
                         console.log('err??? 数据库异常校检邮箱发生异常');
                         femail = false;
@@ -409,7 +409,7 @@
             })
         }
     }).bind('blur',function () {
-        let reg = /^[0-9a-zA-Z]\w+(@\w+\.[a-zA-Z]{2,})$/,
+        var reg = /^[0-9a-zA-Z]\w+(@\w+\.[a-zA-Z]{2,})$/,
             $msg = $errMsgs.eq(3),
             email = $(this).val();
         if (reg.test(email)) {
@@ -422,7 +422,7 @@
 
     $registerBtn.click (function () {
         if ($(this).hasClass('success')) {
-            let userName = $userName.val(),
+            var userName = $userName.val(),
                 passWord = $passWord.val(),
                 email = $email.val();
             Ajax({
@@ -434,7 +434,7 @@
                 },
                 url : '/reg/register',
                 success : function (data) {
-                    let jData = JSON.parse(data);
+                    var jData = JSON.parse(data);
                     console.log(jData);
                     if (Number(jData.err)) { //发生错误
                         msg_callback({
