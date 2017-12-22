@@ -31,12 +31,13 @@ router.get("/checkCode",(req,res) => {
 });
 router.post('/sendMail',(req,res) => {
    
-    activeEmail = encrypt.encode(req.body.email),
+    let activeEmail = encrypt.encode(req.body.email),
+        email = req.body.email,
     mail = {
         from : "luxxxxxx <wy981236133@126.com>",
-        subject : "测试2",
+        subject : "要优雅的注册",
         // to : req.body["email"],
-        to : "981236133@qq.com",
+        to : email,
         html : "欢迎来到要优雅官方注册页面，点击以下链接，以此来完成邮箱校检.</br> <a>localhost:233/reg/activeEmail?email="+ activeEmail +"</a>"
     };
     mysql({
