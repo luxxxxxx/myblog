@@ -12,19 +12,6 @@
 	function Init(arg) {
 		return this.exe(arg);
 	}
-	$.prototype = {
-		getUrl: function (file) {
-			var url;
-			if (window.createObjectURL != undefined) {
-				url = window.createObjectURL(file);
-			} else if (window.URL != undefined) {
-				url = window.URL.createObjectURL(file);
-			} else if (window.webkitURL != undefined) {
-				url = window.webkitURL.createObjectURL(file);
-			}
-			return url;
-		}
-	}
 	Init.prototype = {
 		exe: function (args) {
 			var typeArgs = typeof args;
@@ -282,7 +269,6 @@
 				}
 
 			} else {  //IE 8 attachEvent 而且还要修改this指向
-				alert('检测到低版本浏览器-jqq');
 				var evts = arguments[0],
 					l = arguments.length;
 				if (l === 1) {
@@ -472,9 +458,6 @@
 			}, 13)
 			// })
 		}
-
-
-
 	}
 	window.$ = window.jqq = $;
 
