@@ -46,10 +46,10 @@ router.post('/sendMail',(req,res) => {  //发送邮件
         callback : function (err,info) {
             console.log(err);
             console.log(info);
-            if (info) {
+            if (err) {
                 //这里需要验证 邮箱是否已经被激活以及使用, sql 需要判断 是否 输入的email 在 user_email 表里面，如果在 （err）情况 就 不执行数据库操作 ,直接发送邮件.
                 // res.send('数据库表email嵌入发生错误  -- 56\n' + info ); //Duplicate  重复
-                if (/\bDuplicate\b/.test(info)) {
+                if (/\bDuplicate\b/.test(err)) {
                     send(mail);
                 } else {
                     res.send('err');
