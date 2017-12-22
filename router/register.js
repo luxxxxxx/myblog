@@ -27,10 +27,9 @@ router.get("/",(req,res) => {
 // };
 router.get("/checkCode",(req,res) => {  
     res.send("gg");
-    let userName =  req.query.userName
+    let userName =  req.query.userName;
 });
 router.post('/sendMail',(req,res) => {
-   
     let activeEmail = encrypt.encode(req.body.email),
         email = req.body.email,
     mail = {
@@ -38,7 +37,7 @@ router.post('/sendMail',(req,res) => {
         subject : "要优雅的注册",
         // to : req.body["email"],
         to : email,
-        html : "欢迎来到要优雅官方注册页面，点击以下链接，以此来完成邮箱校检.</br> <a>localhost:233/reg/activeEmail?email="+ activeEmail +"</a>"
+        html: "欢迎来到要优雅官方注册页面，点击以下链接，以此来完成邮箱校检.</br> <a>http://111.231.196.109:233/reg/activeEmail?email="+ activeEmail +"</a>"
     };
     mysql({
         sql : 'insert into t_user_email (email,isActive) values (?,0)',
