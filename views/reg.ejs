@@ -142,6 +142,7 @@
     }
 
     $userName.bind('focus',function() {  //用户名
+        alert('focus');
     }).bind('keyup',function() {
         let userName = this.value.replace(/\s+$/,''),  //去掉末尾空格
             $msg = $errMsgs.eq(0);
@@ -198,6 +199,7 @@
         }
         emailble();
     }).bind('blur',function () {
+        alert('blur');
         emailble();
     })
 
