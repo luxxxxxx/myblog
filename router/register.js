@@ -105,6 +105,7 @@ router.post ('/vertifyUserName',(req,res) => {
         callback : (err,data) => {
             console.log(err);
             console.log(data);
+            //what dos 
             if (!err) {
                 if (data.length) {  //用户名重复
                     res.json({
