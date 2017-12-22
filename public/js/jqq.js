@@ -478,7 +478,21 @@
 	}
 	window.$ = window.jqq = $;
 
-
+	// 判断浏览器是否为pc端
+	window.isPc = function () {  
+		var userAgentInfo = navigator.userAgent;
+		var Agents = ["Android", "iPhone",
+			"SymbianOS", "Windows Phone",
+			"iPad", "iPod"];
+		var flag = true;
+		for (var v = 0; v < Agents.length; v++) {
+			if (userAgentInfo.indexOf(Agents[v]) > 0) {
+				flag = false;
+				break;
+			}
+		}
+		return flag;
+	};
 
 	//cookie
 	window.getCookie = function (key) {
@@ -493,7 +507,7 @@
 	window.removeCookie = function (key) {
 		setCookie(key, '', -1);
 	}
-
+	
 	//Ajax
 	window.Ajax = function (json) {
 		var xhr = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP'),  //兼容老版本IE 
