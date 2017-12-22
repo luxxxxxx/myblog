@@ -39,6 +39,7 @@ router.post('/sendMail',(req,res) => {
         to : email,
         html: "欢迎来到要优雅官方注册页面，点击以下链接，以此来完成邮箱校检.</br> <a>http://111.231.196.109:233/reg/activeEmail?email="+ activeEmail +"</a>"
     };
+    console.log(email);
     mysql({
         sql : 'insert into t_user_email (email,isActive) values (?,0)',
         args : [req.body.email],
