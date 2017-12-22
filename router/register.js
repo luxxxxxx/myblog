@@ -25,11 +25,11 @@ router.get("/",(req,res) => {
 //         return 'err'
 //     }
 // };
-router.get("/checkCode",(req,res) => {  
-    res.send("gg");
-    let userName =  req.query.userName;
-});
-router.post('/sendMail',(req,res) => {
+// router.get("/checkCode",(req,res) => {  
+//     res.send("gg");
+//     let userName =  req.query.userName;
+// });
+router.post('/sendMail',(req,res) => {  //发送邮件
     let activeEmail = encrypt.encode(req.body.email),
         email = req.body.email,
     mail = {
@@ -37,13 +37,15 @@ router.post('/sendMail',(req,res) => {
         subject : "要优雅的注册",
         // to : req.body["email"],
         to : email,
-        html: "欢迎来到要优雅官方注册页面，点击以下链接，以此来完成邮箱校检.</br> <a>http://111.231.196.109:233/reg/activeEmail?email="+ activeEmail +"</a>"
+        html: "<h1>点击链接激活邮箱</h1><br />欢迎来到要优雅官方注册页面，点击以下链接，以此来完成邮箱校检.</br> <a>http://111.231.196.109:233/reg/activeEmail?email="+ activeEmail +"</a>"
     };
     console.log(email);
     mysql({
         sql : 'insert into t_user_email (email,isActive) values (?,0)',
-        args : [req.body.email],
-        callback : function (info) {
+        args : [email],
+        callback : function (err,info) {
+            console.log(err);
+            console.log(info);
             if (info) {
                 //这里需要验证 邮箱是否已经被激活以及使用, sql 需要判断 是否 输入的email 在 user_email 表里面，如果在 （err）情况 就 不执行数据库操作 ,直接发送邮件.
                 // res.send('数据库表email嵌入发生错误  -- 56\n' + info ); //Duplicate  重复
@@ -52,7 +54,6 @@ router.post('/sendMail',(req,res) => {
                 } else {
                     res.send('err');
                 }
-
             } else {
                 send(mail);
             }
