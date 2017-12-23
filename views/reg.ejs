@@ -97,19 +97,20 @@
    (function (params) {
        function $ (params) {
            alert('$');
+           return init(params);
         }
-        // function init (params) {
-                
-        // }
-        // init.prototype = {
-        //     alert = function (params) {
-        //         alert('func alert')
-        //     }
-        // }
+        function init (params) {
+            
+        }
+        init.prototype = {
+            'alert' : function (params) {
+                alert('func alert')
+            }
+        }
         window.$ = $;
    })() 
 
-   $();
+   $().alert();
 
 </script>
 <!-- <script src="./js/jqq.js"></script> -->
