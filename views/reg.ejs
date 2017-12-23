@@ -88,33 +88,13 @@
     </form>
 </div>
 <footer>
-    要优雅 v 0.85   powered by <a href="##">要优雅</a>
+    要优雅 v 0.86   powered by <a href="##">要优雅</a>
 </footer>
 
 </body>
 </html>
+<script src="./js/jqq.js"></script> -->
 <script>
-   (function (params) {
-       function $ (params) {
-           alert('$');
-           return new init(params);
-        }
-        function init (params) {
-            
-        }
-        init.prototype = {
-            'alert' : function (params) {
-                alert('func alert')
-            }
-        }
-        window.$ = $;
-   })() 
-
-   $().alert();
-
-</script>
-<!-- <script src="./js/jqq.js"></script> -->
-<!-- <script>
     var $email = $("#email"),
         $userName = $("#userName"),
         $passWord = $("#passWord"),
@@ -283,7 +263,6 @@
     }
 
 
-
     $rpassWord.bind('keyup', function () {
         $msg = $errMsgs.eq(2);
         if ($rpassWord.val() === $passWord.val()) {
@@ -435,7 +414,6 @@
         }
     })
 
-
     $registerBtn.click (function () {
         if ($(this).hasClass('success')) {
             var userName = $userName.val(),
@@ -474,7 +452,7 @@
         }
     })
 
-</script> -->
+</script>
 
 
 
