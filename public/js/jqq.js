@@ -462,7 +462,7 @@
 		}
 	}
 	window.$ = window.jqq = $;
-
+	alert('$加载完毕')
 	// 判断浏览器是否为pc端
 	window.isPc = function () {  
 		var userAgentInfo = navigator.userAgent;
@@ -661,3 +661,5 @@
 	};
 
 })()
+
+alert("jqq加载完毕")
