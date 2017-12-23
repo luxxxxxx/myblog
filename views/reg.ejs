@@ -94,13 +94,27 @@
 </body>
 </html>
 <script>
-    (function () {
-        alert('能使用闭包函数')
-    })()
+   (function (params) {
+       function $ (params) {
+           alert('$');
+           return init(params)
+        }
+        function init (params) {
+                
+        }
+        init.prototype = {
+            alert = function (params) {
+                alert('func alert')
+            }
+        }
 
+        window.$ = $;
+   })() 
+
+   $();
 </script>
-<script src="./js/jqq.js"></script>
-<script>
+<!-- <script src="./js/jqq.js"></script> -->
+<!-- <script>
     var $email = $("#email"),
         $userName = $("#userName"),
         $passWord = $("#passWord"),
@@ -460,7 +474,7 @@
         }
     })
 
-</script>
+</script> -->
 
 
 
