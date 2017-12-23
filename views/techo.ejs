@@ -61,12 +61,12 @@
                 <a href="./reg">register</a>
             </span>
             <li class="user">
+                <% if (locals.login) {  %>
                 <a href="##">
                     <div class="i_face">
-                        <img src="./img/lux.png" alt="站长~">
+                        <img src="./img/<%- locals.login.tx %>">
                     </div>
                 </a>
-                <% if (locals.login) {  %>
                 <div class="profile">
                     <b class="name"><%- locals.login.name %></b>
                     <div class="user_status">
