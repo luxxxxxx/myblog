@@ -25,7 +25,13 @@ router.post('/',(req,res) => {
             console.log(info);
             if (!err) {
                 if (info.length) {
-                    console.log(info[0].user_pass)
+                    req.session.login = {
+                        'userId': info[0].user_id,
+                        'admin': info[0].user_admin,
+                        'userName': info[0].user_name,
+                        'email': info[0].user_email,
+                        'status': info[0].user_status
+                    }
                     // 1.cookie 名称  2.数据  3.过期时间
                     res.cookie('login',{ 
                         name : info[0].ud_name,

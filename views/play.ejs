@@ -13,7 +13,7 @@
 	<link rel="stylesheet" href="./css/animate.css">
 </head>
 <body>
-	<header>
+<header>
     <div id="h_bg"></div>
     <div class="mask"></div>
     <div id="h_content">
@@ -62,12 +62,12 @@
                 <a href="./reg">register</a>
             </span>
             <li class="user">
+                <% if (locals.login) {  %>
                 <a href="##">
                     <div class="i_face">
-                        <img src="./img/lux.png" alt="站长~">
+                        <img src="./img/<%- locals.login.tx %>">
                     </div>
                 </a>
-                <% if (locals.login) {  %>
                 <div class="profile">
                     <b class="name"><%- locals.login.name %></b>
                     <div class="user_status">
