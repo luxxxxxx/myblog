@@ -4,12 +4,13 @@
 	增加了 text方法		
  *  Author luxxxxxx
 **/
-
-(function () {
+(function () { 
 	function $(arg) {
+		alert('$ loading');
 		return new Init(arg);
 	}
-	function Init(arg) {
+	function Init (arg) {
+		alert('init loaded')
 		return this.exe(arg);
 	}
 	Init.prototype = {
