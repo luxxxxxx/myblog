@@ -14,99 +14,94 @@
 </head>
 <body>
 	<header>
-		<div id="h_bg"></div>
-		<div class="mask"></div>
-		<div id="h_content">
-			<div class="l">
-				<div class="pic">
-					<img src="./img/heimao1.png" alt="要优雅" title="不要优雅，要污!ε=ε=(ノ≧∇≦)ノ">
-				</div>
-				<div id="logo">
-					<img src="./img/logo.png" alt="">
-				</div>
-			</div>
-			<div class="r">
-				<ul class="nav clearfix">
-					<li>
-						<a href="/main">main</a>
-						<div class="bar"></div>
-					</li>
-					<li>
-						<a href="/techo">technology</a>
-						<div class="bar"></div>
-					</li>
-					<li>
-						<a href="##">anime</a>
-						<div class="bar"></div>
-					</li>
-					<li class="n-margin-r">
-						<a href="##">music</a>
-						<div class="bar"></div>
-					</li>
-				</ul>
-				<!-- 登录板块，登录：yes，未登录 no -->
-				<% if (locals.login) { %>
-					<% if (locals.login.status) { %>
-						<div class="login_sec yes">
-							<% } else { %>
-								<div class="login_sec no">
-									<% } %>
-										<% } else { %>
-											<div class="login_sec no">
-												<% } %>
-													<span>
-														<a href="./login">login</a>
-													</span>
-													<span>|</span>
-													<span>
-														<a href="./reg">register</a>
-													</span>
-													<li class="user">
-														<a href="##">
-															<div class="i_face">
-																<img src="./img/lux.png" alt="站长~">
-															</div>
-														</a>
-														<div class="profile">
-															<b class="name">
-																<%- locals.login.name %>
-															</b>
-															<div class="user_status">
-																<div class="l ">
-																	<span>身份：</span>
-																	<span class="status">
-																		<%- locals.login.status %>
-																	</span>
-																</div>
-																<div class="r ">
-																	<span>权限等级：</span>
-																	<span class="rights_level">Lv
-																		<%- locals.login.admin %>
-																	</span>
-																</div>
-															</div>
-															<div class="lv_con">
-																<span>等级：</span>
-																<em>Lv9</em>
-																<div class="lv_bar">
-																	<div class="process"></div>
-																	<span class="exp">888/999</span>
-																</div>
-															</div>
-															<div class="selection">
-																<a href="##">修改资料</a>
-															</div>
-															<div class="footer">
-																<a href="./logout">退出</a>
-															</div>
-														</div>
-													</li>
-											</div>
-								</div>
-	
-						</div>
-			</div>
-	</header>
+    <div id="h_bg"></div>
+    <div class="mask"></div>
+    <div id="h_content">
+        <div class="l">
+            <div class="pic">
+                <img src="./img/heimao1.png" alt="要优雅" title="不要优雅，要污!ε=ε=(ノ≧∇≦)ノ">
+            </div>
+            <div id="logo">
+                <img src="./img/logo.png" alt="">
+            </div>
+        </div>
+        <div class="r">
+            <ul class="nav clearfix">
+                <li>
+                    <a href="/main">main</a>
+                    <div class="bar"></div>
+                </li>
+                <li>
+                    <a href="/techo">technology</a>
+                    <div class="bar"></div>
+                </li>
+                <li>
+                    <a href="##">anime</a>
+                    <div class="bar"></div>
+                </li>
+                <li class="n-margin-r">
+                    <a href="##">music</a>
+                    <div class="bar"></div>
+                </li>
+            </ul>
+            <!-- 登录板块，登录：yes，未登录 no -->
+    <% if (locals.login) { %>
+        <% if (locals.login.status) { %>
+        <div class="login_sec yes">
+        <% } else { %>
+        <div class="login_sec no">
+        <% } %>
+        <% } else { %>
+        <div class="login_sec no">
+        <% } %>
+            <span>
+                <a href="./login">login</a>
+            </span>
+            <span>|</span>
+            <span>
+                <a href="./reg">register</a>
+            </span>
+            <li class="user">
+                <a href="##">
+                    <div class="i_face">
+                        <img src="./img/lux.png" alt="站长~">
+                    </div>
+                </a>
+                <% if (locals.login) {  %>
+                <div class="profile">
+                    <b class="name"><%- locals.login.name %></b>
+                    <div class="user_status">
+                        <div class="l ">
+                            <span>身份：</span>
+                            <span class="status"><%- locals.login.status %></span>
+                        </div>
+                        <div class="r ">
+                            <span>权限等级：</span>
+                            <span class="rights_level">Lv<%- locals.login.admin %></span>
+                        </div>
+                    </div>
+                    <div class="lv_con">
+                        <span>等级：</span>
+                        <em>Lv9</em>
+                        <div class="lv_bar">
+                            <div class="process"></div>
+                            <span class="exp">888/999</span>
+                        </div>
+                    </div>
+                    <div class="selection">
+                        <a href="##">修改资料</a>
+                    </div>
+                    <div class="footer">
+                        <a href="./logout">退出</a>
+                    </div>
+                </div>
+                <% } %>
+            </li>
+        </div>
+        </div>
+        </div>
+    </div>
+</header>
 	<section id="main_bg">
 		<a href="##">
 			<div class="m">

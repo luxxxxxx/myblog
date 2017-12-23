@@ -66,6 +66,7 @@
                         <img src="./img/lux.png" alt="站长~">
                     </div>
                 </a>
+                <% if (locals.login) {  %>
                 <div class="profile">
                     <b class="name"><%- locals.login.name %></b>
                     <div class="user_status">
@@ -93,10 +94,10 @@
                         <a href="./logout">退出</a>
                     </div>
                 </div>
+                <% } %>
             </li>
         </div>
         </div>
-
         </div>
     </div>
 </header>
