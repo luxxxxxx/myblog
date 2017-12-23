@@ -74,15 +74,21 @@
                                                         </div>
                                                     </a>
                                                     <div class="profile">
-                                                        <b class="name">小朋友你很皮哦小朋友你很皮哦小炮</b>
+                                                        <b class="name">
+                                                            <%- locals.login.name %>
+                                                        </b>
                                                         <div class="user_status">
                                                             <div class="l ">
                                                                 <span>身份：</span>
-                                                                <span class="status">站长</span>
+                                                                <span class="status">
+                                                                    <%- locals.login.status %>
+                                                                </span>
                                                             </div>
                                                             <div class="r ">
                                                                 <span>权限等级：</span>
-                                                                <span class="rights_level">Lv3</span>
+                                                                <span class="rights_level">Lv
+                                                                    <%- locals.login.admin %>
+                                                                </span>
                                                             </div>
                                                         </div>
                                                         <div class="lv_con">

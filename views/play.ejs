@@ -28,18 +28,21 @@
 			<div class="r">
 				<ul class="nav clearfix">
 					<li>
-						<a href="##">main</a>
+						<a href="/main">main</a>
+						<div class="bar"></div>
 					</li>
 					<li>
-						<a href="##">technology</a>
+						<a href="/techo">technology</a>
+						<div class="bar"></div>
 					</li>
 					<li>
 						<a href="##">anime</a>
+						<div class="bar"></div>
 					</li>
 					<li class="n-margin-r">
 						<a href="##">music</a>
+						<div class="bar"></div>
 					</li>
-					<li class="slide_bar"></li>
 				</ul>
 				<!-- 登录板块，登录：yes，未登录 no -->
 				<% if (locals.login) { %>
@@ -65,26 +68,26 @@
 															</div>
 														</a>
 														<div class="profile">
-															<b class="name"><%- locals.login.userName %></b>
+															<b class="name">
+																<%- locals.login.name %>
+															</b>
 															<div class="user_status">
 																<div class="l ">
 																	<span>身份：</span>
-																	<% var user; %>
-																	<% if (locals.user) { %>
-																	<%   user = locals.user; %>	
-																	<% } else { %>
-																	<%   user = {} %>	
-																	<% } %>	
-																	<span class="status"><%- user.status %></span>
+																	<span class="status">
+																		<%- locals.login.status %>
+																	</span>
 																</div>
 																<div class="r ">
 																	<span>权限等级：</span>
-																	<span class="rights_level">Lv<%- user.admin %></span>
+																	<span class="rights_level">Lv
+																		<%- locals.login.admin %>
+																	</span>
 																</div>
 															</div>
 															<div class="lv_con">
 																<span>等级：</span>
-																<em>Lv1</em>
+																<em>Lv9</em>
 																<div class="lv_bar">
 																	<div class="process"></div>
 																	<span class="exp">888/999</span>
@@ -100,7 +103,9 @@
 													</li>
 											</div>
 								</div>
+	
 						</div>
+			</div>
 	</header>
 	<section id="main_bg">
 		<a href="##">

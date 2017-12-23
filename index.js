@@ -27,23 +27,6 @@ app.use(session({
 
 
 app.use ((req,res,next) => {
-    if(req.cookies['login']) {
-        let cookies = req.cookies['login'];
-        res.locals.login = {
-            status : 1,  //1 登录中
-            userName : cookies.name,
-            email : cookies.email
-        }
-        
-        // res.locals.login.pass = r = req.cookies.login.name;
-        // console.log(res.locals.login);
-    } else {
-        res.locals.login = null;
-    }
-    next();
-})
-
-app.use ((req,res,next) => {
     // console.log(req.cookies.login)
     if (req.cookies.login) {  
         //存在cookie 但是不存在session 的情况下，
@@ -87,6 +70,31 @@ app.use ((req,res,next) => {
     // console.log(req.session.login);
     next();
 })
+
+
+app.use((req, res, next) => {
+    if (req.cookies['login']) {
+        let cookies = req.cookies['login'];
+        res.locals.login = {
+            status: cookies.status,  
+            name: cookies.name,
+            id : cookies.id,
+            admin : cookies.admin,
+            tx : cookies.tx,
+            sign : cookies.sign,
+            exp : cookies.exp
+        }
+        // res.locals.login.pass = r = req.cookies.login.name;
+        // console.log(res.locals.login);
+    } else {
+        res.locals.login = null;
+    }
+    next();
+})
+
+
+
+
 
 app.use('/',require('./router/index'));
 
