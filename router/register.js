@@ -30,8 +30,8 @@ router.get("/",(req,res) => {
 //     let userName =  req.query.userName;
 // });
 router.post('/sendMail',(req,res) => {  //发送邮件
-    let activeEmail = encrypt.encode(req.body.email),
-        email = req.body.email,
+    let email = req.body.email,
+        activeEmail = encrypt.encode(req.body.email),
     mail = {
         from : "luxxxxxx <wy981236133@126.com>",
         subject : "要优雅的注册",

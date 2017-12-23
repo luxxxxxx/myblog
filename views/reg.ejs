@@ -94,7 +94,10 @@
 </body>
 </html>
 <script>
-    alert(document.querySelector);
+    (function () {
+        alert('能使用闭包函数')
+    })()
+
 </script>
 <script src="./js/jqq.js"></script>
 <script>
@@ -116,7 +119,6 @@
         fpass1 = false,
         fpass2 = false,
         femail = false;
-        alert (isPc());
     //消息弹框 方法
     var msg_callback = (obj) => {
         //success 成功状态 0失败  1成功   msg: 错误或者成功信息
