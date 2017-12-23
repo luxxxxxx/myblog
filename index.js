@@ -34,7 +34,7 @@ app.use ((req,res,next) => {
         //从数据库里面获取管理员权限并存放在session 内部 但凡获取失败 ,需要使用管理员权限的时候
         //必须重新进行登录
         if (!req.session.login) {
-            console.log('session deny');
+            // console.log('session deny');
             let cookies = req.cookies.login;
             mysql({
                 sql : 'select * from t_user where user_name = ? and user_pass = ?',
@@ -75,7 +75,7 @@ app.use ((req,res,next) => {
 
 
 app.use((req, res, next) => {
-    if (req.cookies['login']) {
+    if (res.cookies['login']) {
         let cookies = req.cookies['login'];
         res.locals.login = {
             status: cookies.status,  
@@ -91,8 +91,6 @@ app.use((req, res, next) => {
     } else {
         res.locals.login = null;
     }
-    console.log('cokkies : |||||')
-    console.log(req.cookies['login']);
     next();
 })
 
