@@ -1,6 +1,7 @@
 body,
 html {
   width: 100%;
+  min-width: 1160px;
   cursor: default;
 }
 body {
@@ -9,7 +10,7 @@ body {
   min-width: 1160px;
 }
 header {
-  font-family: 'Giddyup Std' !important;
+  font-family: 'Helvetica Neue', 'Helvetica', 'Microsoft Yahei', sans-serif;
   position: relative;
   height: 70px;
   background: #000000;
@@ -82,7 +83,7 @@ header #h_content .r ul.nav li:last-child {
   margin-right: 0;
 }
 header #h_content .r ul.nav li a {
-  font-size: 20px;
+  font-size: 14px;
   color: rgba(255, 255, 255, 0.8);
   transition: .1s all linear;
   text-shadow: #ffffff 1px;
@@ -106,6 +107,7 @@ header #h_content .r .login_sec {
   display: inline-block;
   text-align: center;
   line-height: 70px;
+  height: 69.6px;
 }
 header #h_content .r .login_sec > span {
   display: none;
@@ -115,6 +117,7 @@ header #h_content .r .login_sec > span {
 header #h_content .r .login_sec > span a {
   color: rgba(255, 255, 255, 0.8);
   transition: .1s all linear;
+  font-size: 14px;
 }
 header #h_content .r .login_sec > span a:hover {
   color: #ffffff;

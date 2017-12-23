@@ -18,9 +18,10 @@ router.post('/',(req,res) => {
     const md5 = crypto.createHash("md5"),
           newPass = md5.update(passWord).digest("hex");
     mysql({
-        sql : 'select * from t_user where user_name = ? and user_pass = ?',
+        sql: 'SELECT * FROM t_user left join t_userdata on t_user.user_id = t_userdata.ud_userId  where t_user.user_id = ? and t_user.user_pass = ? ',
         args : [userName,newPass],
         callback : (err,info) => {
+            console.log(info);
             if (!err) {
                 if (info.length) {
                     console.log(info[0].user_pass)

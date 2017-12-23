@@ -34,6 +34,7 @@ app.use ((req,res,next) => {
             userName : cookies.name,
             email : cookies.email
         }
+        
         // res.locals.login.pass = r = req.cookies.login.name;
         // console.log(res.locals.login);
     } else {
@@ -42,7 +43,6 @@ app.use ((req,res,next) => {
     next();
 })
 
-let gSess = {};
 app.use ((req,res,next) => {
     // console.log(req.cookies.login)
     if (req.cookies.login) {  
@@ -87,8 +87,6 @@ app.use ((req,res,next) => {
     // console.log(req.session.login);
     next();
 })
-
-
 
 app.use('/',require('./router/index'));
 
