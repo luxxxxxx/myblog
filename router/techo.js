@@ -41,20 +41,31 @@ router.post("/login",(req,res) => {
                         'email': info[0].user_email,
                         'status': info[0].user_status
                     }
-                    res.cookie('login', {
-                        name: info[0].ud_name,
-                        id: info[0].user_id,
-                        admin: info[0].user_admin,  //管理权限
-                        pass: encrypt.encode(info[0].user_pass),
-                        tx: info[0].ud_tx,  //用户头像
-                        sign: info[0].ud_sign,  //用户签名
-                        exp: info[0].ud_exp, //用户经验值
-                        status: info[0].user_status
-                    }, { maxAge: 1000 * 60 * 60 * 24 });
-                    res.json({
-                        success : 1,
-                        info : '登陆成功,如果网页没有刷新请手动刷新'
-                    });
+                    let encrypted = null,
+                        p_cipher = (params) => {   //异步  加密
+                            return new Promise((resolve, reject) => {
+                                encrypt.cipher(info[0].user_pass, (params) => {
+                                    encrypted = params;
+                                    resolve();
+                                })
+                            })
+                        };
+                    p_cipher().then(() => {
+                        res.cookie('login', {
+                            name: info[0].ud_name,
+                            id: info[0].user_id,
+                            admin: info[0].user_admin,  //管理权限
+                            pass: encrypted,
+                            tx: info[0].ud_tx,  //用户头像
+                            sign: info[0].ud_sign,  //用户签名
+                            exp: info[0].ud_exp, //用户经验值
+                            status: info[0].user_status
+                        }, { maxAge: 1000 * 60 * 60 * 24 });
+                        res.json({
+                            success : 1,
+                            info : '登陆成功,如果网页没有刷新请手动刷新'
+                        });
+                    })
                 } else {
                     res.json({
                         success : 0,

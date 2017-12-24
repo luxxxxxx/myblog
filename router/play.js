@@ -1,7 +1,6 @@
 const express = require("express"),
     mysql = require("../module/mysql"),
     crypto = require("crypto"),
-    encrypt = require("../module/encrypt"),
     // sd = require("silly-datetime"),
     router = express.Router();
 

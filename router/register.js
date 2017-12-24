@@ -31,66 +31,83 @@ router.get("/",(req,res) => {
 // });
 router.post('/sendMail',(req,res) => {  //发送邮件
     let email = req.body.email,
-        activeEmail = encrypt.encode(req.body.email),
-    mail = {
-        from : "luxxxxxx <wy981236133@126.com>",
-        subject : "要优雅的注册",
-        // to : req.body["email"],
-        to : email,
-        html: "<h1>点击链接激活邮箱</h1><br />欢迎来到要优雅官方注册页面，点击以下链接，以此来完成邮箱校检.</br> <a>http://111.231.196.109:233/reg/activeEmail?email="+ activeEmail +"</a>"
-    };
-    console.log(email);
-    mysql({
-        sql : 'insert into t_user_email (email,isActive) values (?,0)',
-        args : [email],
-        callback : function (err,info) {
-            console.log(info);
-            if (err) {
-                //这里需要验证 邮箱是否已经被激活以及使用, sql 需要判断 是否 输入的email 在 user_email 表里面，如果在 （err）情况 就 不执行数据库操作 ,直接发送邮件.
-                // res.send('数据库表email嵌入发生错误  -- 56\n' + info ); //Duplicate  重复
-                if (/\bDuplicate\b/.test(err)) {
-                    send(mail);
+        encrypted = null,
+        p_cipher = () => {   //异步  加密
+            return new Promise((resolve, reject) => {
+                encrypt.cipher(email, (params) => {
+                    encrypted = params;
+                    resolve();
+                })
+            })
+        };
+    p_cipher().then(() => {
+        let mail = {
+            from : "luxxxxxx <wy981236133@126.com>",
+            subject : "要优雅的注册",
+            to : email,
+            html: "<h1>点击链接激活邮箱</h1><br />欢迎来到要优雅官方注册页面，点击以下链接，以此来完成邮箱校检.</br> <a>http://111.231.196.109:233/reg/activeEmail?email="+ encrypted +"</a>"
+        };
+        mysql({
+            sql : 'insert into t_user_email (email,isActive) values (?,0)',
+            args : [email],
+            callback : function (err,info) {
+                if (err) {
+                    //这里需要验证 邮箱是否已经被激活以及使用, sql 需要判断 是否 输入的email 在 user_email 表里面，如果在 （err）情况 就 不执行数据库操作 ,直接发送邮件.
+                    // res.send('数据库表email嵌入发生错误  -- 56\n' + info ); //Duplicate  重复
+                    if (/\bDuplicate\b/.test(err)) {
+                        send(mail);
+                    } else {
+                        res.send('err');
+                    }
                 } else {
-                    res.send('err');
+                    send(mail);
                 }
-            } else {
-                send(mail);
             }
-        }
+        })
     })
 });
 
 router.get("/activeEmail",(req,res) => {
-    let email = encrypt.decode(req.query.email);
-    mysql({
-        sql : 'select * from t_user_email where email = ?',
-        args : [email],
-        callback(err,data) {
-            if (!err) {  //null 成功
-                if (data.length) {
-                    if (!data[0].isActive) {
-                        mysql({
-                            sql : 'update t_user_email set isActive = 1 where t_user_email.email = ?',
-                            args : [email],
-                            callback(err,info) {
-                                if (err) {  //失败
-                                    res.render('email_callback.ejs',{data : '更新数据库发生未知错误，请联系网站管理员email:981236133@qq.com'})
-                                } else {
-                                    res.render('email_callback.ejs',{data : '恭喜！你的邮箱激活成功!请返回注册界面完成注册~'});
+    let decrypted = null,
+        p_decipher = () => {   //异步  加密
+            return new Promise((resolve, reject) => {
+                encrypt.decipher(req.query.email, (params) => {
+                    decrypted = params;
+                    resolve();
+                })
+            })
+        };
+    p_decipher().then(() => {
+        mysql({
+            sql : 'select * from t_user_email where email = ?',
+            args: [decrypted],
+            callback(err,data) {
+                if (!err) {  //null 成功
+                    if (data.length) {
+                        if (!data[0].isActive) {
+                            mysql({
+                                sql : 'update t_user_email set isActive = 1 where t_user_email.email = ?',
+                                args: [decrypted],
+                                callback(err,info) {
+                                    if (err) {  //失败
+                                        res.render('email_callback.ejs',{data : '更新数据库发生未知错误，请联系网站管理员email:981236133@qq.com'})
+                                    } else {
+                                        res.render('email_callback.ejs',{data : '恭喜！你的邮箱激活成功!请返回注册界面完成注册~'});
+                                    }
                                 }
-                            }
-                        })
+                            })
+                        } else {
+                            res.render('email_callback.ejs',{data : '你的邮箱已经处于激活状态~'});
+    
+                        }
                     } else {
-                        res.render('email_callback.ejs',{data : '你的邮箱已经处于激活状态~'});
-
+                        res.render('email_callback.ejs',{data : '请按流程在注册页面注册!小孩子别捣乱'});
                     }
                 } else {
-                    res.render('email_callback.ejs',{data : '请按流程在注册页面注册!小孩子别捣乱'});
+                    res.render('email_callback.ejs',{data : '激活邮箱失败,数据库操作发生错误,请重新发送邮件'});
                 }
-            } else {
-                res.render('email_callback.ejs',{data : '激活邮箱失败,数据库操作发生错误,请重新发送邮件'});
             }
-        }
+        })
     })
 })
 router.post ('/vertifyUserName',(req,res) => {

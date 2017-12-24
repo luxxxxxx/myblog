@@ -1,35 +1,38 @@
 
-let obj = {  //enCode 加密   deCode  解密
-    encode : (str) => {
-        let arr = [];
-        for (var i = 0; i < str.length; i++) {
-            arr[i] = str.charCodeAt(i) + i;
-        }
-        let string = '';
-        for (let j in arr) {
-            string += String.fromCharCode(arr[j]);
-        }
-        let encodeStr = encodeURIComponent(string);
-        return encodeStr;
+const crypto = require('crypto');
+      
+
+let obj = {  // 使用cipher and decipher
+    //str  加密解密的 字符串     cb 回调函数
+    cipher : (str,cb) => {  //加密
+        let encrypted = '';
+        const cipher = crypto.createCipher('aes192', 'luxxxxxx');
+        cipher.on('readable', () => {
+            const data = cipher.read();
+            if (data) {
+                encrypted += data.toString('hex');
+            } else {
+            }
+        });
+        cipher.on('end', () => {
+            cb(encrypted)
+        });
+        cipher.write(str);
+        cipher.end();
     },
-    decode : (str) => {  //这里处理过异常，解析失败自动返回字符串err 
-        try {
-            let deCodeStr = decodeURIComponent(str),
-                arr = [];
-            for (let i = 0; i < deCodeStr.length; i++) {
-                arr[i] = deCodeStr.charCodeAt(i) - i;
-            }
-            let string = '';
-            for (let i in arr) {
-                string += String.fromCharCode(arr[i])
-            }
-            return string;
-        } catch (e) {
-            return 'err'
-        }
+    decipher : (str,cb) => {
+        let decrypted = '';
+        const decipher = crypto.createDecipher('aes192', 'luxxxxxx');
+        decipher.on('readable', () => {
+            const data = decipher.read();
+            if (data)
+                decrypted += data.toString('utf8');
+        });
+        decipher.on('end', () => {
+            cb(decrypted);
+        });
+        decipher.write(str, 'hex');
+        decipher.end();
     }
 }
-
-
-
 module.exports = obj;

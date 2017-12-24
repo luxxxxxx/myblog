@@ -1,3 +1,4 @@
+
 const http = require("http"),
       express = require("express"),
       bodyParser = require("body-parser"),
@@ -5,6 +6,8 @@ const http = require("http"),
       session = require("express-session"),
       mysql = require("./module/mysql"),
       encrypt = require("./module/encrypt"),
+      crypto = require("crypto"),
+      cipher = crypto.createCipher('aes192', 'a password'),
       app = express();
 
 app.set('views',__dirname+'/views');// 设置模板引擎的目录
@@ -26,7 +29,30 @@ app.use(session({
 
 
 
+
+
+
+// const cipher = crypto.createCipher('aes192', 'a password');
+
+// let encrypted = '';
+// cipher.on('readable', () => {
+//     const data = cipher.read();
+//     if (data)
+//         encrypted += data.toString('hex');
+// });
+// cipher.on('end', () => {
+//     console.log(encrypted);
+//     // Prints: ca981be48e90867604588e75d04feabb63cc007a8f8ad89b10616ed84d815504
+// });
+
+// cipher.write('some clear text data');
+// cipher.end();
+
+
+
+
 app.use ((req,res,next) => {
+    
     // console.log(req.cookies.login)
     if (req.cookies.login) {  
         //存在cookie 但是不存在session 的情况下，
@@ -34,33 +60,44 @@ app.use ((req,res,next) => {
         //从数据库里面获取管理员权限并存放在session 内部 但凡获取失败 ,需要使用管理员权限的时候
         //必须重新进行登录
         if (!req.session.login) {
-            // console.log('session deny');
-            let cookies = req.cookies.login;
-            mysql({
-                sql : 'select * from t_user where user_name = ? and user_pass = ?',
-                args : [cookies.name,encrypt.decode(cookies.pass)],
-                callback : (err,info) => {
-                    console.log('获取session执行数据库操作ing')
-                    console.log(err);
-                    console.log(info);
-                    if (!err) {
-                        if (info.length) {
-                            req.session.login = {
-                                'userId' : info[0].user_id,
-                                'admin': info[0].user_admin,
-                                'userName': info[0].user_name,
-                                'email': info[0].user_email,
-                                'status' : info[0].user_status
-                             }
-                            //  console.log(req.session.login);
-                            //  console.log('session recover');
+            // console.log('session deny');  //异步编程，先解密 cookie里面的密码
+            let cookies = req.cookies.login,
+                decrypted = null,
+                p_decipher = () => {
+                     return new Promise ((resolve,reject) => {
+                        encrypt.decipher(cookies.pass,(str) => { 
+                            decrypted = str;
+                            resolve();  
+                        })
+                     })
+                };   
+            p_decipher().then(() => {
+                mysql({
+                    sql : 'select * from t_user where user_name = ? and user_pass = ?',
+                    args : [cookies.name,],
+                    callback : (err,info) => {
+                        console.log('获取session执行数据库操作ing')
+                        console.log(err);
+                        console.log(info);
+                        if (!err) {
+                            if (info.length) {
+                                req.session.login = {
+                                    'userId' : info[0].user_id,
+                                    'admin': info[0].user_admin,
+                                    'userName': info[0].user_name,
+                                    'email': info[0].user_email,
+                                    'status' : info[0].user_status
+                                 }
+                                //  console.log(req.session.login);
+                                //  console.log('session recover');
+                            } else {
+                                console.log('按理说不应该存在这种错误的');
+                            }
                         } else {
-                            console.log('按理说不应该存在这种错误的');
+                            console.log('获取管理员权限失败,数据库执行错误 index.js')
                         }
-                    } else {
-                        console.log('获取管理员权限失败,数据库执行错误 index.js')
-                    }
-                } //callback
+                    } //callback
+                })
             })
         } else {
             // console.log('session access');
@@ -75,7 +112,7 @@ app.use ((req,res,next) => {
 
 
 app.use((req, res, next) => {
-    if (res.cookies['login']) {
+    if (req.cookies['login']) {
         let cookies = req.cookies['login'];
         res.locals.login = {
             status: cookies.status,  
