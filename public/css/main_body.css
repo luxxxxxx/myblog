@@ -190,7 +190,7 @@
   transition: .2s opacity linear;
 }
 #main .main .l article .cover a img {
-  max-width: 100%;
+  width: 690px;
   margin: 0 auto;
   opacity: 1;
 }

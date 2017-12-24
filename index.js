@@ -74,11 +74,8 @@ app.use ((req,res,next) => {
             p_decipher().then(() => {
                 mysql({
                     sql : 'select * from t_user where user_name = ? and user_pass = ?',
-                    args : [cookies.name,],
+                    args : [cookies.name,decrypted],
                     callback : (err,info) => {
-                        console.log('获取session执行数据库操作ing')
-                        console.log(err);
-                        console.log(info);
                         if (!err) {
                             if (info.length) {
                                 req.session.login = {
@@ -130,9 +127,6 @@ app.use((req, res, next) => {
     }
     next();
 })
-
-
-
 
 
 app.use('/',require('./router/index'));
