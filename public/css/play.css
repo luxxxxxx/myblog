@@ -243,6 +243,13 @@ header #h_bg {
   width: 100%;
   height: 538px;
   overflow: hidden;
+  transition: .2s all linear;
+  opacity: 1;
+  visibility: visible;
+}
+.player_wrp .main .video_con #danmu.hidden {
+  opacity: 0;
+  visibility: hidden;
 }
 .player_wrp .main .video_con #danmu .msg {
   position: absolute;
@@ -320,6 +327,29 @@ header #h_bg {
   background: #fff;
   margin-top: -7px;
 }
+.player_wrp .main .video_con #senddm_con .login_con {
+  position: relative;
+  height: 38px;
+  overflow: hidden;
+}
+.player_wrp .main .video_con #senddm_con .login_con span {
+  position: absolute;
+  left: 462px;
+  top: 7px;
+  white-space: nowrap;
+}
+.player_wrp .main .video_con #senddm_con .login_con .login_btn {
+  width: 38px;
+  height: 20px;
+  margin: 9px auto;
+  background: #00a1d6;
+  border-radius: 4px;
+  text-align: center;
+  line-height: 20px;
+}
+.player_wrp .main .video_con #senddm_con .login_con .login_btn a {
+  color: #fff;
+}
 .player_wrp .main .video_con #senddm_con .fn {
   display: inline-block;
   float: left;
@@ -387,6 +417,20 @@ header #h_bg {
   width: 40px;
   height: 38px;
   margin-right: 5px;
+  text-align: center;
+  line-height: 38px;
+  cursor: pointer;
+}
+.player_wrp .main .video_con #senddm_con .ban_dm.ban i {
+  color: red;
+}
+.player_wrp .main .video_con #senddm_con .ban_dm i {
+  display: block;
+  width: 40px;
+  height: 38px;
+  text-align: center;
+  font-size: 28px;
+  transition: .2s color linear;
 }
 .player_wrp .main .danmu_con {
   position: relative;

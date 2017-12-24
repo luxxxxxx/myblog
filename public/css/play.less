@@ -260,6 +260,13 @@ header #h_bg {
 				width: 100%;
 				height: 538px;
 				overflow: hidden;
+				transition: .2s all linear;
+				opacity: 1;
+				visibility: visible;
+				&.hidden {
+					opacity: 0;
+					visibility: hidden;
+				}
 				.msg {
 					position: absolute;
 					box-sizing: border-box;
@@ -338,7 +345,29 @@ header #h_bg {
 				width: 100%;
 				background: #fff;
 				margin-top: -7px;
-				
+				.login_con {
+					position: relative;
+					height: 38px;
+					overflow: hidden;
+					span {
+						position: absolute;
+						left: 462px;
+						top: 7px;
+						white-space: nowrap;
+					}
+					.login_btn {
+						width: 38px;
+						height: 20px;
+						margin: 9px auto;
+						background: #00a1d6;
+						border-radius: 4px;
+						text-align: center;
+						line-height: 20px;
+						a {
+							color: #fff;
+						}
+					}
+				}
 				.fn {
 					display: inline-block;
 					float: left;
@@ -359,6 +388,7 @@ header #h_bg {
 						transition: .2s color linear;
 
 					}
+					
 				}
 				#input_dm {
 					width: 635px;
@@ -408,6 +438,23 @@ header #h_bg {
 					width: 40px;
 					height: 38px;
 					margin-right: 5px;
+					text-align: center;
+					line-height: 38px;
+					cursor: pointer;
+					&.ban {
+						i {
+							color : red;
+						}
+					}
+					i {
+						display: block;
+						width: 40px;
+						height: 38px;
+						text-align: center;
+						font-size: 28px;
+						transition: .2s color linear;
+					}
+					
 				}
 			}
 		}

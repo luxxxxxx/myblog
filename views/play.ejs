@@ -6,8 +6,7 @@
 	<title>要优雅~</title>
 	<link rel="shortcut icon" href="./img/favicon.ico">
 	<link rel="stylesheet" href="./css/reset.css">
-	<!-- <link rel="stylesheet" href="./css/general.css"> -->
-	<link rel="stylesheet" href="./css/header.css">
+	<link rel="stylesheet" href="./css/general.css">
 	<link rel="stylesheet" href="./css/play.css">
 	<link rel="stylesheet" href="./css/iconfont.css">
 	<link rel="stylesheet" href="./css/animate.css">
@@ -158,17 +157,43 @@
 					您的浏览器不支持 video 标签。
 				</video>
 				<div id="senddm_con" class="clearfix">
-					<div class="fun_box">
-
-					</div>
-					<div class="fun_box">
-
-					</div>
-					<div class="fn dm_font"><i class="icon iconfont icon-icon1"></i></div>
-					<div class="fn dm_color"><i class="icon iconfont icon-color"></i></div>
-					<input type="text" id="input_dm" maxlength="100" placeholder="你可以在这里输入弹幕吐槽哟~~" />
-					<div class="send_bt">发送 ></div>
-					<div class="ban_dm" style="background: red;"></div>
+					
+					<% if (locals.login) { %>
+						<% if (locals.login.status) { %>
+							<div class="fun_box">
+							
+							</div>
+							<div class="fun_box">
+							
+							</div>
+							<div class="fn dm_font">
+								<i class="icon iconfont icon-icon1"></i>
+							</div>
+							<div class="fn dm_color">
+								<i class="icon iconfont icon-color"></i>
+							</div>
+							<input type="text" id="input_dm" maxlength="100" placeholder="你可以在这里输入弹幕吐槽哟~~" />
+							<div class="send_bt">发送 ></div>
+							<div class="ban_dm" title="禁止弹幕">
+								<i class="icon iconfont icon-jinzhidanmu"></i>
+							</div>
+						<% } else { %>
+							<div class="login_con">
+								<div class="login_btn">
+									<a href="/login">登录</a>
+								</div>
+								<span>只有登录后才能发送弹幕哟(～￣▽￣)～</span>
+							</div>
+						<% } %>
+					<% } else {  %>
+						<div class="login_con">
+							<div class="login_btn">
+								<a href="/login">登录</a>
+							</div>
+							<span>只有登录后才能发送弹幕哟(～￣▽￣)～</span>
+						</div>
+					<% } %>
+					
 				</div>
 				<div id="danmu">
 					<!-- 各种消息  如弹幕加载功能 ，视频是否成功加载  hidden 消失-->
@@ -218,7 +243,7 @@
 		$dm_list = $('ul.dm_list'),
 		beaginH = parseFloat(screenH) * 0.9,  //起始随机高度区域
 		$sendBt = $('.send_bt'),  //发送弹幕按钮
-		$testBt = $('.ban_dm'),  //测试按钮
+		$banBt = $('.ban_dm'),  //测试按钮
 		sendFlag = true,
 		videoPause = true,
 	    pause = true;  //弹幕暂停 flag
@@ -236,6 +261,16 @@
 			vpl_flag  //变量 监听 视频播放定时器flag （防止多个定时器）
 		*/
 
+
+	$banBt.click(function (params) {  //禁止弹幕按钮
+		if ($(this).hasClass('ban')) {
+			$danmuScreen.removeClass('hidden')
+			$(this).removeClass('ban');
+		} else {
+			$danmuScreen.addClass('hidden')
+			$(this).addClass('ban');
+		}
+	})
 
 	$('#input_dm').bind('keyup', function (e) {   //回车发送弹幕
 		if (e.keyCode == '13') {
@@ -288,10 +323,7 @@
 		}
 	})
 
-	//暂停 继续 测试功能
-	$testBt.click (function (params) {
-		console.log($danmuScreen[0].querySelector('span').d_id);
-	})
+	
 	
 	function con_pause () {  //暂停或者 继续
 		if (!pause) {
@@ -305,11 +337,7 @@
 	function video_con () {  // 视频继续
 		pause = false;
 		let spanArr = $danmuScreen[0].querySelectorAll('span');
-		// console.log(spanArr[0].timer());
-		if (vpl_flag) {  // 监听 视频当前播放
-			video_progress_listener();
-			vpl_flag = false;
-		}
+		
 		// 弹幕 滚动
 		for (let i = 0; i <= spanArr.length - 1; i++) {
 			console.log(spanArr[i])
@@ -320,13 +348,11 @@
 	
 	function video_pause () {  //视频暂停API
 		pause = true;
-		vpl_flag = true;
 	}
 	
 
 	function sendDm (dm_ele) {  //发送弹幕
 		let This = dm_ele;
-		console.log(This.d_id);
 		$danmuScreen[0].appendChild(This);
 		let  $dm = $(This);
 		This.width = $dm.width();
@@ -461,7 +487,6 @@
 		//或者可以将 秒钟数处理成 分秒格式
 		if (isNaN(Number(t))) {
 			var arr = t.split(':');
-			console.log(Number(arr[0]) * 60 + Number(arr[1]));
 			time_format(Number(arr[0])*60 + Number(arr[1]));
 		} else {
 			let m = parseInt(t/60),
@@ -481,19 +506,17 @@
 	// 	for(let i = 0; i < arr_obj.length)
 	// }
 
-	console.log(getCookie('login'));
-
-	var vpl_flag = true;  //监听 视频播放定时器flag （防止多个定时器）
 	
 	function video_progress_listener (e) {  //监听视频当前播放时间定时器结合发送弹幕功能
-		if (!pause) {  
-			setTimeout(() => {
+		setTimeout(() => {
+			if (!pause) {
 				let t = time_format(video.currentTime.toFixed(0));
 				for (let i = 0; i < gdms.length; i++) {
 					if (gdms[i].d_time === t) {
 						let crt_dms = $danmuScreen[0].querySelectorAll('span'), //当前视频存在的弹幕;
-						    exist = false;  //是否存在当前弹幕已经发送
+							exist = false;  //是否存在当前弹幕已经发送
 							for (let i = 0; i < crt_dms.length; i++) {
+
 								const element = crt_dms[i];
 								if (element.d_id == gdms[i].d_id) {
 									console.log('exist');
@@ -510,11 +533,13 @@
 						
 					}
 				}
-				video_progress_listener();
-			}, 1000);
-		}
+			}
+			video_progress_listener();
+		}, 1000);
 	}
-
+	
+	video_progress_listener();
+	
 	// video  绑定事件
 	video.onprogress = function (e) {  //
 			// console.log(e)
