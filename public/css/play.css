@@ -508,7 +508,8 @@ header #h_bg {
   text-align: left;
 }
 .player_wrp .main .danmu_con .dm_list {
-  height: 1128px;
+  height: 566px;
+  overflow-y: auto;
 }
 .player_wrp .main .danmu_con .dm_list li {
   line-height: 24px;
@@ -570,4 +571,46 @@ header #h_bg {
   border-radius: 5px;
   opacity: 0;
   transition: .1s all linear;
+}
+.comment_wrp .main {
+  width: 1160px;
+  margin: 30px auto 0;
+}
+.comment_wrp .main .c_num_h span {
+  font-size: 18px;
+  color: #222;
+}
+.comment_wrp .main .c_num_h span.num {
+  margin-right: 8px;
+}
+.comment_wrp .main .c_h {
+  margin-top: 12px;
+  margin-bottom: 12px;
+}
+.comment_wrp .main .c_h ul {
+  float: left;
+}
+.comment_wrp .main .c_h ul li {
+  background-color: transparent;
+  border-radius: 0;
+  border: 0;
+  padding: 8px 0;
+  margin-right: 16px;
+  border-bottom: 1px solid transparent;
+  position: relative;
+  float: left;
+  cursor: pointer;
+  line-height: 20px;
+  height: 20px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #222;
+}
+.comment_wrp .main .c_h ul li.on {
+  border-bottom: 1px solid #00a1d6;
+  color: #00a1d6;
+}
+.comment_wrp .main .c_h .pages_con {
+  float: right;
+  line-height: 36px;
 }
