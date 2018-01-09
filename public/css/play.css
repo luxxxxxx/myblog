@@ -576,21 +576,24 @@ header #h_bg {
   width: 1160px;
   margin: 30px auto 0;
 }
-.comment_wrp .main .c_num_h span {
+.comment_wrp .main .l {
+  width: 860px;
+}
+.comment_wrp .main .l .c_num_h span {
   font-size: 18px;
   color: #222;
 }
-.comment_wrp .main .c_num_h span.num {
+.comment_wrp .main .l .c_num_h span.num {
   margin-right: 8px;
 }
-.comment_wrp .main .c_h {
+.comment_wrp .main .l .c_h {
   margin-top: 12px;
   margin-bottom: 12px;
 }
-.comment_wrp .main .c_h ul {
+.comment_wrp .main .l .c_h ul {
   float: left;
 }
-.comment_wrp .main .c_h ul li {
+.comment_wrp .main .l .c_h ul li {
   background-color: transparent;
   border-radius: 0;
   border: 0;
@@ -606,11 +609,11 @@ header #h_bg {
   font-weight: 700;
   color: #222;
 }
-.comment_wrp .main .c_h ul li.on {
+.comment_wrp .main .l .c_h ul li.on {
   border-bottom: 1px solid #00a1d6;
   color: #00a1d6;
 }
-.comment_wrp .main .c_h .pages_con {
+.comment_wrp .main .l .c_h ul .pages_con {
   float: right;
   line-height: 36px;
 }
