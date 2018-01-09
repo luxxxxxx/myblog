@@ -613,7 +613,10 @@ header #h_bg {
   border-bottom: 1px solid #00a1d6;
   color: #00a1d6;
 }
-.comment_wrp .main .l .c_h ul .pages_con {
+.comment_wrp .main .l .c_h .pages_con {
   float: right;
   line-height: 36px;
+}
+.comment_wrp .main .l .c_h .pages_con .result {
+  padding-right: 10px;
 }

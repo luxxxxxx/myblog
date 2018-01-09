@@ -240,12 +240,12 @@
 						<li class="on">全部评论</li>
 						<li>按热度搜索</li>
 					</ul>
-				</div>
-				<div class="pages_con clearfix">
-					<span class="result">共100页</span>
-					<span></span>
-					<span></span>
-					<span></span>
+					<div class="pages_con clearfix">
+						<span class="result">共100页</span>
+						<span></span>
+						<span></span>
+						<span></span>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -472,7 +472,6 @@
 					var jData = JSON.parse(data); // err : 0 成功   err : 1 失败
 					if (!jData.err) {  //成功
 						console.log($(this).parent())
-						dm_load(gdms)
 					} else {
 						alert(jData.info)
 					}
@@ -482,8 +481,6 @@
 				}
 			})
 		}
-
-
 		oLi.appendChild(oDm_time);
 		oLi.appendChild(oDm_content);
 		oLi.appendChild(oDm_date);
@@ -564,7 +561,6 @@
 						let crt_dms = $danmuScreen[0].querySelectorAll('span'), //当前视频存在的弹幕;
 							exist = false;  //是否存在当前弹幕已经发送
 							for (let i = 0; i < crt_dms.length; i++) {
-
 								const element = crt_dms[i];
 								if (element.d_id == gdms[i].d_id) {
 									console.log('exist');
