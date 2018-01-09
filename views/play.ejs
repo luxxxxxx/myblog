@@ -381,10 +381,9 @@
 			},13)
 		}
 		This.timer();
+		dm_load(gdms);
 	}
 
-	
-	
 
 	// 等待五秒钟才能发弹幕
 	function wait (i) {
@@ -434,8 +433,30 @@
 		oLi.setAttribute('dm_id', obj.dmId);
 		oDm_time.innerHTML = obj.time;
 		oDm_content.innerHTML = obj.content;
-		oDm_date.innerHTML = t.getFullYear().toString().substr(2, 3) + '-' + (t.getMonth() + 1) + '-' + t.getDay() + ' ' + t.getHours() + ':' + t.getMinutes();
+		oDm_date.innerHTML = (t.getMonth() + 1) + '-' + t.getDay() + ' ' + t.getHours() + ':' + t.getMinutes();
 		oDelete.innerHTML = '删除弹幕';
+		oDelete.onclick = function () {
+			Ajax({
+				url: 'play/d_dm',
+				method : 'post',
+				data : {
+					id : $(this).parent()[0].getAttribute('dm_id')
+				},
+				success : function (data) {
+					var jData = JSON.parse(data); // err : 0 成功   err : 1 失败
+					if (!jData.err) {  //成功
+						console.log($(this).parent())
+						dm_load(gdms)
+					} else {
+						alert(jData.info)
+					}
+				},
+				error : function () {
+					console.log('ajax err')
+				}
+			})
+		}
+
 
 		oLi.appendChild(oDm_time);
 		oLi.appendChild(oDm_content);
@@ -445,6 +466,7 @@
 	}
 	
 	function dm_load (arr) {  //加载弹幕 存放在传入的 arr里面并刷新弹幕列表
+		$dm_list.empty();
 		Ajax({
 			url : './play/get_dm',
 			method : 'post',
@@ -481,7 +503,7 @@
 	}
 
 	dm_load(gdms);
-
+	
 	function time_format (t) {  
 		//整理时间 格式 将 0:23 处理成  00:23  
 		//或者可以将 秒钟数处理成 分秒格式

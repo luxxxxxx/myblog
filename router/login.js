@@ -42,10 +42,12 @@ router.post('/',(req,res) => {
                                 })
                             })
                         };
-                    p_cipher().then(() => {
+                    p_cipher().then(() => 
+                    {
+                        console.log(encrypted);
                         // 1.cookie 名称  2.数据  3.过期时间
                         res.cookie('login',{ 
-                            name : info[0].ud_name,
+                            name : info[0].user_name,
                             id : info[0].user_id,
                             admin : info[0].user_admin,  //管理权限
                             pass : encrypted,

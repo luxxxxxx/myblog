@@ -7,6 +7,8 @@ const express = require("express"),
 
 
 router.get("/", (req, res) => {
+    console.log('req session in techo');
+    console.log(req.session.login);
     mysql ({
         sql: 'select user_id,user_name,a_id,a_title,a_tags,a_type,a_desc,a_views,a_link,a_date,a_cover from t_article left join t_user on t_user.user_id = t_article.a_upId',
         args : [],
@@ -52,7 +54,7 @@ router.post("/login",(req,res) => {
                         };
                     p_cipher().then(() => {
                         res.cookie('login', {
-                            name: info[0].ud_name,
+                            name: info[0].user_name,
                             id: info[0].user_id,
                             admin: info[0].user_admin,  //管理权限
                             pass: encrypted,

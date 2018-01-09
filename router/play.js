@@ -43,6 +43,38 @@ router.get("/",(req,res) => {
     res.locals.user = req.session.login;
 })
 
+router.post("/d_dm" , (req,res) => {  //删除弹幕
+    let dm_id = req.body['id'],
+        rights = req.session.login.admin;
+    console.log(rights);
+    if (rights > 1) {
+        mysql({
+            sql : 'delete from t_dm where d_id = ?',
+            args : [req.body.id],
+            callback : (err , info) => {
+                console.log(err);
+                console.log(info);
+                if(!err) {
+                    console.log('success')
+                    res.json ({
+                        err : 0,
+                        info : '删除操作成功'
+                    })
+                } else {
+                    res.json ({
+                        err : 1,
+                        info : '删除操作失败,数据库执行错误'
+                    })
+                }
+            }
+        })
+    } else {
+        res.json({
+            err : 1,
+            info : '删除操作失败,你没有获得管理员权限'
+        })
+    }
+})
 
 router.post("/dm",(req,res) => {
     let content = req.body['content'],
@@ -76,7 +108,7 @@ router.post("/dm",(req,res) => {
 
 router.post("/get_dm",(req,res) => {
     mysql({
-        sql : 'select * from t_dm',
+        sql: 'select * from t_dm order by d_id desc limit 100',  //获取最新100条弹幕
         args : [],
         callback : (err,info) => {
             if (!err) {

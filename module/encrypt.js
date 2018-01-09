@@ -9,10 +9,8 @@ let obj = {  // 使用cipher and decipher
         const cipher = crypto.createCipher('aes192', 'luxxxxxx');
         cipher.on('readable', () => {
             const data = cipher.read();
-            if (data) {
+            if (data) 
                 encrypted += data.toString('hex');
-            } else {
-            }
         });
         cipher.on('end', () => {
             cb(encrypted)

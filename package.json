@@ -10,6 +10,7 @@
     "multer": "^1.3.0",
     "mysql": "latest",
     "nodemailer": "^4.4.0",
+    "async": "latest",
     "silly-datetime": "latest"
   }
 }
