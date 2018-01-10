@@ -627,7 +627,8 @@ header #h_bg {
 			}
 			.c_h {
 				margin-top: 12px;
-				margin-bottom: 12px;
+				margin: 0 0 24px;
+    			border-bottom: 1px solid #e5e9ef;
 				ul {
 					float: left;
 					li {
@@ -656,6 +657,237 @@ header #h_bg {
 					line-height: 36px;
 					.result {
 						padding-right: 10px;
+						margin: 0;
+					}
+					span {
+						margin: 0 4px;
+						cursor: pointer;
+						transition: .2s all linear;
+						&:hover {
+							color: #00a1d6;
+						}
+					}
+					.current {
+						color: #00a1d6;
+					}
+					.disable {
+						display: none;
+					}
+					.next {
+						
+					}
+				}
+			}
+			.c_send {
+				margin: 10px 0;
+				.user_face {
+					float: left;
+					margin: 7px 0 0 5px;
+					position: relative;
+					img {
+						display: block;
+						width: 48px;
+						height: 48px;
+						border-radius: 50%;
+					}
+				}
+				.textarea_con {
+					position: relative;
+					width: 705px;
+					height: 68.2px;
+					margin-left: 85px;
+					margin-right: 80px;
+					&.no-login {
+						.send_comment {
+							cursor: default;
+							background-color: #e5e9ef!important;
+							border-color: #e5e9ef!important;
+							color: #b8c0cc!important;
+						}
+						textarea {
+							background-color: #e5e9ef;
+						}
+						.baffle_wrp {
+							display: block;
+						}
+					}
+					textarea {
+						font-size: 12px;
+						display: inline-block;
+						box-sizing: border-box;
+						background-color: #f4f5f7;
+						border: 1px solid #e5e9ef;
+						overflow: auto;
+						border-radius: 4px;
+						color: #555;
+						width: 100%!important;
+						height: 65px;
+						transition: 0s;
+						padding: 5px 10px;
+						line-height: normal;
+						outline: none;
+						resize: none;
+						&:focus {
+							background-color: #fff;
+							border-color: #00a1d6;
+						}
+						&:hover {
+							background: #fff;
+							border-color: #00a1d6;
+							
+						}
+					}
+					
+					.baffle_wrp {
+						display: none;
+						.baffle {
+							display: block;
+							position: absolute;
+							z-index: 102;
+							width: 100%;
+							top: 0;
+							line-height: 64px;
+							font-size: 12px;
+							border-radius: 4px;
+							text-align: center;
+							color: #777;
+							background-color: #e5e9ef;
+							overflow: hidden;
+							.btn {
+								padding: 4px 9px;
+								margin: 0 3px;
+								color: #fff;
+								background-color: #00a1d6;
+								border-radius: 4px;
+								transition: .2s all linear;
+								&:hover {
+									background-color: #00b5e5;
+								}
+							}
+						}
+					}
+				}
+				.send_comment {
+					width: 70px;
+					height: 64px;
+					position: absolute;
+					right: -80px;
+					top: 0;
+					padding: 4px 15px;
+					font-size: 14px;
+					color: #fff;
+					border-radius: 4px;
+					text-align: center;
+					min-width: 60px;
+					vertical-align: top;
+					cursor: pointer;
+					background-color: #00a1d6;
+					border: 1px solid #00a1d6;
+					transition: .1s;
+					user-select: none;
+					outline: none;
+				}
+				.c_emoji {
+					padding: 0;
+					width: 66px;
+					height: 24px;
+					color: #99a2aa;
+					border: 1px solid #e5e9ef;
+					border-radius: 4px;
+					position: relative;
+					z-index: 101;
+					font-size: 12px;
+					text-align: center;
+					line-height: 23px;
+					margin-left: 86px;
+					margin-top: 3px;
+					cursor: pointer;
+					i {
+						position: relative;
+						top: 2px;
+						left: -2px;
+					}
+					.emoji_box {
+						visibility: hidden;
+						opacity: 0;
+						position: absolute;
+						top: 30px;
+						width: 388px;
+						background: #fff;
+						border-radius: 4px;
+						border: 1px solid #ccd0d7;
+						cursor: default;
+						box-shadow: 0 1px 5px 0 rgba(0,0,0,.14);
+						transition: .2s all linear;
+
+						&.show {
+							visibility: visible;
+							opacity: 1;
+						}
+						.emoji_t {
+							height: 20px;
+							line-height: 20px;
+							margin: 8px 18px 0;
+							color: #99a2aa;
+							text-align: left;
+						}
+						.emojis {
+							height: 152px;
+							overflow: auto;
+							.emoji-text {
+								color: #111;
+								border-radius: 4px;
+								transition: background .2s;
+								display: inline-block;
+								padding: 3px 5px;
+								margin: 2px 3px;
+								outline: 0;
+								text-decoration: none;
+								cursor: pointer;
+								&:hover {
+									background-color: #ddd;
+								}
+							}
+						}
+					}
+				}
+				
+			}
+			.c_list {
+				padding-top: 20px;
+				.list_item {
+					.user_face {
+						float: left;
+						margin: 24px 0 0 5px;
+						position: relative;
+						img {
+							width: 48px;
+							height: 48px;
+							border-radius: 50%;
+						}
+					}
+					.con {
+						position: relative;
+						margin-left: 85px;
+						padding: 22px 0 14px;
+						border-top: 1px solid #e5e9ef;
+						.user {
+							font-size: 12px;
+							font-weight: 700;
+							line-height: 18px;
+							padding-bottom: 4px;
+							display: block;
+							word-wrap: break-word;
+						}
+						.text {
+							line-height: 20px;
+							padding: 2px 0;
+							font-size: 14px;
+							text-shadow: none;
+							overflow: hidden;
+							word-wrap: break-word;
+							word-break: break-word;
+						}
 					}
 				}
 			}
