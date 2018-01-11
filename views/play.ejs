@@ -483,7 +483,11 @@
 							span.d_id = data.d_id;
 							console.log(data.d_id);
 							sendDm(span);
-							crt_dm_record(span);
+							crt_dm_record({
+								'content' : span.textContent,
+								'time' : time_format(video.currentTime.toFixed(0)),
+								'date' : new Date()
+							});
 						}
 						flag = true;
 					},
