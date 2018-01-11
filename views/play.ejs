@@ -625,7 +625,7 @@
 				success : function (data) {
 					var jData = JSON.parse(data); // err : 0 成功   err : 1 失败
 					if (!jData.err) {  //成功
-						console.log($(this).parent())
+						$(oDelete).parent().remove();
 					} else {
 						alert(jData.info)
 					}
@@ -651,7 +651,6 @@
 				let jData = JSON.parse (data);
 				if (!jData.err) {  //弹幕加载成功
 					let dms = jData['info'];
-					
 					$dmNum.html(dms.length);   //渲染弹幕数量
 					$dmNum2.html(dms.length);
 					for(var i in dms) {

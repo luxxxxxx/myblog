@@ -160,7 +160,15 @@
     var high_version = null;
     window.onload = function () {
         if (!high_version) {
-            alert('你的浏览器内核或者版本不兼容当前页面，建议使用谷歌浏览器')
+            alert('你的浏览器内核或者版本不兼容当前页面，建议使用最新谷歌浏览器')
+        }
+        var winH;
+        if (window.innerHeight) {
+            winH = window.innerHeight;
+        } else if ((document.body) && (document.body.clientHeight)) {
+            winH = document.body.clientHeight;
+        } else {
+            alert('你的浏览器是极品罕见浏览器，请使用最新谷歌浏览器')
         }
     }
 </script>

@@ -140,7 +140,7 @@
 			return $(this[this.length - 1]);
 		},
 		parent: function (selector) {  //父元素
-			if (!selector) {
+			if (!arguments.length) {
 				return $(this[0].parentNode);
 			}
 		},
