@@ -268,14 +268,24 @@
 </footer>
 </body>
 </html>
+<script>
+    var high_version = null;
+    window.onload = function () {
+        if (!high_version) {
+            alert('你的浏览器内核或者版本不兼容当前页面，建议使用谷歌浏览器')
+        }
+    }
+</script>
 <script src="./js/jqq.js"></script>
 <script></script>
 <script>
 
-    let $userName = $('#userName'),
+    var $userName = $('#userName'),
         $passWord = $('#passWord'),
         $loginBtn = $('#loginBtn'),  //登录按钮
         $errMsg = $('.errmsg'),  //登录错误信息框  show: 出现
+
+        high_version = true,
 
         $search = $('#search'),  //搜索框
         $search_icon = $('#search i.icon');  //搜索框下面的icon 

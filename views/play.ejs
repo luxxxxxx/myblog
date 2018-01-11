@@ -367,6 +367,16 @@
 	</footer>
 </body>
 </html>
+
+<script>
+	var high_version = null;  //检测兼容
+	window.onload = function () {
+		if (!high_version) {
+			alert('你的浏览器内核或者版本不兼容当前页面，建议使用谷歌浏览器')
+		}
+	}
+</script>
+
 <script src="./js/jqq.js"></script>
 
 <script>
@@ -394,7 +404,7 @@
 
 <script>
 
-	let $danmuScreen = $("#danmu"),
+	var $danmuScreen = $("#danmu"),
 		screenW = $danmuScreen.width(),
 		screenH = $danmuScreen.height(),
 		video = document.querySelector('video'),
@@ -406,6 +416,9 @@
 		$sendBt = $('.send_bt'),  //发送弹幕按钮
 		$banBt = $('.ban_dm'),  //测试按钮
 		sendFlag = true,
+
+		high_version = true,  //高版本或者兼容版本检测
+
 		videoPause = true,
 	    pause = true;  //弹幕暂停 flag
 

@@ -156,7 +156,15 @@
 
 </body>
 </html>
-<script src="./js/jqq.js"></script> -->
+<script>
+    var high_version = null;
+    window.onload = function () {
+        if (!high_version) {
+            alert('你的浏览器内核或者版本不兼容当前页面，建议使用谷歌浏览器')
+        }
+    }
+</script>
+<script src="./js/jqq.js"></script> 
 <script>
     var $email = $("#email"),
         $userName = $("#userName"),
@@ -171,6 +179,8 @@
         $infoBox = $('#info'),
         $info_close = $('#info .close'),
         $info_msg = $('#info p'),
+        
+        high_version = true,
 
         fUser = false,
         fpass1 = false,

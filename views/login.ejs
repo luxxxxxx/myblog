@@ -142,17 +142,25 @@
 
 </html>
 <script>
-    
+    var high_version = null;
+    window.onload = function () {
+        if (!high_version) {
+            alert('你的浏览器内核或者版本不兼容当前页面，建议使用谷歌浏览器')
+        }
+    }
 </script>
 <script src="./js/jqq.js"></script>
 <script>
-    let $pass = $('#pass'),
+    var $pass = $('#pass'),
         $user = $('#user')
         $loginBth = $('#login'),
         $infoBox = $('#info'),
         $info_close = $('#info .close'),
         $info_msg = $('#info p'),
         isLoginClick = false,  //阻值连续多次点击登录按钮
+
+        high_version = true,
+
         $pic = $('#pic');
 
     console.log($pass);
