@@ -483,6 +483,7 @@
 							span.d_id = data.d_id;
 							console.log(data.d_id);
 							sendDm(span);
+							dm_load();
 						}
 						flag = true;
 					},
@@ -713,7 +714,7 @@
 					if (gdms[i].d_time === t) {
 						let crt_dms = $danmuScreen[0].querySelectorAll('span'), //当前视频存在的弹幕;
 							exist = false;  //是否存在当前弹幕已经发送
-							for (let i = 0; i < crt_dms.length; i++) {
+							for (let i = 0; i < crt_dms.length && !exist; i++) {
 								const element = crt_dms[i];
 								if (element.d_id == gdms[i].d_id) {
 									console.log('exist');
