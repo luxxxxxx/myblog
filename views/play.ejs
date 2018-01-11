@@ -483,7 +483,7 @@
 							span.d_id = data.d_id;
 							console.log(data.d_id);
 							sendDm(span);
-							dm_load();
+							crt_dm_record(span);
 						}
 						flag = true;
 					},
@@ -610,6 +610,7 @@
 		oDm_content.className = 'dm_content';
 		oDm_date.className = 'dm_date';
 		oDelete.className = 'btn';
+		
 		oLi.setAttribute('user', obj.userId);
 		oLi.setAttribute('dm_id', obj.dmId);
 		oDm_time.innerHTML = obj.time;
