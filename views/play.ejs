@@ -784,6 +784,7 @@
 					$info.addClass('show');
 					setTimeout(() => {
 						iframePage.cm_fresh();
+						iframe.style.height = (iframe.contentWindow.document.body.clientHeight) + 'px';
 						$info.removeClass('show');
 					}, 500);
 				}

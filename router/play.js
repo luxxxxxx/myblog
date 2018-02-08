@@ -30,7 +30,23 @@ router.get("/",(req,res) => {
                             }
                         }
                     })
-                    res.render('play.ejs');
+
+                    mysql({
+                        sql: 'select * from t_cm left join t_userdata on t_cm.cm_userId = t_userdata.ud_userId order by cm_id desc limit 8',
+                        args: [],
+                        callback: (err, info) => {
+                            console.log('???????')
+                            console.log(info)
+                            if (!err) {  //获取评论成功
+                                res.locals.cm = info;
+                            } else {
+                                res.locals.cm = false;  //获取评论失败
+                            }
+                            res.render('play.ejs');
+                        }
+                    })
+
+
                 } else {
                     res.render('404.ejs');
                 }
@@ -39,19 +55,7 @@ router.get("/",(req,res) => {
             }
         }
     })
-    mysql({
-        sql: 'select * from t_userdata left join t_cm on t_cm.cm_userId = t_userdata.ud_userId order by cm_id desc limit 8',
-        args: [],
-        callback: (err, info) => {
-            console.log(info)
-            if (!err) {  //获取评论成功
-                res.locals.cm = info;
-            } else {
-                res.locals.cm = false;  //获取评论失败
-            }
-            res.render('play.ejs');
-        }
-    })
+    
 
 
 })
@@ -189,10 +193,9 @@ router.post("/cm_send" , (req,res) => {
 
 router.get('/get_cm', (req,res) => {
     mysql({
-        sql: 'select * from t_userdata left join t_cm on t_cm.cm_userId = t_userdata.ud_userId order by cm_id desc limit 8',
+        sql: 'select * from t_cm left join t_userdata on t_cm.cm_userId = t_userdata.ud_userId order by cm_id desc limit 8',
         args: [],
         callback: (err, info) => {
-            console.log(info)
             if (!err) {  //获取评论成功
                 res.locals.cm = info;
             } else {

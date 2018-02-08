@@ -76,7 +76,7 @@
   transition: .2s all linear;
 }
  .c_list .list_item .con .info span.res:hover {
-  color: #00a1d6;
+  color: red;
   background: #e5e9ef;
 }
  .c_list .list_item .con .reply_box {

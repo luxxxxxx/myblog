@@ -10,7 +10,7 @@
 </head>
 <body>
 
-    <% if (locals.cm) { %>
+    <% if (locals.cm && locals.cm.length != 0) { %>
         <div class="c_list">
             <% for (let i = 0; i < locals.cm.length; i++ ) { %>
                 <div class="list_item clearfix" cm_id=< %- locals.cm[i].cm_id %> >
@@ -39,7 +39,7 @@
                                     <i class="iconfont icon-thumbup"></i>
                                     <%- locals.cm[i].cm_thumb %>
                                 </span>
-                                <span class="res">回复</span>
+                                <span class="res">删除</span>
                         </div>
                         <!-- <div class="reply_box">
                                 <div class="reply_item">
@@ -84,7 +84,14 @@
 </body>
 </html>
 <script>
+    console.log(self.location.href)
     window.cm_fresh = function () {
         location.reload();
+    }
+    window.onload = function () {
+        console.log('???');
+        console.log(this.parent.iframe);
+        this.parent.iframe.style.height = (document.body.clientHeight) + 'px';
+        console.log('???');
     }
 </script>
