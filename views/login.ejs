@@ -17,7 +17,11 @@
     <div id="info">
         <div class="close">×</div>
         <p></p>
-        <a href="./techo">如果长时间没有跳转，请点击这里</a>
+        <% if (locals.href) { %>
+            <a href="<%= locals.href %>">如果长时间没有跳转，请点击这里</a> 
+        <% } else { %>
+            <a href="./techo">如果长时间没有跳转，请点击这里</a> 
+        <% } %>
     </div>
 <header>
     <div id="h_bg"></div>
@@ -217,9 +221,13 @@
                             success: 1,
                             msg: '登陆成功，即将跳转到首页'
                         })
-                        setTimeout(() => {
-                            self.location = '../techo';
-                        }, 1800);
+                        setTimeout(() => {  //自动跳转
+                            <% if (locals.href) { %>
+                                self.location ="<%= locals.href %>" 
+                            <% } else { %>
+                                self.location = '/techo';
+                            <% } %>
+                        }, 1200);
                     }
                     isLoginClick = false;
                 },

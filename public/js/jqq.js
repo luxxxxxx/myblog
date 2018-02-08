@@ -399,12 +399,14 @@
 
 		//Attr
 		attr: function (attr) {
-			var agsL = arguments.length;
+			var	args = arguments,
+				agsL = args.length;
 			if (agsL === 1) {
-				return this[0][arguments[0]];
+				return this[0].getAttribute(arguments[0]);
 			} else if (agsL === 2) {
 				this.each(function () {
-					this[arguments[0]] = arguments[1];
+					console.log(this);
+					this.setAttribute(args[0],args[1]);
 				})
 				return this;
 			}

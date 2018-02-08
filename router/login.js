@@ -6,8 +6,12 @@ const express = require("express"),
 
 
 
-router.get("/",( req, res ) => {
-    res.render("./login.ejs")
+router.get("/",(req,res) => {
+    console.log("?????");
+    if (req.query.href) {
+        res.locals.href = req.query.href.toString().replace("http://localhost:233","");
+    }
+    res.render("./login.ejs");
 });
 
 

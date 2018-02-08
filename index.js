@@ -51,7 +51,6 @@ app.use(session({
 
 app.use ((req,res,next) => {
 
-    console.log(req.cookies.login)
     if (req.cookies.login) {  
         //存在cookie 但是不存在session 的情况下，
         //根据cookie里面的存放的用户名以及用户密码(加密后的)
@@ -98,19 +97,15 @@ app.use ((req,res,next) => {
                         } else {
                             console.log('获取管理员权限失败,数据库执行错误 index.js')
                         }
-                        console.log('---start---');
-                        console.log(req.session.login);
-                        console.log('--end--');
+                       
                         next();
                     } //callback
                 })
             })  //promise end
         } else {
-            console.log('session access');
             next();
         }
     } else {
-        console.log('no cookie');
         next();
     }
 })

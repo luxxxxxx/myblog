@@ -3,6 +3,60 @@ header #h_bg {
 	filter: blur(3px);
 }
 
+#info {
+        z-index: 999;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+        width: 300px;
+        height: 180px;
+        background: #fff;
+        border: 1px solid #4444441f;
+        box-sizing: border-box;
+        padding: 20px;
+        border-radius: 4px;
+        visibility: hidden;
+        opacity: 0;
+        transition: .1s all linear;
+        p {
+            font-size: 15px;
+            text-align: center;
+        }
+        &.success {
+            a {
+                display: block;
+            }
+        }
+        &.show {
+            visibility: visible;
+            opacity: 1;
+        }
+        a {
+            display: none;
+            font-size: 13px;
+            margin-top: 40px;
+            text-align: center;
+            color: lightgreen;
+        }
+        .close {
+            position: absolute;
+            right: 6px;
+            top: 6px;
+            width: 16px;
+            height: 16px;
+            text-align: center;
+            line-height: 16px;
+            font-size: 24px;
+            transition: .2s all linear;
+            color: #333;
+            cursor: pointer;
+            &:hover {
+                transform: rotate(90deg);
+            }
+        }
+    }
+
 #main_bg {
 	position: relative;
 	background: url('../img/2.png') no-repeat 50% -70px;
@@ -691,19 +745,14 @@ header #h_bg {
 						border-radius: 50%;
 					}
 				}
-				.textarea_con {
-					position: relative;
-					width: 705px;
-					height: 68.2px;
-					margin-left: 85px;
-					margin-right: 80px;
-					&.no-login {
+				&.no-login {
+					.textarea_con {
 						.send_comment {
-							cursor: default;
-							background-color: #e5e9ef!important;
-							border-color: #e5e9ef!important;
-							color: #b8c0cc!important;
-						}
+								cursor: default;
+								background-color: #e5e9ef!important;
+								border-color: #e5e9ef!important;
+								color: #b8c0cc!important;
+							}
 						textarea {
 							background-color: #e5e9ef;
 							
@@ -712,6 +761,14 @@ header #h_bg {
 							display: block;
 						}
 					}
+				}
+				.textarea_con {
+					position: relative;
+					width: 705px;
+					height: 68.2px;
+					margin-left: 85px;
+					margin-right: 80px;
+					
 					textarea {
 						font-size: 12px;
 						display: inline-block;
@@ -860,6 +917,18 @@ header #h_bg {
 					}
 				}
 				
+			}
+			p.c_err {
+				text-align: center;
+				font-size: 20px;
+				height: 45px;
+				color: red;
+			}
+			p.c_none {
+				text-align: center;
+				font-size: 13px;
+				height: 45px;
+				color: #888;
 			}
 			.c_list {
 				padding-top: 20px;

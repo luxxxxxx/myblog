@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="/css/comment.css">
+    <link rel="stylesheet" href="/css/reset.css">
+</head>
+<body>
+
+    <% if (locals.cm) { %>
+        <div class="c_list">
+            <% for (let i = 0; i < locals.cm.length; i++ ) { %>
+                <div class="list_item clearfix" cm_id=< %- locals.cm[i].cm_id %> >
+                    <div class="user_face">
+                        <img src="/img/<%= locals.cm[i].ud_tx %>" alt="头像">
+                    </div>
+                    <div class="con">
+                        <div class="user">
+                            <a href="##" class="name">
+                                <%- locals.cm[i].ud_name %>
+                            </a>
+                            <span class="lv">Lv9</span>
+                        </div>
+                        <p class="text">
+                            <%- locals.cm[i].cm_content %>
+                        </p>
+                        <div class="info">
+                            <span class="floor">#
+                                <%- i + 1 %>
+                            </span>
+                            <% var t = locals.cm[i].cm_date %>
+                                <span class="time">
+                                    <%- t.getFullYear() + '-' + t.getMonth() + '-' + t.getDay() + ' ' + t.getHours() + ':' + t.getMinutes() %>
+                                </span>
+                                <span class="like">
+                                    <i class="iconfont icon-thumbup"></i>
+                                    <%- locals.cm[i].cm_thumb %>
+                                </span>
+                                <span class="res">回复</span>
+                        </div>
+                        <!-- <div class="reply_box">
+                                <div class="reply_item">
+                                    <a class="reply_face" href="##">
+                                        <img src="./img/lux.png" alt="用户头像">
+                                    </a>
+                                    <div class="reply_con">
+                                        <div class="user">
+                                            <a href="##" class="name">luxxx</a>
+                                            <span class="lv">Lv9</span>
+                                        </div>
+                                        <div cl ass="text_con">
+                                            你要跟我皮是吗你要跟我皮是吗你要跟我皮是吗你要跟我皮是吗你要跟我皮是吗你要跟我皮是吗你要跟我皮是吗你要跟我皮是吗你要跟我皮是吗
+                                        </div>
+                                        <div class="info">
+                                            <span class="time">0秒前</span>
+                                            <span class="like">
+                                                <i class="iconfont icon-thumbup"></i>
+                                                5
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> -->
+                    </div>
+                </div>
+                <% } %>
+        </div>
+
+    <% } else { %>
+        <% if (locals.cm === false) { %>
+            <p class="c_err">获取弹幕失败</p>
+        <% } else { %>
+            <p class="c_none">该视频还没有评论，快来抢沙发吧</p>
+        <% } %>
+    <% }  %>
+    
+
+    <script>
+        // document.body.clientHeight
+    </script>
+</body>
+</html>
+<script>
+    window.cm_fresh = function () {
+        location.reload();
+    }
+</script>

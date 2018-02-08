@@ -12,6 +12,12 @@
 	<link rel="stylesheet" href="./css/animate.css">
 </head>
 <body>
+	<!-- show：出现   success ： 成功 -->
+	<div id="info" class=" success">
+		<div class="close">×</div>
+		<p></p>
+		<a href="##">发送弹幕成功</a>
+	</div>
 <header>
     <div id="h_bg"></div>
     <div class="mask"></div>
@@ -180,7 +186,7 @@
 						<% } else { %>
 							<div class="login_con">
 								<div class="login_btn">
-									<a href="/login">登录</a>
+									<a class="a_login" href="/login">登录</a>
 								</div>
 								<span>只有登录后才能发送弹幕哟(～￣▽￣)～</span>
 							</div>
@@ -188,7 +194,7 @@
 					<% } else {  %>
 						<div class="login_con">
 							<div class="login_btn">
-								<a href="/login">登录</a>
+								<a class="a_login" href="/login">登录</a>
 							</div>
 							<span>只有登录后才能发送弹幕哟(～￣▽￣)～</span>
 						</div>
@@ -251,19 +257,36 @@
 						<span class="next">下一页</span>
 					</div>
 				</div>
-				<div class="c_send clearfix">
-					<div class="user_face ">
-						<img src="./img/lux.png" alt="用户头像">
-					</div>
-					<!-- 未登录: no-login -->
+				
+				<% if(locals.login) { %>
+					<% if(locals.login.status) { %>
+						<div class="c_send clearfix ">
+							<div class="user_face ">
+								<img src="./img/<%= locals.login.tx %>" alt="用户头像">
+							</div>
+					<% } else { %>
+						<div class="c_send clearfix ">
+							<div class="user_face ">
+								<img src="./img/user_img/no_login.jpg" alt="未登录头像" title="未登录">
+							</div>
+					<% } %>
+
+				<% } else { %>
+					<div class="c_send no-login clearfix ">
+						<div class="user_face ">
+							<img src="./img/user_img/no_login.jpg" alt="未登录头像" title="未登录" >
+						</div>
+				<% } %>
+					<!-- 未登录 no-login -->
+					
 					<div class="textarea_con">
 						<div class="baffle_wrp">
 							<div class="baffle">
-								请先<a class="btn" href="/login">登录</a>后发表评论 (・ω・);
+								请先<a class="btn a_login" href="/login">登录</a>后发表评论 (・ω・);
 							</div>
 						</div>
-						<textarea name="" id="sendText"  cols="80" rows="5" placeholder="请自觉遵守互联网相关的政策法规，严禁发布色情、暴力、反动的言论。"></textarea>
-						<button class="send_comment" disabled="disabled" >发表评论</button>
+						<textarea name="" id="sendText" maxlength="210" cols="80" rows="5" placeholder="请自觉遵守互联网相关的政策法规，严禁发布色情、暴力、反动的言论。"></textarea>
+						<button id="send_cm" class="send_comment" >发表评论</button>
 					</div>
 					<div class="c_emoji">
 						<div class="emoji_btn">
@@ -314,50 +337,14 @@
 						</div>
 					</div>
 				</div>
-				<div class="c_list">
-					<div class="list_item clearfix">
-						<div class="user_face">
-							<img src="./img/lux.png" alt="头像">
-						</div>
-						<div class="con">
-							<div class="user">
-								<a href="##" class="name">luxxx</a>
-								<span class="lv">Lv9</span>
-							</div>
-							<p class="text">这是我的回复信息</p>
-							<div class="info">
-								<span class="floor">#1</span>
-								<span class="time">2018-01-07 11:39</span>
-								<span class="like">
-									<i class="iconfont icon-thumbup"></i>
-									10
-								</span>
-								<span class="res">回复</span>
-							</div>
-							<div class="reply_box">
-								<div class="reply_item">
-									<a class="reply_face" href="##"><img src="./img/lux.png" alt="用户头像"></a>
-									<div class="reply_con">
-										<div class="user">
-											<a href="##" class="name">luxxx</a>
-											<span class="lv">Lv9</span>
-										</div>
-										<div class="text_con">
-											 你要跟我皮是吗你要跟我皮是吗你要跟我皮是吗你要跟我皮是吗你要跟我皮是吗你要跟我皮是吗你要跟我皮是吗你要跟我皮是吗你要跟我皮是吗
-										</div>
-										<div class="info">
-											<span class="time">0秒前</span>
-											<span class="like">
-												<i class="iconfont icon-thumbup"></i>
-												5
-											</span>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
+				<iframe src="./play/get_cm" frameborder="0" style="width:100%;">
+					
+				</iframe>
+				<!--  -->
+				
+				
+				
+
 			</div>
 		</div>
 	</div>
@@ -374,6 +361,11 @@
 		if (!high_version) {
 			alert('你的浏览器内核或者版本不兼容当前页面，建议使用谷歌浏览器')
 		}
+
+		// iframe page 评论   刷新 cm_fresh
+		
+		console.log(iframePage)
+		iframe.style.height = (iframe.contentWindow.document.body.clientHeight) + 'px';
 	}
 </script>
 
@@ -404,7 +396,7 @@
 
 <script>
 
-	var $danmuScreen = $("#danmu"),
+	var $danmuScreen = $('#danmu'),
 		screenW = $danmuScreen.width(),
 		screenH = $danmuScreen.height(),
 		video = document.querySelector('video'),
@@ -415,6 +407,15 @@
 		beaginH = parseFloat(screenH) * 0.9,  //起始随机高度区域
 		$sendBt = $('.send_bt'),  //发送弹幕按钮
 		$banBt = $('.ban_dm'),  //测试按钮
+	
+		$sendCm = $('#send_cm'), //发送评论按钮
+		iframe = document.querySelector('iframe');
+		iframePage = iframe.contentWindow;
+		
+		$info = $('#info'),  //弹框
+		
+		$a_login = $('.a_login'),  //登录按钮
+
 		sendFlag = true,
 
 		high_version = true,  //高版本或者兼容版本检测
@@ -434,6 +435,9 @@
 			vpl_flag  //变量 监听 视频播放定时器flag （防止多个定时器）
 		*/
 
+	$a_login = $(".a_login");
+	$a_login.attr("href","login?href=" + self.location.href);  //将所有登录按钮的href替换成当前页面 
+	console.log($a_login.attr("class"))
 
 	$banBt.click(function (params) {  //禁止弹幕按钮
 		if ($(this).hasClass('ban')) {
@@ -451,7 +455,6 @@
 				$sendBt.click();
 		}
 	})
-
 	
 
 	$sendBt.bind('click', function () {  //点击按钮发送弹幕
@@ -615,6 +618,7 @@
 		oDm_date.className = 'dm_date';
 		oDelete.className = 'btn';
 		
+		oLi.title = obj.content;
 		oLi.setAttribute('user', obj.userId);
 		oLi.setAttribute('dm_id', obj.dmId);
 		oDm_time.innerHTML = obj.time;
@@ -749,4 +753,47 @@
 	}
 	video.onpause = video_pause;
 	video.onplay = video_con;
+
+
+	// 评论 ↓
+	
+	var  $sendText = $('#sendText');
+
+	$("#info .close").click (function () {
+		$info.removeClass('show');
+	})
+
+	$sendCm.click(function (params) {
+		var content = $sendText.val();
+		$sendText.val('');
+		Ajax({
+			method : 'post',
+			url : '/play/cm_send',
+			data : {
+				'content' : content,
+				'source_id' : parseInt(self.location.href.split("=")[1]),
+				'type' : ''  //默认评论视频  cm 评论评论
+			},
+			success : function (data) { 
+				let jData = JSON.parse(data);
+				console.log(jData);
+				if (jData.err) {
+					alert('发送评论失败')
+				} else {  //发送评论成功
+					$('#info a').text(jData.info);
+					$info.addClass('show');
+					setTimeout(() => {
+						iframePage.cm_fresh();
+						$info.removeClass('show');
+					}, 500);
+				}
+			},
+			err : function (params) {
+				
+			}
+		})
+	})
+
+
+
 </script>
