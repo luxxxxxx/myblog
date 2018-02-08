@@ -5,15 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+    <link rel="stylesheet" href="/css/iconfont.css">
     <link rel="stylesheet" href="/css/comment.css">
     <link rel="stylesheet" href="/css/reset.css">
 </head>
+<script src="/js/jqq.js">
+
+</script>
 <body>
 
     <% if (locals.cm && locals.cm.length != 0) { %>
         <div class="c_list">
             <% for (let i = 0; i < locals.cm.length; i++ ) { %>
-                <div class="list_item clearfix" cm_id=< %- locals.cm[i].cm_id %> >
+                <div class="list_item clearfix" cm_id="<%- locals.cm[i].cm_id %>" >
                     <div class="user_face">
                         <img src="/img/<%= locals.cm[i].ud_tx %>" alt="头像">
                     </div>
@@ -39,7 +43,8 @@
                                     <i class="iconfont icon-thumbup"></i>
                                     <%- locals.cm[i].cm_thumb %>
                                 </span>
-                                <span class="res">删除</span>
+                                <span class="res delete">删除</span>
+                                
                         </div>
                         <!-- <div class="reply_box">
                                 <div class="reply_item">
@@ -78,20 +83,40 @@
     <% }  %>
     
 
-    <script>
-        // document.body.clientHeight
-    </script>
 </body>
 </html>
 <script>
+
+    var deleteBtns = $('.delete');   //删除按钮
+    deleteBtns.click(function () {
+        this.flag = false;  //防止用户多次点击
+        this.id = $(this).parent().parent().parent().attr('cm_id');
+        Ajax ({
+            method : 'post',
+            url : '/play/d_cm',
+            data : {
+                id : this.id
+            },
+            success : function (data) {
+                var jData = JSON.parse (data);
+                if (jData.err) {
+                    // this.parent.
+                }
+            },
+            error : function (params) {
+                
+            }
+        })
+    })
+
+
+    
+
     console.log(self.location.href)
     window.cm_fresh = function () {
         location.reload();
     }
     window.onload = function () {
-        console.log('???');
-        console.log(this.parent.iframe);
         this.parent.iframe.style.height = (document.body.clientHeight) + 'px';
-        console.log('???');
     }
 </script>

@@ -32,7 +32,7 @@ router.get("/",(req,res) => {
                     })
 
                     mysql({
-                        sql: 'select * from t_cm left join t_userdata on t_cm.cm_userId = t_userdata.ud_userId order by cm_id desc limit 8',
+                        sql: 'select * from t_cm left join t_userdata on t_cm.cm_userId = t_userdata.ud_userId order by cm_id desc limit 3000',
                         args: [],
                         callback: (err, info) => {
                             console.log('???????')
@@ -207,6 +207,39 @@ router.get('/get_cm', (req,res) => {
     })
 })
 
+router.post('/d_cm',(req,res) => {
+    if (!req.session.login) {
+        res.json ({
+            err : 1,
+            info : '请用具有管理员权限账户登录来执行此操作'
+        })
+    } else if (req.session.login.admin <= 1 ) {
+        res.json ({
+            err : 1,
+            info : '你的账户不具有权限来执行此操作'
+        })
+    } else {
+        mysql ({
+            sql : 'delete from t_cm where cm_id = ?',
+            args : [],
+            callback : (err,info) => {
+                if (!err) {  //删除操作执行成功
+                    res.json ({
+                        err : 0,
+                        info : '删除操作执行成功'
+                    })
+                } else {
+                    res.json ({
+                        err : 1,
+                        info : '删除操作执行失败'
+                    })
+                }
+            }
+        })
+    }
 
+
+    console.log(req.session.login)
+})
 
 module.exports = router;

@@ -79,11 +79,7 @@ app.use ((req,res,next) => {
                         // console.log(info);
                         if (!err) {
                             if (info.length) {
-                                // let userId = info[0].user_id,
-                                //     admin = info[0].user_admin,
-                                //     userName = info[0].user_name,
-                                //     email = info[0].user_email,
-                                //     status = info[0].user_admin_status;
+                               
                                 req.session.login = {
                                     'userId' : info[0].user_id,
                                     'admin': info[0].user_admin,

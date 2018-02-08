@@ -25,6 +25,11 @@ header #h_bg {
 }
 #info.success a {
   display: block;
+  color: lightgreen;
+}
+#info.err a {
+  display: block;
+  color: red;
 }
 #info.show {
   visibility: visible;
@@ -32,10 +37,9 @@ header #h_bg {
 }
 #info a {
   display: none;
-  font-size: 13px;
+  font-size: 16px;
   margin-top: 40px;
   text-align: center;
-  color: lightgreen;
 }
 #info .close {
   position: absolute;
@@ -45,12 +49,13 @@ header #h_bg {
   height: 16px;
   text-align: center;
   line-height: 16px;
-  font-size: 24px;
+  font-size: 16px;
   transition: .2s all linear;
   color: #333;
   cursor: pointer;
 }
 #info .close:hover {
+  color: red;
   transform: rotate(90deg);
 }
 #main_bg {
