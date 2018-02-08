@@ -12,7 +12,7 @@
 	<link rel="stylesheet" href="./css/animate.css">
 </head>
 <body>
-	<!-- <script src="/js/emergency_msg.js"></script> -->
+	<script src="/js/emergency_msg.js"></script>
 	<!-- show：出现   success ： 成功 -->
 	<div id="info" class=" success">
 		<div class="close iconfont icon-close"></div>
@@ -786,24 +786,38 @@
 				let jData = JSON.parse(data);
 				console.log(jData);
 				if (jData.err) {
-					alert('发送评论失败')
+					showMsg({
+						msg: '发送弹幕失败',
+						status: 'err',
+						detail: jData.info
+					})
 				} else {  //发送评论成功
-					$('#info a').text(jData.info);
-					$info.addClass('show');
-					$info.addClass('success');
+					showMsg({
+						msg: '发送弹幕成功',
+						callback: function () {
+							iframePage.cm_fresh();
+							iframe.style.height = (iframe.contentWindow.document.body.clientHeight) + 'px';
+							$info.removeClass('show');
+						},
+						async : true,
+						delay : 850,
+						status: 'success',
+						detail: jData.info
+					})
 					
-					setTimeout(() => {
-						iframePage.cm_fresh();
-						iframe.style.height = (iframe.contentWindow.document.body.clientHeight) + 'px';
-						$info.removeClass('show');
-					}, 850);
 				}
 			},
 			err : function (params) {
-				
+				showMsg({
+					msg: '发送失败 ajax 错误',
+					status: 'err',
+					detail: params
+				})
 			}
 		})
 	})
+
+
 
 
 

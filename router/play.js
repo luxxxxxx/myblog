@@ -35,8 +35,6 @@ router.get("/",(req,res) => {
                         sql: 'select * from t_cm left join t_userdata on t_cm.cm_userId = t_userdata.ud_userId order by cm_id desc limit 3000',
                         args: [],
                         callback: (err, info) => {
-                            console.log('???????')
-                            console.log(info)
                             if (!err) {  //获取评论成功
                                 res.locals.cm = info;
                             } else {
@@ -193,7 +191,7 @@ router.post("/cm_send" , (req,res) => {
 
 router.get('/get_cm', (req,res) => {
     mysql({
-        sql: 'select * from t_cm left join t_userdata on t_cm.cm_userId = t_userdata.ud_userId order by cm_id desc limit 8',
+        sql: 'select * from t_cm left join t_userdata on t_cm.cm_userId = t_userdata.ud_userId order by cm_id desc limit 3000',
         args: [],
         callback: (err, info) => {
             if (!err) {  //获取评论成功
@@ -221,17 +219,22 @@ router.post('/d_cm',(req,res) => {
     } else {
         mysql ({
             sql : 'delete from t_cm where cm_id = ?',
-            args : [],
+            // sql: 'DELETE FROM `t_cm` WHERE `t_cm`.`cm_id` = ?',
+            args : [req.body.cm_id],
             callback : (err,info) => {
+                console.log('_____')
+                console.log(err)    
+                console.log('_____')
+                
                 if (!err) {  //删除操作执行成功
                     res.json ({
                         err : 0,
                         info : '删除操作执行成功'
                     })
                 } else {
-                    res.json ({
+                    res.json ({ 
                         err : 1,
-                        info : '删除操作执行失败'
+                        info : '删除操作执行失败 数据库执行错误'
                     })
                 }
             }

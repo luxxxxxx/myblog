@@ -95,16 +95,37 @@
             method : 'post',
             url : '/play/d_cm',
             data : {
-                id : this.id
+                cm_id : this.id
             },
             success : function (data) {
                 var jData = JSON.parse (data);
-                if (jData.err) {
-                    // this.parent.
+                if (!jData.err) {
+                    this.parent.showMsg({
+                        msg : '评论删除成功',
+                        delay : 1200,
+                        status : 'success',
+                        async : true,
+                        
+                        callback : function (params) {
+                            window.cm_fresh();
+                        }
+                    })
+                } else {
+                    this.parent.showMsg({
+                        msg : '评论删除失败',
+                        delay : 1200,
+                        status : 'err',
+                        detail : jData.info 
+                    })
                 }
             },
             error : function (params) {
-                
+                this.parent.showMsg({
+                    msg : '删除评论操作失败 Ajax 错误',
+                    delay : 1200,
+                    status : 'err',
+                    detail : params
+                })
             }
         })
     })
