@@ -722,11 +722,18 @@ header #h_bg {
 						margin: 0;
 					}
 					span {
-						margin: 0 4px;
-						cursor: pointer;
-						transition: .2s all linear;
-						&:hover {
-							color: #00a1d6;
+						&.contaner {
+							&:hover {
+								color: #3d4450;
+							}
+						}
+						&.page {
+							margin: 0 4px;
+							cursor: pointer;
+							transition: .2s all linear;
+							&:hover {
+								color: #00a1d6;
+							}
 						}
 					}
 					.current {

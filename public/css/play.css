@@ -678,12 +678,15 @@ header #h_bg {
   padding-right: 10px;
   margin: 0;
 }
-.comment_wrp .main .l .c_h .pages_con span {
+.comment_wrp .main .l .c_h .pages_con span.contaner:hover {
+  color: #3d4450;
+}
+.comment_wrp .main .l .c_h .pages_con span.page {
   margin: 0 4px;
   cursor: pointer;
   transition: .2s all linear;
 }
-.comment_wrp .main .l .c_h .pages_con span:hover {
+.comment_wrp .main .l .c_h .pages_con span.page:hover {
   color: #00a1d6;
 }
 .comment_wrp .main .l .c_h .pages_con .current {

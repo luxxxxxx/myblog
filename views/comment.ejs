@@ -41,7 +41,9 @@
                                 </span>
                                 <span class="like">
                                     <i class="iconfont icon-thumbup"></i>
-                                    <%- locals.cm[i].cm_thumb %>
+                                    <span class="thumbs">
+                                        <%- locals.cm[i].cm_thumb %>
+                                    </span>
                                 </span>
                                 <span class="res delete">删除</span>
                                 
@@ -73,7 +75,7 @@
                 </div>
                 <% } %>
         </div>
-
+    
     <% } else { %>
         <% if (locals.cm === false) { %>
             <p class="c_err">获取弹幕失败</p>
@@ -81,14 +83,21 @@
             <p class="c_none">该视频还没有评论，快来抢沙发吧</p>
         <% } %>
     <% }  %>
-    
+    <div id="cmNumber" style="display:none">
+        <%- locals.cm_num %>
+    </div>
+    <script>
+        var cm_num = document.querySelector('#cmNumber').innerHTML;
+        window.parent.reload_cm_num(Number(cm_num));
+    </script>
 
 </body>
 </html>
 <script>
 
-    var deleteBtns = $('.delete');   //删除按钮
-    deleteBtns.click(function () {
+    var $deleteBtns = $('.delete'),   // 删除按钮
+        $thumbs = $('.like i');  // 点赞按钮
+    $deleteBtns.click( function () {
         this.flag = false;  //防止用户多次点击
         this.id = $(this).parent().parent().parent().attr('cm_id');
         Ajax ({
@@ -131,10 +140,41 @@
     })
 
 
+    $thumbs.click (function (params) {
+        
+        var cm_id = $(this).parent().parent().parent().parent().attr('cm_id'),
+            $this = $(this);
+        console.log(cm_id)
+        Ajax ({
+            url : '/play/like',
+            method : 'post',
+            data : {
+                cm_id : cm_id
+            },
+            success : function (params) {
+                var data = JSON.parse(params);
+                if (!data.err) {  //点赞成功
+                    console.log($this.siblings())
+                    $this.siblings().html(Number($this.siblings().html()) + 1);
+                } else {
+                    window.parent.showMsg({
+                        msg : '点赞失败',
+                        detail : data.info,
+                        delay : 1200,
+                        status : 'err'
+                    })
+                }
+            },
+            error : function (params) {
+                console.log(params);
+            }
+        })
+    })
     
 
     console.log(self.location.href)
-    window.cm_fresh = function () {
+    window.cm_fresh = function () {   // 评论刷新功能
+        
         location.reload();
     }
     window.onload = function () {

@@ -31,11 +31,13 @@ router.get("/",(req,res) => {
                         }
                     })
 
-                    mysql({
+                    mysql({  // 获取评论
                         sql: 'select * from t_cm left join t_userdata on t_cm.cm_userId = t_userdata.ud_userId order by cm_id desc limit 3000',
                         args: [],
                         callback: (err, info) => {
+                            console.log(info.length)
                             if (!err) {  //获取评论成功
+                                res.locals.cm_num = info.length;
                                 res.locals.cm = info;
                             } else {
                                 res.locals.cm = false;  //获取评论失败
@@ -43,8 +45,6 @@ router.get("/",(req,res) => {
                             res.render('play.ejs');
                         }
                     })
-
-
                 } else {
                     res.render('404.ejs');
                 }
@@ -53,9 +53,6 @@ router.get("/",(req,res) => {
             }
         }
     })
-    
-
-
 })
 
 router.post("/d_dm" , (req,res) => {  //删除弹幕
@@ -128,6 +125,8 @@ router.post("/dm",(req,res) => {
 })
 
 
+
+
 router.post("/get_dm",(req,res) => {
     mysql({
         sql: 'select * from t_dm order by d_id desc limit 100',  //获取最新100条弹幕
@@ -188,22 +187,45 @@ router.post("/cm_send" , (req,res) => {
     
 })
 
-
-router.get('/get_cm', (req,res) => {
-    mysql({
+router.get('/get_cm',(req,res) => {
+    mysql({  // 获取评论
         sql: 'select * from t_cm left join t_userdata on t_cm.cm_userId = t_userdata.ud_userId order by cm_id desc limit 3000',
         args: [],
         callback: (err, info) => {
             if (!err) {  //获取评论成功
+                // info.cm_num = info.length;
                 res.locals.cm = info;
+                res.locals.cm_num = info.length;
             } else {
                 res.locals.cm = false;  //获取评论失败
             }
             res.render('comment.ejs');
         }
-    
     })
 })
+
+
+router.post('/get_cm', (req,res) => {
+    mysql({
+        sql: 'select * from t_cm left join t_userdata on t_cm.cm_userId = t_userdata.ud_userId order by cm_id desc limit 3000',
+        args: [],
+        callback: (err, info) => {
+            if (!err) {  //获取评论成功
+                res.json = {
+                    err : 0,
+                    num : info.length  //评论数量
+                }
+            } else {
+                res.json ({
+                    err : 1,
+                    info : '数据库执行错误'
+                })
+            }
+        }
+    })
+})
+
+
 
 router.post('/d_cm',(req,res) => {
     if (!req.session.login) {
@@ -240,9 +262,47 @@ router.post('/d_cm',(req,res) => {
             }
         })
     }
-
-
-    console.log(req.session.login)
 })
+
+router.post('/like' ,(req,res) => {
+    var cm_id = req.body.cm_id;
+    if (req.session.login) {  //登录状态下
+        if (!req.session.like) 
+            req.session.like = {}
+        if (!req.session.like[cm_id]) {
+            req.session.like[cm_id] = 1;
+            mysql({
+                sql : 'update t_cm set cm_thumb = cm_thumb + 1 where cm_id = ?',
+                args : [cm_id],
+                callback : (err,info) => {
+                    if (!err) {  // 点赞成功
+                        res.json ({
+                            err : 0,
+                            info : '点赞成功'
+                        })
+                    } else {
+                        res.json ({
+                            err : 1,
+                            info : '数据库执行错误'
+                        })
+                    }
+                }
+            })
+        } else {
+            res.json({
+                err : 1,
+                info : '你已经对该条评论点过赞了，短时间内不能多次点赞'
+            })
+        }
+    } else {
+        res.json ({
+            err : 1,
+            info : '请先进行登陆后在进行点赞操作'
+        })
+    }
+})
+
+
+
 
 module.exports = router;

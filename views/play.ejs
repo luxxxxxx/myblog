@@ -239,7 +239,7 @@
 		<div class="main">
 			<div class="l">
 				<div class="c_num_h">
-					<span class="num">20</span>
+					<span id="cmNum" class="num"><%- locals.cm_num %></span>
 					<span>条评论</span>
 				</div>
 				<div class="c_h clearfix">
@@ -248,14 +248,21 @@
 						<li>按热度搜索</li>
 					</ul>
 					<div class="pages_con clearfix">
-						<span class="result">共100页</span>
-						<span class="prev">上一页</span>
-						<span class="current">1</span>
-						<span>2</span>
-						<span>3</span>
-						<span>...</span>
-						<span>20</span>
-						<span class="next">下一页</span>
+						<span class="result">共<span id="totalPage"><%- Math.ceil(locals.cm_num/8) %></span>页</span>
+						<span class="prev" style="display:none" >上一页</span>
+						<span class="container" style="margin:0; transition:0;" >
+							<span class="page current">1</span>
+							
+							<% var totalPage = Math.ceil(locals.cm_num/8); %>
+							<% if (totalPage > 4) { %>
+							<% for (var i = 1; i < totalPage - 1; i++) { %>
+								<span class="page"><%- i + 1 %></span>
+							<% } %>
+							<span class="dots">...</span>
+							<span class="end page"><%- totalPage %></span>
+							<span class="next">下一页</span>
+							<% } %>
+						</span>
 					</div>
 				</div>
 				
@@ -338,7 +345,7 @@
 						</div>
 					</div>
 				</div>
-				<iframe src="./play/get_cm" frameborder="0" style="width:100%;">
+				<iframe src="/play/get_cm" frameborder="0" style="width:100%;">
 					
 				</iframe>
 				<!--  -->
@@ -409,11 +416,17 @@
 		$sendBt = $('.send_bt'),  //发送弹幕按钮
 		$banBt = $('.ban_dm'),  //测试按钮
 	
+		// 评论头部（页数、评论数） 
+		$cmNum = $('#cmNum'),  //评论数
+		$totalPage = $('#totalPage'),  
+		totalPage = Number($totalPage.html()),  //评论总页数
+		$cm_pages = $('.pages'),  //评论页数doms
+		$pages_con = $('.pages_con .container'),  
+
+
 		$sendCm = $('#send_cm'), //发送评论按钮
-		iframe = document.querySelector('iframe');
-		iframePage = iframe.contentWindow;
-		
-		$info = $('#info'),  //弹框
+		iframe = document.querySelector('iframe'),
+		iframePage = iframe.contentWindow,
 		
 		$a_login = $('.a_login'),  //登录按钮
 
@@ -638,7 +651,12 @@
 					if (!jData.err) {  //成功
 						$(oDelete).parent().remove();
 					} else {
-						alert(jData.info)
+						showMsg({
+							msg : '删除弹幕失败',
+							detail : jData.info,
+							status : 'err',
+							delay : 1000
+						})
 					}
 				},
 				error : function () {
@@ -763,6 +781,25 @@
 
 	// 评论 ↓
 	
+	// 评论翻页 
+	$cm_pages.click(function (params) {
+		var currentPage = Number($(this).html()),
+			totalPage = Number($('totalPage').html()),
+			crt_page = function (num) {
+				var oSpan = document.createElement('span');
+				oSpan.className = 'page';
+				oSpan.innerHTML = num;	
+				return oSpan;
+			};
+		$pages_con.empty();
+		if (currentPage != 1) {
+			
+		}
+
+	})
+
+
+
 	var  $sendText = $('#sendText');
 	
 
@@ -770,6 +807,10 @@
 	$("#info .close").click (function () {
 		$info.removeClass('show');
 	})
+
+	reload_cm_num = function (num) {  //刷新评论数
+		$cmNum.html(num.toString())
+	}
 
 	$sendCm.click(function (params) {
 		var content = $sendText.val();
@@ -787,17 +828,17 @@
 				console.log(jData);
 				if (jData.err) {
 					showMsg({
-						msg: '发送弹幕失败',
+						msg: '发送评论失败',
 						status: 'err',
-						detail: jData.info
+						detail: jData.info,
+						delay : 2000
 					})
 				} else {  //发送评论成功
 					showMsg({
-						msg: '发送弹幕成功',
+						msg: '发送评论成功',
 						callback: function () {
 							iframePage.cm_fresh();
 							iframe.style.height = (iframe.contentWindow.document.body.clientHeight) + 'px';
-							$info.removeClass('show');
 						},
 						async : true,
 						delay : 850,
@@ -817,6 +858,7 @@
 		})
 	})
 
+	
 
 
 

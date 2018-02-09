@@ -171,11 +171,14 @@
 		child: function (num) {
 			return $(this[0].children[num]);
 		},
-
-		// append : function (jqq) {
-		// 	domArr = [],
-		// },
-
+		//Append
+		append : function (obj) {  //参数  dom or jqq
+			if (obj.each) {
+				this[0].appendChild(obj[0])			
+			} else {
+				this[0].appendChild(obj)
+			}
+		},
 		//Height
 		height: function (num) {
 			if (num) {
@@ -493,7 +496,7 @@
 		setCookie(key, '', -1);
 	}
 	
-	//Ajax
+	//AjaxAjax
 	window.Ajax = function (json) {
 		var xhr = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP'),  //兼容老版本IE 
 			method = json.method || 'get',
