@@ -174,9 +174,13 @@
 		//Append
 		append : function (obj) {  //参数  dom or jqq
 			if (obj.each) {
-				this[0].appendChild(obj[0])			
+				this.each(function () {
+					this.appendChild(obj[0])			
+				})
 			} else {
-				this[0].appendChild(obj)
+				this.each(function (params) {
+					this.appendChild(obj)
+				})
 			}
 		},
 		//Height
