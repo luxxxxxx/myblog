@@ -345,11 +345,10 @@
 						</div>
 					</div>
 				</div>
-				<iframe src="/play/get_cm" frameborder="0" style="width:100%;">
+				<iframe src="/play/get_cm?page=1" frameborder="0" style="width:100%;">
 					
 				</iframe>
 				<!--  -->
-				
 				
 				
 
@@ -781,8 +780,9 @@
 		if (typeof (params) === 'number') currentPage = Number(params);
 		else currentPage = Number($(this).html());
 
-		
-
+		iframe.src = '/play/get_cm?page=' + currentPage;
+		iframePage.cm_fresh(); 
+		// reload_cm_num();
 
 		var	totalPage = Number($('#totalPage').html());
 

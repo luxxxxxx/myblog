@@ -187,10 +187,10 @@ router.post("/cm_send" , (req,res) => {
     
 })
 
-router.get('/get_cm',(req,res) => {
+router.get('/get_cm',(req,res) => {  //
     mysql({  // 获取评论
-        sql: 'select * from t_cm left join t_userdata on t_cm.cm_userId = t_userdata.ud_userId order by cm_id desc limit 3000',
-        args: [],
+        sql: 'select * from t_cm left join t_userdata on t_cm.cm_userId = t_userdata.ud_userId order by cm_id desc limit ?,8',
+        args: [req.query.page*8],
         callback: (err, info) => {
             if (!err) {  //获取评论成功
                 // info.cm_num = info.length;
@@ -244,9 +244,6 @@ router.post('/d_cm',(req,res) => {
             // sql: 'DELETE FROM `t_cm` WHERE `t_cm`.`cm_id` = ?',
             args : [req.body.cm_id],
             callback : (err,info) => {
-                console.log('_____')
-                console.log(err)    
-                console.log('_____')
                 
                 if (!err) {  //删除操作执行成功
                     res.json ({
