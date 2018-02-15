@@ -86,10 +86,10 @@
     <div id="cmNumber" style="display:none">
         <%- locals.cm_num %>
     </div>
-    <script>
+    <!-- <script>  //渲染父页面 评论数量
         var cm_num = document.querySelector('#cmNumber').innerHTML;
         window.parent.reload_cm_num(Number(cm_num));
-    </script>
+    </script> -->
 
 </body>
 </html>
@@ -174,10 +174,11 @@
 
     console.log(self.location.href)
     window.cm_fresh = function () {   // 评论刷新功能
-        
-        location.reload();
+        console.log(window.parent.iframe.src);
+        self.location.href = window.parent.iframe.src;  
+        // location.reload();
     }
-    window.onload = function () {
+    window.onload = function () {  //重绘高度
         this.parent.iframe.style.height = (document.body.clientHeight) + 'px';
     }
 </script>

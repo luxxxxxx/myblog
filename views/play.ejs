@@ -773,18 +773,17 @@
 
 	// 评论 ↓
 	
+	var	totalPage = Number($('#totalPage').html());  // 总页数
+	
 	// 评论翻页 
-
 	var changePage = function (params) {
 		var currentPage;
 		if (typeof (params) === 'number') currentPage = Number(params);
 		else currentPage = Number($(this).html());
-
+		
 		iframe.src = '/play/get_cm?page=' + currentPage;
-		iframePage.cm_fresh(); 
+		iframePage.cm_fresh();
 		// reload_cm_num();
-
-		var	totalPage = Number($('#totalPage').html());
 
 		var	crt_page = function (num) {
 				var oSpan = document.createElement('span');
@@ -853,20 +852,19 @@
 		if (currentPage != totalPage) 
 			$pages_con.append(crt_page('下一页'));
 
-		
-
 	} 
 
-	$cm_pages.click(function (params) {
+	$cm_pages.click(function (params) {  //翻页
 		changePage.call(this);	
 	})
 	
-	var nextPage = function (params) {
+	var nextPage = function (params) {  // 下一页
 		var currentPage = Number($('.container .current').html());
-		changePage(currentPage + 1);
+		if (currentPage != totalPage) //防止跳转到错误页
+			changePage(currentPage + 1);
 	}
 
-	var prevPage = function (params) {
+	var prevPage = function (params) {  //上一页
 		var currentPage = Number($('.container .current').html());
 		if (currentPage != 1) 
 			changePage(currentPage - 1);
@@ -876,7 +874,6 @@
 
 	var  $sendText = $('#sendText');
 	
-
 
 	$("#info .close").click (function () {
 		$info.removeClass('show');

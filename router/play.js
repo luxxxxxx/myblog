@@ -30,12 +30,10 @@ router.get("/",(req,res) => {
                             }
                         }
                     })
-
                     mysql({  // 获取评论
-                        sql: 'select * from t_cm left join t_userdata on t_cm.cm_userId = t_userdata.ud_userId order by cm_id desc limit 3000',
+                        sql: 'select * from t_cm left join t_userdata on t_cm.cm_userId = t_userdata.ud_userId order by cm_id desc',
                         args: [],
                         callback: (err, info) => {
-                            console.log(info.length)
                             if (!err) {  //获取评论成功
                                 res.locals.cm_num = info.length;
                                 res.locals.cm = info;
@@ -188,26 +186,29 @@ router.post("/cm_send" , (req,res) => {
 })
 
 router.get('/get_cm',(req,res) => {  //
+    console.log(req.query.page)
     mysql({  // 获取评论
         sql: 'select * from t_cm left join t_userdata on t_cm.cm_userId = t_userdata.ud_userId order by cm_id desc limit ?,8',
-        args: [req.query.page*8],
+        args: [(req.query.page - 1)*8],
+        // sql: 'select * from t_cm left join t_userdata on t_cm.cm_userId = t_userdata.ud_userId order by cm_id desc limit ?,8',
+        // args: [],
         callback: (err, info) => {
             if (!err) {  //获取评论成功
                 // info.cm_num = info.length;
                 res.locals.cm = info;
-                res.locals.cm_num = info.length;
             } else {
                 res.locals.cm = false;  //获取评论失败
             }
             res.render('comment.ejs');
         }
     })
+    
 })
 
 
 router.post('/get_cm', (req,res) => {
     mysql({
-        sql: 'select * from t_cm left join t_userdata on t_cm.cm_userId = t_userdata.ud_userId order by cm_id desc limit 3000',
+        sql: 'select * from t_cm left join t_userdata on t_cm.cm_userId = t_userdata.ud_userId order by cm_id desc ',
         args: [],
         callback: (err, info) => {
             if (!err) {  //获取评论成功
