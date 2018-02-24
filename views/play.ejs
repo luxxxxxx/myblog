@@ -160,7 +160,8 @@
 			<div class="video_con clearfix">
 				<div class="hint"><a href="##"><font>我要报错(°∀°)ﾉ</font></a></div>
 				<!-- video -->
-				<video src="./video/wanderers.mp4" controls="controls">
+				
+				<video src="./video/<%- locals.data.a_link %>" controls="controls">
 					您的浏览器不支持 video 标签。
 				</video>
 				<div id="senddm_con" class="clearfix">
@@ -345,7 +346,7 @@
 						</div>
 					</div>
 				</div>
-				<iframe src="/play/get_cm?page=1" frameborder="0" style="width:100%;">
+				<iframe src="/play/get_cm?source=<%- locals.data.a_id %>&page=1" frameborder="0" style="width:100%;">
 					
 				</iframe>
 				<!--  -->
@@ -407,6 +408,7 @@
 		screenW = $danmuScreen.width(),
 		screenH = $danmuScreen.height(),
 		video = document.querySelector('video'),
+		videoId = Number(location.search.match(/[0-9]+/g)),
 		gdms = [],  //存放弹幕数组
 		$dmNum2 = $('#view_con > div.info > div.v_data > div:nth-child(2) > span'), //视频名称下面的弹幕数量
 		$dmNum = $('div.danmu_con > div.player_info > em'),  //弹幕数量
@@ -421,7 +423,6 @@
 		totalPage = Number($totalPage.html()),  //评论总页数
 		$cm_pages = $('.container .page'),  //评论页数doms
 		$pages_con = $('.pages_con .container'),  
-
 
 		$sendCm = $('#send_cm'), //发送评论按钮
 		iframe = document.querySelector('iframe'),
@@ -487,7 +488,8 @@
 						crt_time : time_format(video.currentTime.toFixed(0)),
 						type : 'random',
 						color : '#fff',
-						size : '1'
+						size : '1',
+						v_id : videoId
 					},
 					success: function (params) {
 						let data = JSON.parse(params);
@@ -674,6 +676,9 @@
 		Ajax({
 			url : './play/get_dm',
 			method : 'post',
+			data : {
+				v_id : videoId
+			},
 			success : function (data) {
 				let jData = JSON.parse (data);
 				if (!jData.err) {  //弹幕加载成功

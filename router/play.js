@@ -4,13 +4,11 @@ const express = require("express"),
     // sd = require("silly-datetime"),
     router = express.Router();
 
-
 router.get("/",(req,res) => {
     let cookie = req.cookies.login,
         source_id = req.query.source,
         F_article = false,  //两个flag 
         F_comment = false;
-    
     mysql ({
         sql : 'select * from t_article where a_id = ?',
         args : [source_id],
@@ -31,8 +29,8 @@ router.get("/",(req,res) => {
                         }
                     })
                     mysql({  // 获取评论
-                        sql: 'select * from t_cm left join t_userdata on t_cm.cm_userId = t_userdata.ud_userId order by cm_id desc',
-                        args: [],
+                        sql: 'select * from t_cm left join t_userdata on t_cm.cm_userId = t_userdata.ud_userId where cm_vId = ? order by cm_id desc ',
+                        args: [source_id],
                         callback: (err, info) => {
                             if (!err) {  //获取评论成功
                                 res.locals.cm_num = info.length;
@@ -62,8 +60,6 @@ router.post("/d_dm" , (req,res) => {  //删除弹幕
                     sql : 'delete from t_dm where d_id = ?',
                     args : [req.body.id],
                     callback : (err , info) => {
-                        console.log(err);
-                        console.log(info);
                         if(!err) {
                             console.log('success')
                             res.json ({
@@ -99,14 +95,12 @@ router.post("/dm",(req,res) => {
         color = req.body['color'],
         size = req.body['size'],
         userId = req.session.login['userId'],
-        type = req.body['type'];
-        
+        type = req.body['type'],
+        v_id = req.body['v_id'];
     mysql ({
-        sql: "INSERT INTO `t_dm` (`d_content`, `d_userId`, `d_time`, `d_sendTime`, `d_type`, `d_color`, `d_size`) VALUES (?,?,?,sysdate(),?,?,?);",
-        args: [content, userId ,time , type , color , size],
+        sql: "INSERT INTO `t_dm` (`d_content`, `d_userId`, `d_time`, `d_sendTime`, `d_type`, `d_color`, `d_size`, `d_source`) VALUES (?,?,?,sysdate(),?,?,?,?);",
+        args: [content, userId ,time , type , color , size , v_id],
         callback : (err,info) => {
-            console.log(err);
-            console.log(info)
             if (!err) {
                 res.json({
                     err : 0,
@@ -124,11 +118,11 @@ router.post("/dm",(req,res) => {
 
 
 
-
 router.post("/get_dm",(req,res) => {
+    var v_id = req.body['v_id']
     mysql({
-        sql: 'select * from t_dm order by d_id desc limit 100',  //获取最新100条弹幕
-        args : [],
+        sql: 'select * from t_dm where d_source = ? order by d_id desc limit 100',  //获取最新100条弹幕
+        args : [v_id],
         callback : (err,info) => {
             if (!err) {
                 res.json({
@@ -152,7 +146,6 @@ router.post("/cm_send" , (req,res) => {
             source_id = req.body['source_id'],
             user_id = req.session.login.userId,
             type = req.body['type'];
-        
 
         mysql ({
             sql : 'INSERT INTO `t_cm` (`cm_userId` , `cm_content` , `cm_date` , `cm_vId`) VALUES (?,?,sysdate(),?)',
@@ -181,18 +174,17 @@ router.post("/cm_send" , (req,res) => {
             info : '500 服务器产生了一个错误'
         }
     }
-
-    
 })
 
 router.get('/get_cm',(req,res) => {  //
-    console.log(req.query.page)
+    console.log(req.query.source)
     mysql({  // 获取评论
-        sql: 'select * from t_cm left join t_userdata on t_cm.cm_userId = t_userdata.ud_userId order by cm_id desc limit ?,8',
-        args: [(req.query.page - 1)*8],
+        sql: 'select * from t_cm left join t_userdata on t_cm.cm_userId = t_userdata.ud_userId where cm_vId = ? order by cm_id desc limit ?,8',
+        args: [req.query.source,(req.query.page - 1)*8],
         // sql: 'select * from t_cm left join t_userdata on t_cm.cm_userId = t_userdata.ud_userId order by cm_id desc limit ?,8',
         // args: [],
         callback: (err, info) => {
+            console.log(info)
             if (!err) {  //获取评论成功
                 // info.cm_num = info.length;
                 res.locals.cm = info;
