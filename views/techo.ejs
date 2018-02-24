@@ -130,7 +130,7 @@
                                 <span class="label">
                                     <i class="icon iconfont icon-date"></i>
                                     <% var time = new Date(locals.articles[i].a_date)   %>
-                                    <%- time.getFullYear() + '-' + time.getMonth() + '-' + time.getDay()  %>
+                                    <%- time.getFullYear() + '-' + (time.getMonth() + 1) + '-' + time.getDate()  %>
                                 </span>
                             <span class="label">
                                 <i class="icon iconfont icon-biaoqian"></i>

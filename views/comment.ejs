@@ -37,7 +37,7 @@
                             </span>
                             <% var t = locals.cm[i].cm_date %>
                                 <span class="time">
-                                    <%- t.getFullYear() + '-' + t.getMonth() + '-' + t.getDay() + ' ' + t.getHours() + ':' + t.getMinutes() %>
+                                    <%- t.getFullYear() + '-' + (t.getMonth() + 1) + '-' + t.getDate() + ' ' + t.getHours() + ':' + t.getMinutes() %>
                                 </span>
                                 <span class="like">
                                     <i class="iconfont icon-thumbup"></i>

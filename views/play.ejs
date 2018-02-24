@@ -125,7 +125,7 @@
 				>
 				<a href="##"><%- locals.data.a_tags.split(',')[0] %></a>
 				<% var t = locals.data.a_date;  %>
-				<time><%- t.getFullYear() + '-' + t.getMonth() + '-' + t.getDay() + ' ' + t.getHours() + ':' + t.getMinutes() %></time>
+				<time><%- t.getFullYear() + '-' + (t.getMonth() + 1) + '-' + t.getDate() + ' ' + t.getHours() + ':' + t.getMinutes() %></time>
 			</div>
 			<div class="v_data clearfix">
 				<div><i class="icon iconfont icon-play"></i><span><%- locals.data.a_views %></span></div>
@@ -637,7 +637,7 @@
 		oLi.setAttribute('dm_id', obj.dmId);
 		oDm_time.innerHTML = obj.time;
 		oDm_content.innerHTML = obj.content;
-		oDm_date.innerHTML = (t.getMonth() + 1) + '-' + t.getDay() + ' ' + t.getHours() + ':' + t.getMinutes();
+		oDm_date.innerHTML = (t.getMonth() + 1) + '-' + t.getDate() + ' ' + t.getHours() + ':' + t.getMinutes();
 		oDelete.innerHTML = '删除弹幕';
 		oDelete.onclick = function () {
 			Ajax({
