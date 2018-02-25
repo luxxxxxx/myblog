@@ -256,13 +256,18 @@
 							
 							<% var totalPage = Math.ceil(locals.cm_num/8); %>
 							<% if (totalPage > 4) { %>
-							<% for (var i = 1; i < totalPage - 1; i++) { %>
-								<span class="page"><%- i + 1 %></span>
+							<% for (var i = 1; i < totalPage; i++) { %>
+								<span class="page"><%- i + 1  %></span>
 							<% } %>
 							<span class="dots">...</span>
 							<span class="end page"><%- totalPage %></span>
 							<span class="next page" onclick="nextPage()">下一页</span>
+							<% } else { %>
+								<% for (var i = 1; i < totalPage; i++) { %>
+								<span class="page"><%- i + 1  %></span>
+								<% } %>
 							<% } %>
+
 						</span>
 					</div>
 				</div>
@@ -350,8 +355,6 @@
 					
 				</iframe>
 				<!--  -->
-				
-				
 
 			</div>
 		</div>
@@ -385,7 +388,6 @@
 		$textarea = $("#sendText"),
 		$emoji_con = $(".c_emoji .emoji_box");
 		
-
 	$emoji_btn.click(function (params) {
 		
 		$emoji_con.toggleClass('show');
@@ -786,7 +788,7 @@
 		if (typeof (params) === 'number') currentPage = Number(params);
 		else currentPage = Number($(this).html());
 		
-		iframe.src = '/play/get_cm?page=' + currentPage;
+		iframe.src = '/play/get_cm?source=<%- locals.data.a_id %>&page=' + currentPage;
 		iframePage.cm_fresh();
 		// reload_cm_num();
 
@@ -859,7 +861,7 @@
 
 	} 
 
-	$cm_pages.click(function (params) {  //翻页
+	$cm_pages.click(function (params) {  //翻页翻页
 		changePage.call(this);	
 	})
 	
@@ -874,7 +876,6 @@
 		if (currentPage != 1) 
 			changePage(currentPage - 1);
 	}
-
 
 
 	var  $sendText = $('#sendText');
