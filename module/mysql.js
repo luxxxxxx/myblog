@@ -14,7 +14,7 @@ module.exports = (obj) => {
         config.query(obj.sql,(err,data)=>{
             obj.callback(err,data);
         })
-    }else {
+    } else {
         config.query(obj.sql,obj.args,(err,data) => {
             obj.callback(err,data);
         })
