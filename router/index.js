@@ -11,13 +11,13 @@ router.get('/logout', (req,res) => {
     res.redirect('/techo');
 })
 
-router.use("/",require("./main.js"));
+router.use("/",require("./techo.js"));
 router.use("/main",require("./main.js"));
 router.use("/play",require("./play.js"));
 router.use("/login",require("./login.js"));
 router.use("/reg",require("./register.js"));
 router.use("/techo",require("./techo.js"));
-
+router.use("/else",require("./else.js"));
 
 // router.use('/reg',function () {
 //     return require("./register.js")
