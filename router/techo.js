@@ -8,22 +8,41 @@ const express = require("express"),
 
 router.get("/", (req, res) => {
     console.log(req.query.page);
-    let page = req.query.page - 1 || 0 ;
-        
+    let page = req.query.page - 1 || 0,
+        count;  //数据量
     mysql ({
-        sql: 'select user_id,user_name,a_id,a_title,a_tags,a_type,a_desc,a_views,a_link,a_date,a_cover from t_article left join t_user on t_user.user_id = t_article.a_upId order by a_id desc limit ?,4',
-        args : [page*4],
+        sql : 'select count(1) from t_article',
+        args : [],
         callback : (err,info) => {
             if (!err) {
-                res.locals.articles = info;
-                res.locals.page = page + 1;
-                res.render('techo');
+                count = info[0]['count(1)'];
+                console.log('count=',count);
+                mysql({
+                    sql: 'select user_id,user_name,a_id,a_title,a_tags,a_type,a_desc,a_views,a_link,a_date,a_cover from t_article left join t_user on t_user.user_id = t_article.a_upId order by a_id desc limit ?,4',
+                    args: [page * 4],
+                    callback: (err, info) => {
+                        if (!err) {
+                            res.locals.articles = info;
+                            res.locals.totalPage = count;
+                            console.log('infolength', info.length)
+                            res.locals.page = page + 1;
+                            res.render('techo');
+                        } else {
+                            res.locals.result = '500 服务器发生了一个无法预料的问题,请联系网站管理员，QQ 981236133';
+                            res.status(500).render('500');
+                        }
+                    }
+                })
             } else {
                 res.locals.result = '500 服务器发生了一个无法预料的问题,请联系网站管理员，QQ 981236133';
                 res.status(500).render('500');
             }
+            
+
         }
     })
+
+    
     // res.locals.articles  = {};
 });
 

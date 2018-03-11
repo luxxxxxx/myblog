@@ -172,7 +172,7 @@
                     
                     <!-- 翻页  -->
                     <% let currentPage = locals.page; %>
-                    <% let totalPage = Math.ceil(locals.articles.length / 4); %>
+                    <% let totalPage = Math.ceil(locals.totalPage / 4); %>
                     <% if (totalPage <= 5) { %> <!-- 小于5页 -->
                         <% for (let i = 1; i <= totalPage; i++) { %>
                             <% if (currentPage == i ) { %>
