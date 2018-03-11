@@ -16,11 +16,11 @@ router.get("/", (req, res) => {
         callback : (err,info) => {
             if (!err) {
                 count = info[0]['count(1)'];
-                console.log('count=',count);
                 mysql({
                     sql: 'select user_id,user_name,a_id,a_title,a_tags,a_type,a_desc,a_views,a_link,a_date,a_cover from t_article left join t_user on t_user.user_id = t_article.a_upId order by a_id desc limit ?,4',
                     args: [page * 4],
                     callback: (err, info) => {
+                        console.log(info)
                         if (!err) {
                             res.locals.articles = info;
                             res.locals.totalPage = count;
