@@ -7,13 +7,16 @@ const express = require("express"),
 
 
 router.get("/", (req, res) => {
+    console.log(req.query.page);
+    let page = req.query.page - 1 || 0 ;
+        
     mysql ({
-        sql: 'select user_id,user_name,a_id,a_title,a_tags,a_type,a_desc,a_views,a_link,a_date,a_cover from t_article left join t_user on t_user.user_id = t_article.a_upId',
-        args : [],
+        sql: 'select user_id,user_name,a_id,a_title,a_tags,a_type,a_desc,a_views,a_link,a_date,a_cover from t_article left join t_user on t_user.user_id = t_article.a_upId order by a_id desc limit ?,4',
+        args : [page],
         callback : (err,info) => {
-            console.log(info);
             if (!err) {
                 res.locals.articles = info;
+                res.locals.page = page + 1;
                 res.render('techo');
             } else {
                 res.locals.result = '500 服务器发生了一个无法预料的问题,请联系网站管理员，QQ 981236133';

@@ -166,14 +166,63 @@
                 </article>
             <% } %>
             
-            
             <div id="pages" class="clearfix">
-                <ul class="pagination clearfix">
-                    <li class="clearfix current"><a href="##">1</a></li>
+                <ul id="pageUl" class="pagination clearfix">
+                    
+                    
+                    <!-- 翻页  -->
+                    <% let currentPage = locals.page; %>
+                    <% let totalPage = Math.ceil(locals.articles.length / 4); %>
+                    <% if (totalPage <= 5) { %> <!-- 小于5页 -->
+                        <% for (let i = 1; i <= totalPage; i++) { %>
+                            <% if (currentPage == i ) { %>
+                                <li class="clearfix current"><a href="?page=<%- i %>"><%- i %></a></li>
+                            <% } else { %>
+                                <li class="clearfix"><a href="?page=<%- i %>"><%- i %></a></li>
+                            <% } %>
+                        <% } %>
+                    <% } else { %> <!-- 大于5页：判断两种情况 ，左靠，右靠 -->
+                        <!-- 左面 -->
+                        <% if (currentPage - 3 <= 1) { %> <!-- 左靠 -->
+                            <% for (let i = 1; i <= currentPage - 1; i++) { %>
+                                <li class="clearfix"><a href="?page=<%- i %>"><%- i %></a></li>
+                            <% } %>
+                        <% } else { %> <!-- 未左靠 -->
+                            <li class="clearfix"><a href="?page=1">1</a></li>
+                            <li class="dots">...</li>
+                            <% for (let i = currentPage - 2; i <= currentPage - 1; i++) { %>
+                                <li class="clearfix"><a href="?page=<%- i %>"><%- i %></a></li>
+                            <% } %>
+                        <% } %>  
+                        <!-- 当前页 -->
+                        <li class="clearfix current"><a href="?page=<%- currentPage %>"><%- currentPage %></a></li>
+                        <!-- 右面 -->
+                        <% if (Math.abs(currentPage - totalPage) <= 3) { %> <!-- 右靠 -->
+                            <% for (let i = currentPage + 1; i <= totalPage; i++) { %>
+                                <li class="clearfix"><a href="?page=<%- i %>"><%- i %></a></li>
+                            <% } %>
+                        <% } else { %> <!-- 未右靠 -->
+                            <% for (let i = currentPage + 1; i <= currentPage + 2; i++) { %>
+                                <li class="clearfix"><a href="?page=<%- i %>"><%- i %></a></li>
+                            <% } %>
+                            <li class="dots">...</li>
+                            <li class="clearfix"><a href="?page=<%- totalPage %>"><%- totalPage %></a></li>
+                        <% } %>
+                    <% } %>
+
+
+                    
+                    
+
+                    <!-- <li class="clearfix current"><a href="/page=1">1</a></li>
                     <li class="clearfix"><a href="##">2</a></li>
                     <li class="clearfix"><a href="##">3</a></li>
                     <li class="dots">...</li>
-                    <li class="clearfix"><a href="##">4</a></li>
+                    <li class="clearfix"><a href="##">4</a></li> -->
+                    
+                    
+                    
+                    
                 </ul>
             </div>
         </div>
