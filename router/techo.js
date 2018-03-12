@@ -11,11 +11,14 @@ router.get("/", (req, res) => {
     let page = req.query.page - 1 || 0,
         count;  //数据量
     mysql ({
-        sql : 'select count(1) from t_article',
+        sql : 'select a_id,a_title,a_views from t_article order by a_id desc',
         args : [],
         callback : (err,info) => {
+            console.log(err);
             if (!err) {
-                count = info[0]['count(1)'];
+                console.log(info);
+                res.locals.totalArticles = info;
+                count = info.length;
                 mysql({
                     sql: 'select user_id,user_name,a_id,a_title,a_tags,a_type,a_desc,a_views,a_link,a_date,a_cover from t_article left join t_user on t_user.user_id = t_article.a_upId order by a_id desc limit ?,4',
                     args: [page * 4],

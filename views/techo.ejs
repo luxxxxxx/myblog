@@ -172,7 +172,7 @@
                     
                     <!-- 翻页  -->
                     <% let currentPage = locals.page; %>
-                    <% let totalPage = Math.ceil(locals.totalPage / 4); %>
+                    <% let totalPage = Math.ceil(locals.totalArticles.length / 4); %>
                     <% if (totalPage <= 5) { %> <!-- 小于5页 -->
                         <% for (let i = 1; i <= totalPage; i++) { %>
                             <% if (currentPage == i ) { %>
@@ -292,13 +292,13 @@
                 </div>
                 <ul class="list_group">
                     
-                    <% for (let i = 0; i < locals.articles.length; i++) { %>
+                    <% for (let i = 0; i < locals.totalArticles.length; i++) { %>
                         
                         <li class="list_item">
                             <span class="t">
-                                <a href="/play?source=<%- locals.articles[i]['a_id'] %>"> <%- locals.articles[i]['a_title'] %> </a>
+                                <a href="/play?source=<%- locals.totalArticles[i]['a_id'] %>"> <%- locals.totalArticles[i]['a_title'] %> </a>
                             </span>
-                            <span class="badge"><%- locals.articles[i]['a_views'] %></span>
+                            <span class="badge"><%- locals.totalArticles[i]['a_views'] %></span>
                         </li>
                     
                     <% } %>
