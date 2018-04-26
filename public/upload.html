@@ -7,10 +7,12 @@
     <title>要优雅的上传</title>
     <link rel="shortcut icon" href="./img/favicon.ico">
     <link rel="stylesheet" href="./css/reset.css">
+    <link rel="stylesheet" href="./css/bootstrap.min.css">
     <link rel="stylesheet" href="./css/general.css">
     <link rel="stylesheet" href="./css/iconfont.css">
     <link rel="stylesheet" href="./css/animate.css">
     <link rel="stylesheet" href="./css/upload.css">
+    <link rel="stylesheet" href="./css/cropper.min.css">
 </head>
 <body>
     <div id="mask"></div>
@@ -43,7 +45,9 @@
     <div id="main">
         <div class="l_cover">
             <div class="cover"></div>
+            <img src="" alt="">
         </div>
+        <input type="file" id="coverPut" style="display:none">
         <div class="r_content">
             <div class="add">
                 ＋ 点击上传视频
@@ -120,6 +124,18 @@
     </div>
 </body>
 </html>
-<script src="./">
+<script src="./js/jquery.min.js"></script>
+<script src="./js/bootstrap.min.js"></script>
+<script src="./js/cropper.min.js"></script>
+<script>
+    var CoverInput = $('#coverput'),
+        coverBox = $('.l_cover');
     
+        coverBox.click(function () {
+            alert('1')
+            CoverInput.click();
+        })
+    
+
+
 </script>

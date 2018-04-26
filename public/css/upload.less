@@ -1,5 +1,23 @@
+
+a:hover {
+    text-decoration: none !important;
+}
+
 body {
     background: red;
+}
+#mask {
+    position: absolute;
+    left: 0;
+    top: 0;
+    visibility: hidden;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, .3);
+    &.show {
+        visibility : visible;
+    }
 }
 #main {
     width: 1160px;
@@ -8,13 +26,22 @@ body {
     background: #fff;
     .l_cover {
         float: left;
-        width: 160px;
+        width: 240px;
         padding: 30px 40px 0;
         .cover {
             width: 100%;
             height: 100px;
             background-size: cover;
             background: url('../img/cover.png') no-repeat center;
+            cursor: pointer;
+        }
+        img {
+            width: 100%;
+            height: 100%;
+            display: none;
+            &.show {
+                display: block;
+            }
         }
     }
     .r_content {
@@ -56,7 +83,7 @@ body {
            }
            .progress_con {
                float: left;
-               width: 640px;
+               width: 600px;
                position: relative;
                margin-left: 16px;
                height: 36px;
@@ -158,7 +185,7 @@ body {
                 // padding: 5px 50px 5px 0px;
                 #file_name {
                     box-sizing: border-box;
-                    width: 700px;
+                    width: 660px;
                     height: 40px;
                     padding-left: 12px;
                     border-radius: 4px;
@@ -175,7 +202,7 @@ body {
                 .length {
                     display: inline-block;
                     position: absolute;
-                    right: -1px;
+                    right: 12px;
                     top: 1px;
                     width: 40px;
                     height: 40px;
@@ -240,7 +267,7 @@ body {
         .short_desc {
             textarea {
                 display: inline-block;
-                width: 680px;
+                width: 660px;
                 height: 150px;
                 font-size: 12px;
                 color: #222;
