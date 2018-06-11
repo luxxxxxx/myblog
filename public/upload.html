@@ -12,10 +12,27 @@
     <link rel="stylesheet" href="./css/iconfont.css">
     <link rel="stylesheet" href="./css/animate.css">
     <link rel="stylesheet" href="./css/upload.css">
-    <link rel="stylesheet" href="./css/cropper.min.css">
+    <link rel="stylesheet" href="./css/cropper.css">
 </head>
 <body>
-    <div id="mask"></div>
+    <div id="mask" class="" tabindex="1">
+        <div id="photoEdit">
+            <div class="close">×</div>
+            <div class="clearfix">
+                <div class="container">
+                    <div>
+                        <img id="image" class="preview_img" src="./img/exm.png" alt="Picture">
+                    </div>
+                </div>
+                <div class="preview">
+                    <img src="./img/exm.png" class="preview_img" alt="预览">
+                </div>
+            </div>
+            <div class="bottom">
+                <div class="save">保存</div>
+            </div>
+        </div>
+    </div>
     <header>
 		<div id="h_bg"></div>
 		<div class="mask"></div>
@@ -24,7 +41,7 @@
 				<div class="pic">
 					<img src="./img/heimao1.png" alt="要优雅" title="不要优雅，要污!ε=ε=(ノ≧∇≦)ノ">
 				</div>
-				<div id="logo"><img src="./img/logo.png" alt=""></div>
+                <div id="logo"><img src="./img/logo.png" alt=""></div>
 			</div>
 			<div class="r">
 				<ul class="nav clearfix">
@@ -44,14 +61,28 @@
     </header>
     <div id="main">
         <div class="l_cover">
-            <div class="cover"></div>
-            <img src="" alt="">
+            <div class="cover" data-toggle="modal" data-target="mask">
+                <img src="./img/cover.png" id="avatar" class="img" alt="">
+            </div>
+            <canvas id="canvas" width="160" height="100"></canvas>
         </div>
-        <input type="file" id="coverPut" style="display:none">
+        <input type="file" accept="image/gif, image/jpeg, image/png" id="coverPut" style="display:none">
         <div class="r_content">
             <div class="add">
                 ＋ 点击上传视频
             </div>
+
+            <!-- 隐藏 input  -->
+            <form action="localhost:233/upload/files" enctype="multipart/form-data" method="post">
+                
+                <input id="inputFile" type="file" name="video">
+                <input type="submit">
+
+            </form>
+
+            
+
+
             <li class="sort_item show">
                 <div class="index">1</div>
                 <div class="progress_con">
@@ -126,16 +157,203 @@
 </html>
 <script src="./js/jquery.min.js"></script>
 <script src="./js/bootstrap.min.js"></script>
-<script src="./js/cropper.min.js"></script>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.4.0/cropper.min.js"></script> -->
+<script src="./js/cropper.js"></script>
 <script>
-    var CoverInput = $('#coverput'),
-        coverBox = $('.l_cover');
-    
-        coverBox.click(function () {
-            alert('1')
-            CoverInput.click();
-        })
-    
+    var $CoverInput = $('#coverPut'),
+        $mask = $('#mask'),
+        $previews = $('#mask .preview'),
+        cropper,
+        canvas = document.querySelector('#canvas'),
+        $coverBox = $('.l_cover .cover'), //选择封面
+        $cropperClose = $('#mask .close'), //选择封面弹框取消
+        $avatar = $('#avatar'), //选择封面按钮的封面
+        $photoEdit = $('#photoEdit'),
+        $preview_img = $('.preview_img'), //预览图（截图，截图预览）
+        base64URL,   //base 64 url
+        $cropperSave = $('#mask .save'), //保存封面
+
+        $inputFile = $('#inputFile'),  //input file
+        $upload_btn = $('#main > div.r_content > div.add');  //上传视频按钮
+
+
+
+        // $photoEdit.on('show.bs.modal', function () {
+        //     console.log('?')
+        //     cropper = new Cropper(image, {
+        //         aspectRatio: 1,
+        //         viewMode: 3,
+        //     });
+        // }).on('hidden.bs.modal', function () {
+        //     console.log('??')
+        //     cropper.destroy();
+        //     cropper = null;
+        // });
+        
+        function each(arr, callback) {
+            var length = arr.length;
+            var i;
+
+            for (i = 0; i < length; i++) {
+                callback.call(arr, arr[i], i, arr);
+            }
+
+            return arr;
+        }
+
+        window.addEventListener('DOMContentLoaded', function () {
+                var image = document.querySelector('#image');
+                var minAspectRatio = 1;
+                var maxAspectRatio = 2;
+                // var cropper = new Cropper(image, {
+                //     ready: function () {
+                //         var cropper = this.cropper;
+                //         var containerData = cropper.getContainerData();
+                //         var cropBoxData = cropper.getCropBoxData();
+                //         var aspectRatio = cropBoxData.width / cropBoxData.height;
+                //         var newCropBoxWidth;
+
+                //         if (aspectRatio < minAspectRatio || aspectRatio > maxAspectRatio) {
+                //             newCropBoxWidth = cropBoxData.height * ((minAspectRatio + maxAspectRatio) / 2);
+
+                //             cropper.setCropBoxData({
+                //                 left: (containerData.width - newCropBoxWidth) / 2,
+                //                 width: newCropBoxWidth
+                //             });
+                //         }
+                //     },
+                //     cropmove: function () {
+                //         var cropper = this.cropper;
+                //         var cropBoxData = cropper.getCropBoxData();
+                //         var aspectRatio = cropBoxData.width / cropBoxData.height;
+
+                //         if (aspectRatio < minAspectRatio) {
+                //             cropper.setCropBoxData({
+                //                 width: cropBoxData.height * minAspectRatio
+                //             });
+                //         } else if (aspectRatio > maxAspectRatio) {
+                //             cropper.setCropBoxData({
+                //                 width: cropBoxData.height * maxAspectRatio
+                //             });
+                //         }
+                //     },
+                //     crop: function (e) {
+                //         var data = e.detail;
+                //         var cropper = this.cropper;
+                //         var imageData = cropper.getImageData();
+                //         var previewAspectRatio = data.width / data.height;
+
+                //         each($previews, function (elem) {
+                //             var previewImage = elem.getElementsByTagName('img').item(0);
+                //             var previewWidth = elem.offsetWidth;
+                //             var previewHeight = previewWidth / previewAspectRatio;
+                //             var imageScaledRatio = data.width / previewWidth;
+
+                //             elem.style.height = previewHeight + 'px';
+                //             previewImage.style.width = imageData.naturalWidth / imageScaledRatio + 'px';
+                //             previewImage.style.height = imageData.naturalHeight / imageScaledRatio + 'px';
+                //             previewImage.style.marginLeft = -data.x / imageScaledRatio + 'px';
+                //             previewImage.style.marginTop = -data.y / imageScaledRatio + 'px';
+                //         });
+                //     }
+                // });
+                var cropper = new Cropper(image, {  //固定裁剪
+                    dragMode: 'move',
+                    aspectRatio: 16 / 10,
+                    autoCropArea: 0.65,
+                    restore: false,
+                    guides: false,
+                    center: false,
+                    highlight: false,
+                    cropBoxMovable: false,
+                    cropBoxResizable: false,
+                    toggleDragModeOnDblclick: false,
+                });
+
+                
+                $coverBox.click(function () {
+                    $CoverInput.click();
+                    $CoverInput.change(function name(e) {
+                        var files = e.target.files;
+                        var done = function (url) {
+                            base64URL = url;                            
+                            // $preview_img.each.attr.src = url;
+                            // $preview_img.each(function () {
+                            //     console.log(this)
+                            //     this.src = url;
+                                
+                            // })
+                            $preview_img.get(0).src = url;
+                            $('#photoEdit > div.clearfix > div.container > div > div > div.cropper-crop-box > span.cropper-view-box > img').get(0).src = url;
+                            $('#photoEdit > div.clearfix > div.container > div > div > div.cropper-wrap-box > div > img').get(0).src = url;
+                            $mask.addClass('show');
+                        };
+                        var reader;
+                        var file;
+                        var url;
+
+                        if (files && files.length > 0) {
+                            file = files[0];
+                            reader = new FileReader();
+                            reader.onload = function (e) {
+                                done(reader.result);
+                            };
+                            reader.readAsDataURL(file);
+                            $preview_img.each(function (params) {
+                                this.src = URL.createObjectURL(file);
+                            })
+                            // if (URL) {
+                            //     done(URL.createObjectURL(file));
+                            // } else if (FileReader) {
+                            //     reader = new FileReader();
+                            //     reader.onload = function (e) {
+                            //         done(reader.result);
+                            //     };
+                            //     reader.readAsDataURL(file);
+                            //     $preview_img.each(function (params) {
+                            //         this.src = URL.createObjectURL(file);
+                            //     })
+                            // }
+                        }
+                    })
+                })
+
+                $cropperClose.click(function () {
+                    $mask.removeClass('show');
+                })
+
+                $cropperSave.click(function () {  // 获取截取后的图片 base64 
+                    var croppedCanvas = cropper.getCroppedCanvas({
+                        width: 160,
+                        height: 100,
+                        fillColor: '#fff',
+                        imageSmoothingEnabled: false,
+                        imageSmoothingQuality: 'high',
+                    })
+                    var base64url = croppedCanvas.toDataURL('image/jpeg');
+                    base64URL = base64url;  
+                    $('#avatar').attr('src' , base64url)
+                    $('#mask').removeClass('show');
+                })
+
+                $inputFile[0].onchange = function () {
+                    console.log(this)
+                    var file = this.files[0];
+                    console.log(file)
+                    $upload_btn.css('display','none')
+                }
+
+                
+
+               
+
+                $upload_btn.click(function (params) {
+                    $inputFile[0].click();
+                })
+
+
+
+            });
 
 
 </script>

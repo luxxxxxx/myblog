@@ -9,6 +9,8 @@ router.get('/',(res,req) => {
     res.render('./upload.ejs');
 });
 
-
+router.post('/files',(res,req) => {
+    
+})
 
 module.exports = router;
