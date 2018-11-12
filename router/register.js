@@ -45,7 +45,7 @@ router.post('/sendMail',(req,res) => {  //发送邮件
             from : "luxxxxxx <wy981236133@126.com>",
             subject : "要优雅的注册",
             to : email,
-            html: "<h1>点击链接激活邮箱</h1><br />欢迎来到要优雅官方注册页面，点击以下链接，以此来完成邮箱校检.</br> <a href='http://111.231.196.109:233/reg/activeEmail?email=" + encrypted +"'>http://111.231.196.109:233/reg/activeEmail?email="+ encrypted +"</a>"
+            html: "<h1>点击链接激活邮箱</h1>< br /> 请点击以下链接，以此来完成邮箱校检<br /> <br /><a href='http://47.107.80.234/reg/activeEmail?email=" + encrypted +"' > <b style='font-size: 50' >点击此处</b></a><br />'47.107.80.234/reg/activeEmail?email=" + encrypted +"'"
         };
         mysql({
             sql : 'insert into t_user_email (email,isActive) values (?,0)',
