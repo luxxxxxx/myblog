@@ -73,12 +73,12 @@
             </div>
 
             <!-- 隐藏 input  -->
-            <form action="localhost:233/upload/files" enctype="multipart/form-data" method="post">
+            <!-- <form action="localhost:233/upload/files" enctype="multipart/form-data" method="post"> -->
                 
-                <input id="inputFile" type="file" name="video">
-                <input type="submit">
+                <input id="inputFile" type="file" name="video" style="display: none">
+                <!-- <input type="submit"> -->
 
-            </form>
+            <!-- </form> -->
 
             
 
@@ -338,9 +338,25 @@
 
                 $inputFile[0].onchange = function () {
                     console.log(this)
-                    var file = this.files[0];
-                    console.log(file)
-                    $upload_btn.css('display','none')
+                    var file = this.files[0],
+                        f = new FormData();
+                    f.append('video',file);
+                    // 使上传文件按钮消失
+                    $upload_btn.css('display','none');
+                    //
+                    $.ajax({
+                        url : 'localhost:233/upload/files',
+                        type: 'post',
+                        data : {
+                            'video' : file
+                        },
+                        success : function () {
+                            console.log('success');
+                        },
+                        err : function () {
+                            console.log('err');
+                        }
+                    })
                 }
 
                 
