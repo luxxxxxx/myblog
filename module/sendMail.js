@@ -2,7 +2,7 @@ let nodemailer = require("nodemailer");
 
 let config = {
     host : "smtp.126.com",
-    port : 25,
+    port : 465,
     auth : {
         user : "wy981236133@126.com",
         pass : "ljh5001131"
