@@ -141,8 +141,8 @@
         <a href="##">要优雅</a>
     </footer>
 
-</body>
 
+</body>
 </html>
 <script>
     var high_version = null;
@@ -164,11 +164,9 @@
 
         high_version = true,
 
-        $pic = $('#pic');
+        $pic = $('#pic');  //女仆妹抖龙
 
-    console.log($pass);
     $pass.bind('focus', function () {
-        console.log(this);
         $pic.addClass('hidden');
     }).bind('blur', function () {
         $pic.removeClass('hidden');
@@ -193,11 +191,11 @@
 
 
     function login() {  //login 
-        if (!isLoginClick) {  
+        if (!isLoginClick) {  // 你忽略这里  
             isLoginClick = true;
-            Ajax({
+            Ajax({  // 这个ajax  只要点击登陆就发一个post  你不信可以用 network | postman看 
                 method: 'post',
-                url: './login',
+                url: './test',
                 data: {
                     userName: $user.val(),
                     passWord: $pass.val()
@@ -226,7 +224,7 @@
                             <% } else { %>
                                 self.location = '/techo';
                             <% } %>
-                        }, 1200);
+                        }, 1000);
                     }
                     isLoginClick = false;
                 },

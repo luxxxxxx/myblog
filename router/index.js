@@ -19,6 +19,7 @@ router.use("/reg",require("./register.js"));
 router.use("/techo",require("./techo.js"));
 router.use("/else",require("./else.js"));
 router.use("/upload",require("./upload.js"));
+router.use("/test",require("./test.js"));
 // router.use('/reg',function () {
 //     return require("./register.js")
 // });
