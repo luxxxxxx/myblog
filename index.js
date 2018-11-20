@@ -79,13 +79,14 @@ app.use ((req,res,next) => {
                         // console.log(info);
                         if (!err) {
                             if (info.length) {
-                               
                                 req.session.login = {
                                     'userId' : info[0].user_id,
                                     'admin': info[0].user_admin,
-                                    'userName': info[0].user_name,
+                                    'userName': info[0].ud_name,
+                                    'count': info[0].user_name,
                                     'email': info[0].user_email,
-                                    'status' : info[0].user_status
+                                    'status' : info[0].user_status,
+                                    'tx': info[0].ud_tx
                                 }
                             } else {
                                 console.log('按理说不应该存在这种错误的');
@@ -93,7 +94,6 @@ app.use ((req,res,next) => {
                         } else {
                             console.log('获取管理员权限失败,数据库执行错误 index.js')
                         }
-                       
                         next();
                     } //callback
                 })
@@ -111,15 +111,26 @@ app.use ((req,res,next) => {
 app.use((req, res, next) => {
     if (req.cookies['login']) {
         let cookies = req.cookies['login'];
-        res.locals.login = {
-            status: cookies.status,  
-            name: cookies.name,
-            id : cookies.id,
-            admin : cookies.admin,
-            tx : cookies.tx,
-            sign : cookies.sign,
-            exp : cookies.exp
-        }
+        console.log('这里是中间件的console 输出cookies',req.cookies.login);
+        // res.locals.login = {
+        //     status: cookies.status,  
+        //     name: cookies.name,
+        //     count: cookies.count, 
+        //     id: cookies.id,
+        //     admin : cookies.admin,
+        //     tx : cookies.tx,
+        //     sign : cookies.sign,
+        //     exp : cookies.exp
+        // }
+        res.locals.name = cookies.name;
+        res.locals.status = cookies.status;
+        res.locals.count = cookies.count;
+        res.locals.id = cookies.id;
+        res.locals.admin = cookies.admin;
+        res.locals.tx = cookies.tx;
+        res.locals.sign = cookies.sign;
+        res.locals.exp = cookies.exp;
+
         // res.locals.login.pass = r = req.cookies.login.name;
         // console.log(res.locals.login);
     } else {
@@ -130,7 +141,7 @@ app.use((req, res, next) => {
 
 app.use('/',require('./router/index'));
 
-http.createServer(app).listen(80);
+http.createServer(app).listen(233);
 
 //  http://localhost:233  /admim 这个路径已经被app.use匹配了
 //        /index 这个路径是来交给admin.js文件进行匹配的

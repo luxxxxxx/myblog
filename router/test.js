@@ -6,8 +6,9 @@ const express = require("express"),
 
 // 这个 JS 很重要， 之前出了一个玄学bug，login.js 无论如何都无法  处理 post 请求，做了很多尝试，殊不知竟然是名字出的问题，至于为什么这样至今未搞懂。真是玄学至极，为了给后面的开发人员
 //说明这个JS 的重要程度，希望别看到名字是test就随便就改动,这是处理登陆信息的重要router 。！！
-router.get("/",(req,res) => {
-    console.log('test begin!');
+router.get("/",(req,res) => {  //跳转到登陆页面直接清除 cookies and session 
+    res.clearCookie('login');
+    req.session.destroy();
     res.render('./login.ejs');
 })
 
@@ -22,20 +23,21 @@ router.post("/",(req,res) => {
         sql: 'SELECT * FROM t_user left join t_userdata on t_user.user_id = t_userdata.ud_userId  where user_name = ? and user_pass = ? ',
         args : [userName,newPass],
         callback : (err,info) => {
-            console.log("callback");
-
-            console.log(' mysqlerr : ' + err);
-            console.log('err info : ' + info);
             if (!err) {
                 if (info.length) {
+                    // console.log('---');
+                    // console.log(info[0]);
+                    // console.log('----')
                     req.session.login = {
                         'userId': info[0].user_id,
                         'admin': info[0].user_admin,
-                        'userName': info[0].user_name,
+                        'userName': info[0].ud_name,
+                        'count': info[0].user_name,
                         'email': info[0].user_email,
-                        'status': info[0].user_status
+                        'status': info[0].user_status,
+                        'tx': info[0].ud_tx
                     };
-
+                    
                 let encrypted = null,
                     p_cipher = (params) => {   //异步  加密
                         return new Promise((resolve, reject) => {
@@ -48,10 +50,10 @@ router.post("/",(req,res) => {
 
                     p_cipher().then(() => 
                     {
-                        console.log(encrypted);
                         // 1.cookie 名称  2.数据  3.过期时间
                         res.cookie('login',{ 
-                            name : info[0].user_name,
+                            name : info[0].ud_name,
+                            count : info[0].user_name,
                             id : info[0].user_id,
                             admin : info[0].user_admin,  //管理权限
                             pass : encrypted,

@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<% if (!locals.status) { %>
+    <script> 
+        alert('请登录后执行操作');
+        self.location =  './login'; 
+    </script>
+<% } else { %>   
+        
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="shortcut icon" href="./img/favicon.ico">
+    <link rel="stylesheet" href="./css/reset.css">
+    <link rel="stylesheet" href="./css/general.css">
+    <link rel="stylesheet" href="./css/iconfont.css">
+    <link rel="stylesheet" href="./css/animate.css">
+    <link rel="stylesheet" href="./css/userInfoModify.css">
+</head>
+<body>
+<header>
+    <div id="h_bg"></div>
+    <div class="mask"></div>
+    <div id="h_content">
+        <div class="l">
+            <div class="pic">
+                <img src="./img/heimao1.png" alt="要优雅" title="不要优雅，要污!ε=ε=(ノ≧∇≦)ノ">
+            </div>
+            <div id="logo">
+                <img src="./img/logo.png" alt="">
+            </div>
+        </div>
+        <div class="r">
+            <ul class="nav clearfix">
+                <li>
+                    <a href="/main">main</a>
+                    <div class="bar"></div>
+                </li>
+                <li class="current">
+                    <a href="/techo">technology</a>
+                    <div class="bar"></div>
+                </li>
+                <li>
+                    <a href="##">anime</a>
+                    <div class="bar"></div>
+                </li>
+                <li class="n-margin-r">
+                    <a href="##">music</a>
+                    <div class="bar"></div>
+                </li>
+            </ul>
+            <!-- 登录板块，登录：yes，未登录 no -->
+    
+        <% if (locals.status) { %>
+        <div class="login_sec yes">
+        <% } else { %>
+        <div class="login_sec no">
+        <% } %>
+        
+            <span>
+                <a href="./login">login</a>
+            </span>
+            <span>|</span>
+            <span>
+                <a href="./reg">register</a>
+            </span>
+            <li class="user">
+                <a href="##">
+                    <div class="i_face">
+                        <img src="./img/user_img/<%- locals.tx %>">
+                    </div>
+                </a>
+                <div class="profile">
+                    <b class="name"><%- locals.name %></b>
+                    <div class="user_status">
+                        <div class="l ">
+                            <span>身份：</span>
+                            <span class="status"><%- locals.status %></span>
+                        </div>
+                        <div class="r ">
+                            <span>权限等级：</span>
+                            <span class="rights_level">Lv<%- locals.admin %></span>
+                        </div>
+                    </div>
+                    <div class="lv_con">
+                        <span>等级：</span>
+                        <em>Lv9</em>
+                        <div class="lv_bar">
+                            <div class="process"></div>
+                            <span class="exp">888/999</span>
+                        </div>
+                    </div>
+                    <div class="selection">
+                        <a href="./userInfoModify">修改资料</a>
+                    </div>
+                    <div class="footer">
+                        <a href="./logout">退出</a>
+                    </div>
+                </div>
+            </li>
+        </div>
+        </div>
+        </div>
+    </div>
+</header>
+
+<section class="userInfo_con">
+    <div class="userInfo_mid">
+        <div class="l">
+            <div class="tx tx_pic" style="background: url(./img/user_img/<%- locals.tx %>) center ;background-size:cover">
+                <div class="mask">
+                </div>
+                <div class="o tx_pic" style="background: url(./img/user_img/<%- locals.tx %>) center ;background-size:cover"></div>
+            </div>
+            <div>
+                <div class="change_btn">更改头像</div>
+                <form id="tx_form" action="./userInfoModify/tx" method="post" enctype="multipart/form-data">
+                    <input type="file" name="touxiang" id="input_file" style="display: none" accept="image/gif, image/jpeg, image/png">
+                </form>
+            </div>
+            <span class="hint">提示：上传图片大小不得大于0.5M</span>
+            <br />
+            <span class="err">图片过大，请压缩后重试&nbsp;&nbsp;<a target="_blank" href="https://tinypng.com/">在线压缩地址点击这里</a></span>
+        </div>
+        <div class="r">
+            <div class="li">
+                <span>昵称：</span>
+                <input type="text" id="userName" class="input_text" value="<%- locals.name %>" maxlength="10" placeholder="2-10位且不得含有非法字符">
+                <span class="hint">用户名不符合要求</span>
+            </div>
+            
+            <div class="li clearfix auto">
+                <span>签名：</span>
+                <textarea class="sign" maxlength="100" placeholder="请遵守网络安全文明用语，违规会被查封"><%- locals.sign %></textarea>
+            </div>
+            <div class="li">
+                <span>账号：</span>
+                <span style="text-align: left"><%- locals.count %></span>
+            </div>
+            <div class="li bar">
+                <span style="font-weight: 600;position: absolute; width: 640px;text-align: left;text-indent: 26px;height: auto;">密码修改(不想修改密码请清空原密码或忽略)：</span>
+            </div>   
+            <div class="li">
+                <span>原密码：</span>
+                <input class="input_text" type="password" placeholder="原密码">
+                <b class="hint"></b>
+            </div>
+            <div class="li">
+                <span>新密码：</span>
+                <input class="input_text" type="password" placeholder="新密码">
+                <b class="hint"></b>
+            </div>
+            <div class="li">
+                <span>重复密码：</span>
+                <input class="input_text" type="password" placeholder="重复新密码">
+                <b class="hint"></b>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div>
+    <div class="confirm">确认修改</div>
+</div>
+
+<footer>
+    要优雅 v 0.86 powered by
+    <a href="##">要优雅</a>
+</footer>
+
+</body>
+</html>
+<script src="./js/jqq.js"></script>
+<script src="./js/emergency_msg.js"></script>
+<script>
+
+
+    let $tx_con = $('.tx_pic'), //两个装头像的div 
+        $tx_btn = $('.change_btn'),  //改变头像的btn
+        tx,  //存储用户头像
+        $tx_file = $('#input_file'), //input file 传输文件的file 
+        $userName = $('#userName'),  //用户名
+        $sign = $('body > section > div > div.r > div.li.clearfix.auto > textarea'),  //用户签名
+        $originPass = $('body > section > div > div.r > div:nth-child(5) > input'),  //原始密码 
+        $hint1 = $('body > section > div > div.r > div:nth-child(5) > b'),  //密码提示
+        $newPass1 = $('body > section > div > div.r > div:nth-child(6) > input'),  //新密码1
+        $hint2 = $('body > section > div > div.r > div:nth-child(6) > b'),  //密码重复1提示
+        $newPass2 = $('body > section > div > div.r > div:nth-child(7) > input'), //新密码2
+        $hint3 = $('body > section > div > div.r > div:nth-child(7) > b'),  //密码重复2提示
+        $confirm = $('body > div:nth-child(3) > div'),  //确认提交按钮
+        tx_flag = true,  //头像flag
+        tx_change = false,  //头像是否有改变
+        name_flag = true,  //用户名flag
+        pass_flag = 3,  //密码flag true 正确  false 错误  3忽略
+        pass_flag1 = false,  //重复密码1flag
+        pass_flag2 = false;  //重复密码2flag
+
+        $tx_btn.click(function () {
+            $tx_file.click()           
+        })
+
+        $tx_file[0].onchange = function () {
+            tx_change = true;
+            if (this.files[0].size / 1024 / 1024 > 0.5) {  //判断图片大小并显示提示
+                $('div.l > span.err').addClass('show');
+                tx_flag = false;
+            } else {
+                $('div.l > span.err').removeClass('show');
+                tx_flag = true;
+            }
+
+            let reader = new FileReader(),
+                size = this.files[0].size/1024/1024 + 'M',
+                file = this.files[0];
+            reader.readAsDataURL(file);
+            //监听文件读取结束后事件    
+            reader.onloadend = function (e) {
+                console.log(e.target.result)
+                $tx_con.css({
+                    'background' : "url(" + e.target.result + ")",
+                    'background-size' : 'cover'
+                });
+                  //e.target.result就是最后的路径地址
+                tx = e.target.result;
+            };
+            
+
+        }
+        
+        let reg = new RegExp('^[\u4e00-\u9fa5_a-zA-Z0-9]+$'),  //用户名 正则
+            $userNameHint = $('body > section > div > div.r > div:nth-child(1) > span.hint');
+
+        $userName[0].onkeyup = function (params) {
+            let userName = this.value;
+            
+            if (reg.test(userName) && userName.length >= 2 && userName.length <= 10) {
+                $userNameHint.removeClass('show');
+                name_flag = true;
+            } else {
+                $userNameHint.addClass('show');
+                name_flag = false;
+            }
+        }
+        
+ 
+        $originPass[0].onkeyup = function () {
+            let originPass = $(this).val();
+            if ($(this).val().length != 0) {
+                Ajax({
+                    url : '/userInfoModify',
+                    data : {
+                        originPass : originPass
+                    },
+                    method : 'post',
+                    success : function (params) {
+                        let data = JSON.parse(params);
+                        $hint1.html(data.detail);
+                        if (!data.err) {
+                            $hint1.addClass('right');
+                            pass_flag = true;
+                        } else {
+                            $hint1.removeClass('right');
+                            pass_flag = false;
+                        }
+                    },
+                    error : function (params) {
+                        $hint1.removeClass('right');
+                        pass_flag = false;
+                    }
+                })
+            } else {
+                pass_flag = 3;
+            }
+        }
+
+        $newPass1.bind('keyup',function name() {
+            let newPass = $(this).val();
+            if (newPass.length < 6) {
+                $hint2.html('密码长度不能小于6');
+                pass_flag1 = false;
+            } else if (newPass.length > 16) {
+                $hint2.html('密码长度不能大于16个字符');
+                pass_flag1 = false;
+            } else {
+                $hint2.html('');
+                pass_flag1 = true;   
+            }
+        })
+
+        $newPass2.bind('keyup',function name() {
+            let newPass = $(this).val();
+            if (newPass != $newPass1.val()) {  //两次密码不等
+                $hint3.html('请保持两次密码输入一致')
+                pass_flag2 = false;
+            } else {
+                $hint3.html('');
+                pass_flag2 = true;
+            }
+        })
+
+        
+        $confirm.bind('click',function () {
+            console.log('tx_flag:' + tx_flag);
+            console.log('pass_flag:' + pass_flag);
+            console.log('pass_flag1:'  + pass_flag1);
+            console.log('pass_flag2:' + pass_flag2)
+            if (!tx_flag) {
+                showMsg({
+                    msg: '错误',
+                    status: 'err',
+                    detail: '请核认用户头像大小及格式',
+                    delay: 1000
+                })
+            } else if (!name_flag) {
+                showMsg({
+                    msg: '错误',
+                    status: 'err',
+                    detail: '请核认用户名格式',
+                    delay: 1000
+                })
+            } else if (!pass_flag) {
+                showMsg({
+                    msg: '错误',
+                    status: 'err',
+                    detail: '原密码输入错误，或发生错误请重新输入',
+                    delay: 1000
+                })
+            } else if (pass_flag === true && $($originPass).val().length != 0) {  //发生密码成功改动
+                if (!pass_flag1) {
+                    showMsg({
+                        msg: '错误',
+                        status: 'err',
+                        detail: '请核认新密码长度',
+                        delay: 1000
+                    })
+                } else if (!pass_flag2) {
+                    showMsg({
+                        msg: '错误',
+                        status: 'err',
+                        detail: '请核认两次输入密码',
+                        delay: 1000
+                    })
+                } else {  //密码成功修改
+                    sendForm();
+                }
+            }  else {
+                sendForm();
+            }
+        })
+
+        let sendForm = function () {
+            if (tx_change) {  //发送新头像
+                $('#tx_form')[0].submit();
+            }
+
+            console.log($sign.val());
+            let newPass = null;
+
+            if ($originPass.val().length === 0) {  //如果忽略密码修改，没有新密码值
+                console.log('new pass : null')
+            } else {  //修改了密码的情况
+                newPass = $newPass2.val();
+                console.log('new pass :' + $newPass2.val())
+            }
+
+
+            console.log('sign :' + $sign.val())
+
+
+            Ajax({
+                url: './userInfoModify/form',
+                method: 'post',
+                data: {
+                    userName: $userName.val(),
+                    newPass: newPass,
+                    sign: $sign.val()
+                },
+                success: function (params) {
+                    let data = JSON.parse(params);
+                    if (data.err) {
+                        showMsg({
+                            status: 'error',
+                            msg: '数据库错误',
+                            detail: data.info,
+                            delay: 2000
+                        })
+                    } else {
+                        showMsg({
+                            status: 'success',
+                            msg: '用户信息修改成功,请重新登陆',
+                            link: '/login',
+                            detail: data.info,
+                            delay: 2000,
+                            callback : function () {
+                                self.location = '/login';  //回调函数
+                            }
+                        })
+                    }
+                },
+                error: function (params) {
+                    showMsg({
+                        status: 'error',
+                        msg: 'Ajax 失败，具体信息:',
+                        detail: params,
+                        delay: 3000
+                    })
+                }
+            })
+        }
+
+
+</script>
+
+<% } %>
+
+        
+        

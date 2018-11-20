@@ -14,12 +14,15 @@ router.get('/logout', (req,res) => {
 router.use("/",require("./techo.js"));
 router.use("/main",require("./main.js"));
 router.use("/play",require("./play.js"));
-router.use("/login",require("./login.js"));
+router.use("/login",require("./test.js"));
 router.use("/reg",require("./register.js"));
 router.use("/techo",require("./techo.js"));
 router.use("/else",require("./else.js"));
 router.use("/upload",require("./upload.js"));
 router.use("/test",require("./test.js"));
+router.use("/userInfoModify",require("./userInfoModify.js"));
+router.use("/newtest",require("./newtest.js"));
+
 // router.use('/reg',function () {
 //     return require("./register.js")
 // });

@@ -45,7 +45,7 @@ router.post('/sendMail',(req,res) => {  //发送邮件
             from : "luxxxxxx <wy981236133@126.com>",
             subject : "要优雅的注册",
             to : email,
-            html: "<h1>点击链接激活邮箱</h1>< br /> 请点击以下链接，以此来完成邮箱校检<br /> <br /><a href='http://47.107.80.234/reg/activeEmail?email=" + encrypted +"' > <b style='font-size: 50' >点击此处</b></a><br />'47.107.80.234/reg/activeEmail?email=" + encrypted +"'"
+            html: "<h1>点击链接激活邮箱</h1><br /> 请点击以下链接，以此来完成邮箱校检<br /> <br /><a href='http://47.107.80.234/reg/activeEmail?email=" + encrypted +"' > <b style='font-size: 50' >点击此处</b></a><br />'47.107.80.234/reg/activeEmail?email=" + encrypted +"'"
         };
         mysql({
             sql : 'insert into t_user_email (email,isActive) values (?,0)',
@@ -92,7 +92,7 @@ router.get("/activeEmail",(req,res) => {
                                     if (err) {  //失败
                                         res.render('email_callback.ejs',{data : '更新数据库发生未知错误，请联系网站管理员email:981236133@qq.com'})
                                     } else {
-                                        res.render('email_callback.ejs',{data : '恭喜！你的邮箱激活成功!请返回注册界面完成注册~'});
+                                        res.render('email_callback.ejs',{data : '恭喜！你的邮箱激活成功!请直接前往登录界面直接登陆~'});
                                     }
                                 }
                             })

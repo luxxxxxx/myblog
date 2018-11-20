@@ -58,10 +58,12 @@ router.post("/login",(req,res) => {
                     req.session.login = {
                         'userId': info[0].user_id,
                         'admin': info[0].user_admin,
-                        'userName': info[0].user_name,
+                        'userName': info[0].ud_name,
                         'email': info[0].user_email,
-                        'status': info[0].user_status
-                    }
+                        'status': info[0].user_status,
+                        'tx': info[0].ud_tx,
+                        'count': info[0].user_name
+                    };
                     let encrypted = null,
                         p_cipher = (params) => {   //异步  加密
                             return new Promise((resolve, reject) => {

@@ -37,7 +37,7 @@
                     <a href="/main">main</a>
                     <div class="bar"></div>
                 </li>
-                <li>
+                <li class="current">
                     <a href="/techo">technology</a>
                     <div class="bar"></div>
                 </li>
@@ -51,39 +51,36 @@
                 </li>
             </ul>
             <!-- 登录板块，登录：yes，未登录 no -->
-    <% if (locals.login) { %>
-        <% if (locals.login.status) { %>
+    
+        <% if (locals.status) { %>
         <div class="login_sec yes">
         <% } else { %>
         <div class="login_sec no">
         <% } %>
-        <% } else { %>
-        <div class="login_sec no">
-        <% } %>
+        
             <span>
                 <a href="./login">login</a>
             </span>
             <span>|</span>
-            <span class="current">
+            <span>
                 <a href="./reg">register</a>
             </span>
             <li class="user">
-                <% if (locals.login) {  %>
                 <a href="##">
                     <div class="i_face">
-                        <img src="./img/<%- locals.login.tx %>">
+                        <img src="./img/user_img/<%- locals.tx %>">
                     </div>
                 </a>
                 <div class="profile">
-                    <b class="name"><%- locals.login.name %></b>
+                    <b class="name"><%- locals.name %></b>
                     <div class="user_status">
                         <div class="l ">
                             <span>身份：</span>
-                            <span class="status"><%- locals.login.status %></span>
+                            <span class="status"><%- locals.status %></span>
                         </div>
                         <div class="r ">
                             <span>权限等级：</span>
-                            <span class="rights_level">Lv<%- locals.login.admin %></span>
+                            <span class="rights_level">Lv<%- locals.admin %></span>
                         </div>
                     </div>
                     <div class="lv_con">
@@ -95,13 +92,12 @@
                         </div>
                     </div>
                     <div class="selection">
-                        <a href="##">修改资料</a>
+                        <a href="./userInfoModify">修改资料</a>
                     </div>
                     <div class="footer">
                         <a href="./logout">退出</a>
                     </div>
                 </div>
-                <% } %>
             </li>
         </div>
         </div>
@@ -116,7 +112,7 @@
     </div>
     <form action="" >
         <div class="input_wrp">
-            <input type="text" id="userName" name="userName" placeholder="昵称 ( 例 : 要优雅 )">
+            <input type="text" id="userName" name="userName" placeholder="账号 ( 例 : yiyenazhi )">
             <p class="err_msg"></p>
         </div>
         <div class="input_wrp">

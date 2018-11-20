@@ -20,94 +20,97 @@
 		<a href="##">发送弹幕成功</a>
 	</div>
 <header>
-    <div id="h_bg"></div>
-    <div class="mask"></div>
-    <div id="h_content">
-        <div class="l">
-            <div class="pic">
-                <img src="./img/heimao1.png" alt="要优雅" title="不要优雅，要污!ε=ε=(ノ≧∇≦)ノ">
-            </div>
-            <div id="logo">
-                <img src="./img/logo.png" alt="">
-            </div>
-        </div>
-        <div class="r">
-            <ul class="nav clearfix">
-                <li>
-                    <a href="/main">main</a>
-                    <div class="bar"></div>
-                </li>
-                <li>
-                    <a href="/techo">technology</a>
-                    <div class="bar"></div>
-                </li>
-                <li>
-                    <a href="##">anime</a>
-                    <div class="bar"></div>
-                </li>
-                <li class="n-margin-r">
-                    <a href="##">music</a>
-                    <div class="bar"></div>
-                </li>
-            </ul>
-            <!-- 登录板块，登录：yes，未登录 no -->
-    <% if (locals.login) { %>
-        <% if (locals.login.status) { %>
-        <div class="login_sec yes">
-        <% } else { %>
-        <div class="login_sec no">
-        <% } %>
-        <% } else { %>
-        <div class="login_sec no">
-        <% } %>
-            <span>
-                <a href="./login">login</a>
-            </span>
-            <span>|</span>
-            <span>
-                <a href="./reg">register</a>
-            </span>
-            <li class="user">
-                <% if (locals.login) {  %>
-                <a href="##">
-                    <div class="i_face">
-                        <img src="./img/<%- locals.login.tx %>">
-                    </div>
-                </a>
-                <div class="profile">
-                    <b class="name"><%- locals.login.name %></b>
-                    <div class="user_status">
-                        <div class="l ">
-                            <span>身份：</span>
-                            <span class="status"><%- locals.login.status %></span>
-                        </div>
-                        <div class="r ">
-                            <span>权限等级：</span>
-                            <span class="rights_level">Lv<%- locals.login.admin %></span>
-                        </div>
-                    </div>
-                    <div class="lv_con">
-                        <span>等级：</span>
-                        <em>Lv9</em>
-                        <div class="lv_bar">
-                            <div class="process"></div>
-                            <span class="exp">888/999</span>
-                        </div>
-                    </div>
-                    <div class="selection">
-                        <a href="##">修改资料</a>
-                    </div>
-                    <div class="footer">
-                        <a href="./logout">退出</a>
-                    </div>
-                </div>
-                <% } %>
-            </li>
-        </div>
-        </div>
-        </div>
-    </div>
+	<div id="h_bg"></div>
+	<div class="mask"></div>
+	<div id="h_content">
+		<div class="l">
+			<div class="pic">
+				<img src="./img/heimao1.png" alt="要优雅" title="不要优雅，要污!ε=ε=(ノ≧∇≦)ノ">
+			</div>
+			<div id="logo">
+				<img src="./img/logo.png" alt="">
+			</div>
+		</div>
+		<div class="r">
+			<ul class="nav clearfix">
+				<li>
+					<a href="/main">main</a>
+					<div class="bar"></div>
+				</li>
+				<li class="current">
+					<a href="/techo">technology</a>
+					<div class="bar"></div>
+				</li>
+				<li>
+					<a href="##">anime</a>
+					<div class="bar"></div>
+				</li>
+				<li class="n-margin-r">
+					<a href="##">music</a>
+					<div class="bar"></div>
+				</li>
+			</ul>
+			<!-- 登录板块，登录：yes，未登录 no -->
+
+			<% if (locals.status) { %>
+				<div class="login_sec yes">
+					<% } else { %>
+						<div class="login_sec no">
+							<% } %>
+
+								<span>
+									<a href="./login">login</a>
+								</span>
+								<span>|</span>
+								<span>
+									<a href="./reg">register</a>
+								</span>
+								<li class="user">
+									<a href="##">
+										<div class="i_face">
+											<img src="./img/user_img/<%- locals.tx %>">
+										</div>
+									</a>
+									<div class="profile">
+										<b class="name">
+											<%- locals.name %>
+										</b>
+										<div class="user_status">
+											<div class="l ">
+												<span>身份：</span>
+												<span class="status">
+													<%- locals.status %>
+												</span>
+											</div>
+											<div class="r ">
+												<span>权限等级：</span>
+												<span class="rights_level">Lv
+													<%- locals.admin %>
+												</span>
+											</div>
+										</div>
+										<div class="lv_con">
+											<span>等级：</span>
+											<em>Lv9</em>
+											<div class="lv_bar">
+												<div class="process"></div>
+												<span class="exp">888/999</span>
+											</div>
+										</div>
+										<div class="selection">
+											<a href="./userInfoModify">修改资料</a>
+										</div>
+										<div class="footer">
+											<a href="./logout">退出</a>
+										</div>
+									</div>
+								</li>
+						</div>
+				</div>
+		</div>
+	</div>
 </header>
+
 	<section id="main_bg">
 		<a href="##">
 			<div class="m">
@@ -166,34 +169,25 @@
 				</video>
 				<div id="senddm_con" class="clearfix">
 					
-					<% if (locals.login) { %>
-						<% if (locals.login.status) { %>
-							<div class="fun_box">
+					<% if (locals.status) { %>
+						<div class="fun_box">
 							
-							</div>
-							<div class="fun_box">
-							
-							</div>
-							<div class="fn dm_font">
-								<i class="icon iconfont icon-icon1"></i>
-							</div>
-							<div class="fn dm_color">
-								<i class="icon iconfont icon-color"></i>
-							</div>
-							<input type="text" id="input_dm" maxlength="100" placeholder="你可以在这里输入弹幕吐槽哟~~" />
-							<div class="send_bt">发送 ></div>
-							<div class="ban_dm" title="禁止弹幕">
-								<i class="icon iconfont icon-jinzhidanmu"></i>
-							</div>
-						<% } else { %>
-							<div class="login_con">
-								<div class="login_btn">
-									<a class="a_login" href="/login">登录</a>
-								</div>
-								<span>只有登录后才能发送弹幕哟(～￣▽￣)～</span>
-							</div>
-						<% } %>
-					<% } else {  %>
+						</div>
+						<div class="fun_box">
+						
+						</div>
+						<div class="fn dm_font">
+							<i class="icon iconfont icon-icon1"></i>
+						</div>
+						<div class="fn dm_color">
+							<i class="icon iconfont icon-color"></i>
+						</div>
+						<input type="text" id="input_dm" maxlength="100" placeholder="你可以在这里输入弹幕吐槽哟~~" />
+						<div class="send_bt">发送 ></div>
+						<div class="ban_dm" title="禁止弹幕">
+							<i class="icon iconfont icon-jinzhidanmu"></i>
+						</div>
+					<% } else { %>
 						<div class="login_con">
 							<div class="login_btn">
 								<a class="a_login" href="/login">登录</a>
@@ -201,6 +195,7 @@
 							<span>只有登录后才能发送弹幕哟(～￣▽￣)～</span>
 						</div>
 					<% } %>
+					
 					
 				</div>
 				<div id="danmu">
@@ -272,11 +267,11 @@
 					</div>
 				</div>
 				
-				<% if(locals.login) { %>
-					<% if(locals.login.status) { %>
+			
+					<% if(locals.status) { %>
 						<div class="c_send clearfix ">
 							<div class="user_face ">
-								<img src="./img/<%= locals.login.tx %>" alt="用户头像">
+								<img src="./img/user_img/<%= locals.tx %>" alt="用户头像">
 							</div>
 					<% } else { %>
 						<div class="c_send clearfix ">
@@ -285,12 +280,7 @@
 							</div>
 					<% } %>
 
-				<% } else { %>
-					<div class="c_send no-login clearfix ">
-						<div class="user_face ">
-							<img src="./img/user_img/no_login.jpg" alt="未登录头像" title="未登录" >
-						</div>
-				<% } %>
+				
 					<!-- 未登录 no-login -->
 					
 					<div class="textarea_con">
