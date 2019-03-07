@@ -25,7 +25,7 @@ app.use(session({
     resave : true,  //don't save session  if unmoified
     saveUninitialized : false,
     secret : "sadaskhdasuusadhuisduixb",
-    cookie : {maxAge : 30 * 1000}   //存放内存时间
+    cookie : {maxAge : 30 * 1000 * 60}   //存放内存时间
 }));  //设置秘钥
 
 

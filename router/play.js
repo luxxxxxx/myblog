@@ -60,8 +60,8 @@ router.post("/d_dm" , (req,res) => {  //删除弹幕
                     sql : 'delete from t_dm where d_id = ?',
                     args : [req.body.id],
                     callback : (err , info) => {
+                        console.log(info);
                         if(!err) {
-                            console.log('success')
                             res.json ({
                                 err : 0,
                                 info : '删除操作成功'
@@ -224,7 +224,7 @@ router.post('/d_cm',(req,res) => {
     if (!req.session.login) {
         res.json ({
             err : 1,
-            info : '请用具有管理员权限账户登录来执行此操作'
+            info : '检测不了用户在服务器的登陆状态，这可能是由于早期服务器开发测试的遗留问题，请及时联系站长，解决办法：重新登陆'
         })
     } else if (req.session.login.admin <= 1 ) {
         res.json ({
