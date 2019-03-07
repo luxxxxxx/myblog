@@ -271,7 +271,7 @@ header #h_bg {
 	border-bottom: 1px solid #e5e9ef;
 	background-color: #f6f9fa;
 	margin-top: 30px;
-	padding: 20px 0;
+	padding: 20px 0 60px 0;
 	.main {
 		width: 1160px;
 		margin: 0 auto;
@@ -299,7 +299,6 @@ header #h_bg {
 					&:hover {
 						font {
 							text-shadow: 0px 0px 5px #fff;
-							
 						}
 					};
 					font {
@@ -315,6 +314,108 @@ header #h_bg {
 				height: 570px;
 				color: #fff;
 			}
+			#controls {
+				width: 100%;
+				height: 50px;
+				margin-bottom: 20px;
+				.con {
+					float: left;
+					margin-right: 20px;
+					width: 49px;
+					height: 100%;
+					box-sizing: border-box;
+					border-right: 1px dashed #999;
+				}
+				span.iconfont {
+					text-align: center;
+					line-height: 50px;
+					color: #00d1d6;
+					font-size: 26px;
+				}
+				.btn {
+					width: 100%;
+					height: 100%;
+					float: left;
+					margin-right: 20px;
+					color: #fff;
+					font-size: 20px;
+					text-align: center;
+					line-height: 50px;
+					cursor: pointer;
+					
+					&.iconfont {
+						display: none;
+						color: #00a1d6;
+						&.show {
+							display: inline;
+						}
+					}
+				}
+				.progressBar {
+					position: relative;
+					float: left;
+					width: 600px;
+					height: 10px;
+					margin: 20px 20px 0 0;
+					background: linear-gradient(to right, #b35151, #6060a1);
+					border-radius: 5px;
+					.currentTime {
+						position: absolute;
+						top: -5px;
+						width: 10px;
+						height: 20px;
+						background: #00a1d6;
+						border-radius: 5px;
+					}
+				}
+				.volume {
+					position: relative;
+					float: left;
+					left: 40px;
+					width: 50px;
+					.volumeCon {
+						z-index: 99;
+						position: absolute;
+						width: 60px;
+						height: 230px;
+						box-sizing: border-box;
+						padding: 10px 25px;
+						background: #fff;
+						left: -5px;
+						top: -230px;
+						transition: .1s all linear;
+						visibility: hidden;
+						opacity: 0;
+						&.show {
+							opacity: 1;
+							visibility: visible;
+						}
+						.v_bar {
+							position: relative;
+							width: 100%;
+							height: 100%;
+							background: linear-gradient(to top, #716d6d, #ff0046);
+							border-radius: 5px;
+							.v_dot {
+								position: absolute;
+								width: 20px;
+								height: 10px;
+								left: -5px;
+								background: #da8338;
+								border-radius: 5px;
+							}
+						}
+					}
+				}
+				.expand {
+					width: 50px;
+					height: 100%;
+					float: right;
+					margin-right: 20px;
+
+				}
+			}
+			
 			#danmu {
 				position: absolute;
 				left: 0;
@@ -601,7 +702,7 @@ header #h_bg {
 	    		}
 		    }
 			.dm_list {
-				height: 566px;
+				height: 585px;
 				overflow-y: auto;
 				li {
 					line-height: 24px;

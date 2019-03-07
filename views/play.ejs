@@ -164,9 +164,34 @@
 				<div class="hint"><a href="##"><font>我要报错(°∀°)ﾉ</font></a></div>
 				<!-- video -->
 				
-				<video src="./video/<%- locals.data.a_link %>" controls="controls">
-					您的浏览器不支持 video 标签。
+				<video src="./video/<%- locals.data.a_link %>">
+					您的浏览器不支持 video 标签。 
 				</video>
+
+				<div id="controls">
+					<div class="con">
+						<div class="btn play iconfont show">&#xe6de;</div>
+						<div class="btn pause iconfont ">&#xe650;</div>
+					</div>
+					<div class="progressBar">
+						<div class="currentTime"></div>
+					</div>
+					
+					<div class="volume btn">
+						<div class="volumeCon">
+							<div class="v_bar">
+								<div class="v_dot"></div>
+							</div>
+						</div>
+						<span class="iconfont">
+							&#xe63a;
+						</span>
+					</div>
+					<div class="expand btn">
+						<span class="iconfont">&#xe824;</span>
+					</div>
+				</div>
+
 				<div id="senddm_con" class="clearfix">
 					
 					<% if (locals.status) { %>
@@ -371,7 +396,6 @@
 </script>
 
 <script src="./js/jqq.js"></script>
-
 <script>
 	let $emoji_btn = $(".c_emoji .emoji_btn"),
 		$emojis = $(".c_emoji .emoji_box .emoji-text"),
@@ -419,7 +443,19 @@
 		$sendCm = $('#send_cm'), //发送评论按钮
 		iframe = document.querySelector('iframe'),
 		iframePage = iframe.contentWindow,
-		
+
+		//下方视频播放控件
+		$playBtn = $('#controls .play'),  //播放按钮
+		$slideBar = $('#controls .progressBar'),  //长度的进度条
+		$slideDot = $('#controls .currentTime'),  //滑动视频进度点
+		$volume = $('#controls > div.volume.btn'),  //音量按钮
+		$volumeCon = $('#controls > .volume > div'),  //音量容量框（改变样式 show）
+		$v_bar = $('#controls .v_bar'),  //音量控制条
+		$v_dot = $('#controls .v_dot'),  //音量滚动点
+		$expand = $('#controls > div.expand.btn');  //全屏按钮
+
+
+
 		$a_login = $('.a_login'),  //登录按钮
 
 		sendFlag = true,
@@ -510,7 +546,71 @@
 		}
 	})
 
+
+	// 最新改变播放视频控件部分js jsss
+
+	let playBtnFlag = false,  //播放暂停按钮flag
+		$con = $('#controls .con'),  //按钮
+		$pause_btn = $('#controls .pause'),
+		$play_btn = $('#controls .play');
+
+	$con.click((arg) => {  
+		if (!playBtnFlag) {
+			$pause_btn.addClass('show');
+			$play_btn.removeClass('show');
+			video.play();
+			playBtnFlag = !playBtnFlag 
+		} else {
+			$pause_btn.removeClass('show');
+			$play_btn.addClass('show');
+			video.pause();	
+			playBtnFlag = !playBtnFlag;
+		}
+	});
 	
+	$slideBar.bind('click', (e) => {  //点击进度条自动跳转到当前视频位置
+		let dotL = $slideDot.css('left'),
+			slideW = $slideBar.css('width'),  //滑动条长度
+			duration = video.duration, // 视频时长
+			l = e.offsetX,  //点击的位置
+			rate = (l / parseInt(slideW)).toFixed(2);  //占比
+			video.currentTime = (duration * rate).toFixed(0);
+		$slideDot.css('left', l);
+	})
+
+	$volume.click(() => {
+		$volumeCon.toggleClass('show');
+	})
+
+	$v_bar.click((e) => {
+		let bar_h = $v_bar.css('height'),
+		h = e.offsetY,
+		rate = h / parseInt(bar_h);
+		console.log(bar_h);
+		
+		window.event ? window.event.cancelBubble = true : e.stopPropagation();  //阻止事件冒泡
+		$v_dot.css('top',h);
+		video.volume = 1 - rate.toFixed(1);
+		console.log(video.volume);
+	})
+
+	$expand.click(() => {  //全屏
+		console.log(1);
+		if(!document.webkitIsFullScreen) {
+			video.webkitRequestFullscreen();
+		} else {
+			document.webkitCancelFullScreen()
+		}
+
+
+	})
+
+
+
+	
+	//END
+
+
 	
 	function con_pause () {  //暂停或者 继续
 		if (!pause) {
@@ -881,7 +981,9 @@
 
 	$sendCm.click(function (params) {
 		var content = $sendText.val();
+		console.log(content)
 		$sendText.val('');
+		console.log(parseInt(self.location.href.split("=")[1]))
 		Ajax({
 			method : 'post',
 			url : '/play/cm_send',
