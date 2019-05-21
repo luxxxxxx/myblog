@@ -1,18 +1,35 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>测试网页</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-    <form action="../login" method="post" enctype="multipart/form-data">
-        Username:
-        <input type="text" name="username"> Password:
-        <input type="password" name="password"> 
-        <input type="submit">
-    </form>
+    
+    这是一个测试网页:
+
+    <iframe id="iframe"
+        src="//r.jizy.cn/analysis/index?eurl=%2B1stxVHSQOnUli4yiadPyBbPGVXwNHRdyALd1o0vJRZDNh2rqIErUdnSOEaLb33mNZys4KuYbZlztVP81IRzY6Dzk73CCB0kHyoXbRDwOTI%3D&ec=tggh"
+        frameborder="0"></iframe>
+    <button id="button">开始
+    </button>
 </body>
 </html>
+<script>
+    let button = document.querySelector('#button');
+    button.click = () => {
+        let iframe = document.querySelector('iframe');
+        
+        console.log(document.querySelector('#player1 > div.dplayer-video-wrap > video'))
+        let v = document.querySelector('#player1 > div.dplayer-video-wrap > video');
+        v.play();
+        v.onprogress = (e) => {
+            console.log(e)
+        }
+    }
 
+
+
+</script>

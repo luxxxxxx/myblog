@@ -321,6 +321,10 @@ header #h_bg {
   text-align: center;
   line-height: 50px;
   cursor: pointer;
+  transition: 0.1s background-color linear;
+}
+.player_wrp .main .video_con #controls .btn:hover {
+  background-color: rgba(71, 121, 134, 0.13);
 }
 .player_wrp .main .video_con #controls .btn.iconfont {
   display: none;

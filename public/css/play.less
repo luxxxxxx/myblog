@@ -342,7 +342,10 @@ header #h_bg {
 					text-align: center;
 					line-height: 50px;
 					cursor: pointer;
-					
+					transition: .1s background-color linear;
+					&:hover {
+						background-color: rgba(71, 121, 134, 0.13);
+					}
 					&.iconfont {
 						display: none;
 						color: #00a1d6;

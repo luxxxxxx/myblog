@@ -24,18 +24,19 @@ http.get(options,(res) => {
 
 });
 
+const fs = require('fs');
 
-http.get('picture link', (res) => {
-    //当请求有数据的时候触发
+// http.get('picture link', (res) => {
+//     //当请求有数据的时候触发
     
-    res.setEncoding('binary');
-    let img = '';
-    res.on('data', (data) => {
-        img += data;
-    });
-    //当请求完成的时候
-    res.on('end', () => {
-        fs.writeFile('./1.png',img,'binary')
-    });
+//     res.setEncoding('binary');
+//     let img = '';
+//     res.on('data', (data) => {
+//         img += data;
+//     });
+//     //当请求完成的时候
+//     res.on('end', () => {
+//         fs.writeFile('./1.png',img,'binary')
+//     });
 
-});
+// });

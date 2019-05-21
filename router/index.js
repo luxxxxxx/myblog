@@ -20,6 +20,7 @@ router.use("/techo",require("./techo.js"));
 router.use("/else",require("./else.js"));
 router.use("/upload",require("./upload.js"));
 router.use("/test",require("./test.js"));
+router.use("/teste",require("./teste.js"));
 router.use("/userInfoModify",require("./userInfoModify.js"));
 router.use("/newtest",require("./newtest.js"));
 
