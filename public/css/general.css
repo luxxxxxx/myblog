@@ -11,7 +11,7 @@ header {
   font-family: 'Helvetica Neue', 'Helvetica', 'Microsoft Yahei', sans-serif;
   position: relative;
   height: 70px;
-  background: #000000;
+  background: #000;
 }
 header #h_bg {
   z-index: 1;
@@ -114,7 +114,7 @@ header #h_content .r ul.nav li:last-child {
 header #h_content .r ul.nav li a {
   display: block;
   height: 100%;
-  font-size: 14px;
+  font-size: 16px;
   color: rgba(255, 255, 255, 0.8);
   transition: .1s all linear;
   text-shadow: #ffffff 1px;
@@ -142,7 +142,7 @@ header #h_content .r .login_sec {
 header #h_content .r .login_sec > span {
   display: inline-block;
   color: #fff;
-  font-size: 14px;
+  font-size: 16px;
 }
 header #h_content .r .login_sec span.current  a {
   color: #fff;

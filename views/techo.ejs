@@ -13,7 +13,7 @@
 <body>
 <script src="./js/jqq.js"></script>
 
-<header>
+<header >
     <div id="h_bg"></div>
     <div class="mask"></div>
     <div id="h_content">
@@ -28,19 +28,19 @@
         <div class="r">
             <ul class="nav clearfix">
                 <li>
-                    <a href="/main">main</a>
+                    <a href="/main">主页</a>
                     <div class="bar"></div>
                 </li>
                 <li class="current">
-                    <a href="/techo">technology</a>
+                    <a href="/techo">科技</a>
                     <div class="bar"></div>
                 </li>
                 <li>
-                    <a href="##">anime</a>
+                    <a href="##">动漫</a>
                     <div class="bar"></div>
                 </li>
                 <li class="n-margin-r">
-                    <a href="##">music</a>
+                    <a href="##">音乐</a>
                     <div class="bar"></div>
                 </li>
             </ul>
@@ -104,21 +104,21 @@
 </header>
 <section id="main_bg">
     <div class="main">
-        <video src="./video/wanderers.mp4"  controls="controls" width="700" height="360" >
+        <video src="./video/wanderers.mp4"  controls="controls" width="700" height="360" autoplay="autoplay" >
             你的浏览器不支持 video 标签，这会导致很严重的问题，所以请升级你的浏览器，官方建议你使用谷歌浏览器或者QQ浏览器急速模式
         </video>
         <p title="Wanderers a short film by Erik Wernquist - 漂泊者 ">Wanderers a short film by Erik Wernquist - 漂泊者 </p>
     </div>
 </section>
-<section id="blank"></section>
+<!-- <section id="blank"></section> -->
 <section id="main">
     <div class="main clearfix">
         <div class="l">
-            <div class="breadcrumb">
+            <!-- <div class="breadcrumb">
                 <a href="##" class="main_page"><i class="icon iconfont icon-home"></i>主页</a>
                 <a class="cha">></a>
                 <a href="##" class="technology"><i class="icon iconfont icon-keji1"></i>科技</a>
-            </div>
+            </div> -->
             <% for (var i = 0; i < locals.articles.length; i++) { %>
                 <article>
                     <div class="dateCon">
