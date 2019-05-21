@@ -115,7 +115,7 @@ header #h_content .r ul.nav li a {
   display: block;
   height: 100%;
   font-size: 16px;
-  color: rgba(255, 255, 255, 0.8);
+  color: rgba(255, 255, 255, 1);
   transition: .1s all linear;
   text-shadow: #ffffff 1px;
 }

@@ -1,15 +1,21 @@
 
 
 header {
-	background: url('../img/background/bingchuan-004.jpg') no-repeat center top ;
-	border-bottom: 1px solid rgba(255, 255, 255, .1);
+	background: rgba(255,255,255,0);
+	#h_bg {
+		background: url('../img/background/bingchuan-005.jpg') no-repeat center top;
+		filter: blur(5px)
+	}
+	.mask {
+
+	}
 }
 
 #main_bg {
 	position: relative;
 	height: 550px;
 	margin: 0 auto;
-	background: url('../img/background/bingchuan-004.jpg') no-repeat 50% -70px;
+	background: url('../img/background/bingchuan-005.jpg') no-repeat 50% -70px;
 	background-size: cover;
 	overflow: hidden;
 	.main {
@@ -111,8 +117,8 @@ header {
 				background: #fff;
 				.dateCon {
 					position: absolute;
-					left: -20px;
-					top: -20px;
+					left: 18px;
+					top: 30px;
 					width: 70px;
 					height: 70px;
 					border-radius: 50%;
@@ -120,11 +126,15 @@ header {
 					color: #fff;
 					padding-top: 10px;
 					box-sizing: border-box;
-					box-shadow: 1px 2px 7px #000;
+					// box-shadow: 1px 2px 7px #000;
 					span {
 						text-align: center;
 						display: block;
+						&.month {
+							margin-top: -3px;
+						}
 						&.day {
+							margin-top: -2px;
 							font-size: 30px;
 							font-weight: bold;
 						}
