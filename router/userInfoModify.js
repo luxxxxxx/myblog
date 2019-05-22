@@ -188,13 +188,17 @@ router.post('/tx',upload.single('touxiang'),(req,res,next) => {
                 tx = file.filename;
                 flag2 = true;
                 console.log(oldTx);
-                fs.unlink(process.cwd() + '/public/img/user_img/' + oldTx, function (error) {
-                    if (error) {
-                        console.log(error);
-                        return false;
-                    }
-                    console.log('删除文件成功');
-                })
+                if (oldTx == 'default.png') {  //如果老头像是默认头像
+                    //不作任何操作                
+                } else { 
+                    fs.unlink(process.cwd() + '/public/img/user_img/' + oldTx, function (error) {
+                        if (error) {
+                            console.log(error);
+                            return false;
+                        }
+                        console.log('删除文件成功');
+                    })
+                }
 
                 // if (flag1 && flag2) {
                 //     res.cookie('login', {

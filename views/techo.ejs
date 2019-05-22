@@ -14,7 +14,9 @@
 <script src="./js/jqq.js"></script>
 
 <header >
-    <div id="h_bg"></div>
+    <% var randomNumber = Math.ceil(Math.random()*5); %>
+
+    <div id="h_bg" style="background: url('./img/background/bc<%= randomNumber %>.jpg')"></div>
     <div class="mask"></div>
     <div id="h_content">
         <div class="l">
@@ -100,10 +102,25 @@
     </div>
 </header>
 <section id="main_bg">
+    <% for(var i = 1; i <= 5; i++ ) { %>
+        <% if(i == randomNumber) { %>
+            <div class="bg show"></div>
+        <% } else { %>
+            <div class="bg"></div>
+        <% } %>
+    <% } %>    
+    <!-- <div id="randomBg2" class="bg"></div>
+    <div id="randomBg3" class="bg"></div>
+    <div id="randomBg4" class="bg"></div>
+    <div id="randomBg5" class="bg"></div> -->
+
+
     <div class="main">
-        <video src="./video/wanderers.mp4"  controls="controls" width="700" height="360" autoplay="autoplay" >
+
+        <video id="hotVideo" src="./video/wanderers.mp4" controls="controls" width="700" height="360" autoplay="autoplay">
             你的浏览器不支持 video 标签，这会导致很严重的问题，所以请升级你的浏览器，官方建议你使用谷歌浏览器或者QQ浏览器急速模式
         </video>
+        
         <p title="Wanderers a short film by Erik Wernquist - 漂泊者 ">Wanderers a short film by Erik Wernquist - 漂泊者 </p>
     </div>
 </section>
@@ -262,7 +279,15 @@
                     <div class="img">
                         <img src="./img/user_img/<%- locals.tx %>" />
                     </div>
-                    <div class="logout"><a href="./logout">退出登录</a></div>
+                    <!-- <div class="logout"><a href="./logout">退出登录</a></div> -->
+                    <div class="r">
+                        <div class="charge">充值</div>
+                        <div class="b">
+                            <span class="leftMoney">余额：<b>0</b></span>
+                            <span class="record"><a href="##">消费记录</a></span>
+                        </div>
+                    </div>
+
                 </div>
             </div>
             <aside id="latest_posts">
@@ -304,16 +329,24 @@
 </footer>
 </body>
 </html>
+<script src="./js/emergency_msg.js"></script>
 <script>
     var high_version = null;
     window.onload = function () {
         if (!high_version) {
-            alert('你的浏览器内核或者版本不兼容当前页面，建议使用谷歌浏览器')
+            showMsg({
+                msg : '你的浏览器不兼容当前网页，请使用新版本浏览器',
+                status : 'err',
+                link : 'https://browser.360.cn/ee/',
+                delay : 9999999,
+                detail : '点击此处跳转至360极速浏览器下载界面'
+            })
         }
     }
 </script>
 <script></script>
 <script>
+
 
     var $userName = $('#userName'),
         $passWord = $('#passWord'),
@@ -323,14 +356,78 @@
         high_version = true,
 
         $search = $('#search'),  //搜索框
-        $search_icon = $('#search i.icon');  //搜索框下面的icon 
+        $search_icon = $('#search i.icon'),  //搜索框下面的icon 
+         
+        $h_bg = $('#h_bg'),  //头部的两张图片
+        $t_bg = $('#main_bg'),
+
+        // 几张预加载的随机图片
+        $bgs = $('#main_bg .bg'),
+        bgNum = 1,  //背景图片从1 开始  
+
+        $sidePosts = $('#latest_posts'),
         
+        //充值
+        $chargeBtn = $('#login_con > div.login > div.r > div.charge') ,
+        $consumeRecord = $('#login_con > div.login > div.r > div.b > span.record > a'); //消费记录;
+
+
+    
+    //  顶部背景变换
+
+    var timer = setInterval(changeBg,10000);  //自动切换背景计时器
+
+    function changeBg () {
+        if (bgNum <= 5) {
+        } else {
+            bgNum = 1;
+        }
+        $h_bg[0].style = 'background: url("./img/background/bc'+ bgNum +'.jpg") no-repeat 50% top'
+        $bgs.eq(bgNum-1).addClass('show').siblings().removeClass('show');
+
+        console.log(bgNum)
+        
+        bgNum++;
+
+    }
+
     //搜索icon 动画
     $search.bind('mouseover',() => {
         $search_icon.addClass("rubberBand");
     }).bind('mouseleave',() => {
         $search_icon.removeClass("rubberBand");
     })
+
+
+    //右侧边框跟随滚动条自动移动，这个402 我也不知道是什么
+    
+    var sideTop = 1230;
+    var winHeight;
+    if (window.innerHeight)
+        winHeight = window.innerHeight;
+    else if ((document.body) && (document.body.clientHeight))
+        winHeight = document.body.clientHeight;
+    var halfTop = (winHeight - parseInt($sidePosts.getStyle('height'))) / 2;
+    if (halfTop < 0) halfTop = 0 ; 
+    var limitHeight = sideTop - halfTop;
+
+
+
+    window.onscroll = function (params) {
+        var top = document.body.scrollTop || document.documentElement.scrollTop;  //页面高度
+        var realTop = top + winHeight;  //距离最顶部的高度
+
+        if (top + halfTop + 402 > sideTop) {
+            $sidePosts.addClass('fixed');
+            $sidePosts.css('top',halfTop)
+        } else {
+            $sidePosts.removeClass('fixed');
+            $sidePosts.css('top',0)
+        }
+
+
+    }
+
 
     //登录
     $loginBtn.click(function () {
@@ -359,4 +456,37 @@
             }
         })
     })
+
+
+
+    // 充值功能
+
+    $chargeBtn.click (function () {
+        showMsg({
+            status : 'err',
+            msg : '对不起，此功能暂未开放',
+            delay : 2500,
+            detail : '充值功能暂未开放，请过一段时间再试'
+        })
+    })
+
+
+    $consumeRecord.click (function () {
+        showMsg({
+            status : 'err',
+            msg : '对不起，此功能暂未开放',
+            delay : 2500,
+            detail : '消费记录功能暂未开放，请过一段时间再试'
+        })
+    })
+
+
+    // // 这里做了一个防止视频重复自动加载的功能
+    // var $hotVideo = $('#hotVideo');
+    // $hotVideo[0].onload = function () {
+    //     alert('onload')
+    //     $hotVideo[0].setAttribute("autoplay",'none')
+    // }
+
+
 </script>

@@ -11,7 +11,7 @@ header {
   font-family: 'Helvetica Neue', 'Helvetica', 'Microsoft Yahei', sans-serif;
   position: relative;
   height: 70px;
-  background: #000;
+  background: #00a1d6;
 }
 header #h_bg {
   z-index: 1;
@@ -367,7 +367,7 @@ header #h_content .r .login_sec li.user .profile .footer a {
 }
 
 
-#main_bg {
+/* #main_bg {
   position: relative;
   height: 400px;
   margin: 0 auto;
@@ -395,7 +395,7 @@ header #h_content .r .login_sec li.user .profile .footer a {
 }
 #blank {
   height: 200px;
-}
+} */
 footer {
   height: 110px;
   background: #3d4450;

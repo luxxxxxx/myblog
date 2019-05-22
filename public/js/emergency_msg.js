@@ -24,6 +24,7 @@
         })
         msg_a.innerHTML = obj.msg? obj.msg : '';
         msg_a.href = obj.link ? obj.link : '##';
+        msg_p.href = obj.link ? obj.link : '##';
         if (obj.status === 'success') {
             setStyle (msg_a , {
                 'color' : 'lightgreen'
@@ -69,7 +70,7 @@
         msg_box = document.createElement ('div'),
         msg_close = document.createElement ('div'),  //关闭弹窗
         msg_a = document.createElement ('a'),  // 提示信息（中心） 带链接 两种样式 success  error
-        msg_p = document.createElement('p'),  // 报错详情
+        msg_p = document.createElement('a'),  // 报错详情
         fixMargin = '20px',  // 如果传入值有detail 改变 title margin
         setStyle = function (ele,styleObj) {
             for (var key in styleObj) {
@@ -119,10 +120,11 @@
     })
 
     setStyle(msg_p,{
-        'color': '#888',
+        'color': '#00fff5',
         'font-size' : '13px',
-        'margin-top' : '16px',
+        'margin-top' : '35px',
         'text-align' : 'center',
+        'display' : 'block'
     })
     
 

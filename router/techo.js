@@ -21,6 +21,7 @@ router.get("/", (req, res) => {
                     args: [page * 4],
                     callback: (err, info) => {
                         if (!err) {
+                           
                             res.locals.articles = info;
                             res.locals.totalPage = count;
                             res.locals.page = page + 1;
@@ -35,8 +36,6 @@ router.get("/", (req, res) => {
                 res.locals.result = '500 服务器发生了一个无法预料的问题,请联系网站管理员，QQ 981236133';
                 res.status(500).render('500');
             }
-            
-
         }
     })
 

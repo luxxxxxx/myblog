@@ -25,7 +25,7 @@ app.use(session({
     resave : true,  //don't save session  if unmoified
     saveUninitialized : false,
     secret : "sadaskhdasuusadhuisduixb",
-    cookie : {maxAge : 30 * 1000 * 60}   //存放内存时间
+    cookie : {maxAge : 60 * 1000 * 60}   //存放内存时间
 }));  //设置秘钥
 
 
@@ -49,62 +49,62 @@ app.use(session({
 //     decipher.end();
 // });
 
-app.use ((req,res,next) => {
+// app.use ((req,res,next) => {
 
-    if (req.cookies.login) {  
-        //存在cookie 但是不存在session 的情况下，
-        //根据cookie里面的存放的用户名以及用户密码(加密后的)
-        //从数据库里面获取管理员权限并存放在session 内部 但凡获取失败 ,需要使用管理员权限的时候
-        //必须重新进行登录
+//     if (req.cookies.login) {  
+//         //存在cookie 但是不存在session 的情况下，
+//         //根据cookie里面的存放的用户名以及用户密码(加密后的)
+//         //从数据库里面获取管理员权限并存放在session 内部 但凡获取失败 ,需要使用管理员权限的时候
+//         //必须重新进行登录
 
-        if (!req.session.login) {
-            // console.log('session deny');  //异步编程，先解密 cookie里面的密码
-            let decrypted = null,
-                pass = req.cookies.login.pass,
-                p_decipher = (str) => {
-                     return new Promise ((resolve,reject) => {
-                        encrypt.decipher(pass,(str) => { 
-                            decrypted = str;
-                            resolve();  
-                        })
-                     })
-                };   
+//         if (!req.session.login) {
+//             // console.log('session deny');  //异步编程，先解密 cookie里面的密码
+//             let decrypted = null,
+//                 pass = req.cookies.login.pass,
+//                 p_decipher = (str) => {
+//                      return new Promise ((resolve,reject) => {
+//                         encrypt.decipher(pass,(str) => { 
+//                             decrypted = str;
+//                             resolve();  
+//                         })
+//                      })
+//                 };   
             
-            p_decipher().then(() => {
-                mysql({
-                    sql : 'select * from t_user where user_name = ? and user_pass = ?',
-                    args : [req.cookies.login.name,decrypted],
-                    callback : (err,info) => {
-                        // console.log(err);
-                        // console.log(info);
-                        if (!err) {
-                            if (info.length) {
-                                req.session.login = {
-                                    'userId' : info[0].user_id,
-                                    'admin': info[0].user_admin,
-                                    'userName': info[0].ud_name,
-                                    'count': info[0].user_name,
-                                    'email': info[0].user_email,
-                                    'status' : info[0].user_status,
-                                    'tx': info[0].ud_tx
-                                }
-                            } else {
-                                console.log('按理说不应该存在这种错误的');
-                            }
-                        } else {
-                            console.log('获取管理员权限失败,数据库执行错误 index.js')
-                        }
-                        next();
-                    } //callback
-                })
-            })  //promise end
-        } else {
-            next();
-        }
-    } else {
-        next();
-    }
-})
+//             p_decipher().then(() => {
+//                 mysql({
+//                     sql : 'select * from t_user where user_name = ? and user_pass = ?',
+//                     args : [req.cookies.login.name,decrypted],
+//                     callback : (err,info) => {
+//                         // console.log(err);
+//                         // console.log(info);
+//                         if (!err) {
+//                             if (info.length) {
+//                                 req.session.login = {
+//                                     'userId' : info[0].user_id,
+//                                     'admin': info[0].user_admin,
+//                                     'userName': info[0].ud_name,
+//                                     'count': info[0].user_name,
+//                                     'email': info[0].user_email,
+//                                     'status' : info[0].user_status,
+//                                     'tx': info[0].ud_tx
+//                                 }
+//                             } else {
+//                                 console.log('按理说不应该存在这种错误的');
+//                             }
+//                         } else {
+//                             console.log('获取管理员权限失败,数据库执行错误 index.js')
+//                         }
+//                         next();
+//                     } //callback
+//                 })
+//             })  //promise end
+//         } else {
+//             next();
+//         }
+//     } else {
+//         next();
+//     }
+// })
 
 
 
@@ -141,7 +141,7 @@ app.use((req, res, next) => {
 
 app.use('/',require('./router/index'));
 
-http.createServer(app).listen(80);
+http.createServer(app).listen(233);
 
 //  http://localhost:233  /admim 这个路径已经被app.use匹配了
 //        /index 这个路径是来交给admin.js文件进行匹配的

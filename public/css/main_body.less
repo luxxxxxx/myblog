@@ -3,7 +3,7 @@
 header {
 	background: rgba(255,255,255,0);
 	#h_bg {
-		background: url('../img/background/bingchuan-005.jpg') no-repeat center top;
+		background: url('../img/background/bc2.jpg') no-repeat center top;
 		filter: blur(5px)
 	}
 	.mask {
@@ -15,9 +15,45 @@ header {
 	position: relative;
 	height: 550px;
 	margin: 0 auto;
-	background: url('../img/background/bingchuan-005.jpg') no-repeat 50% -70px;
-	background-size: cover;
+	
 	overflow: hidden;
+
+	.bg {
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		transition: .38s all linear;
+		opacity: 0;
+		visibility: hidden;
+		&:nth-child(1) {
+			background: url('../img/background/bc1.jpg') no-repeat 50% -70px;
+			background-size: cover;
+		}
+		&:nth-child(2) {
+			background: url('../img/background/bc2.jpg') no-repeat 50% -70px;
+			background-size: cover;
+		}
+
+		&:nth-child(3) {
+			background: url('../img/background/bc3.jpg') no-repeat 50% -70px;
+			background-size: cover;
+		}
+
+		&:nth-child(4) {
+			background: url('../img/background/bc4.jpg') no-repeat 50% -70px;
+			background-size: cover;
+		}
+
+		&:nth-child(5) {
+			background: url('../img/background/bc5.jpg') no-repeat 50% -70px;
+			background-size: cover;
+		}
+		&.show {
+			opacity: 1;
+			visibility: visible;
+		}
+	}
+
 	.main {
 		position: absolute;
 		left: 0;
@@ -197,6 +233,8 @@ header {
 				.cover {
 					position: relative;
 					margin-bottom: 10px;
+					max-height: 500px;
+					overflow: hidden;
 					a {
 						display: inline-block;
 						.mask {
@@ -418,6 +456,48 @@ header {
 								}
 							}
 						}
+
+
+						.r {
+							float: right;
+							width: 250px;
+							height: 100%;
+							.charge {
+								width: 100px;
+								height: 30px;
+								text-align: center;
+								color: #fff;
+								font-weight: bold;
+								line-height: 30px;
+								background: #00a1d6;
+								margin: 0 auto;
+								cursor: pointer;
+								border-radius: 4px;
+								transition: .2s text-shadow linear;
+								opacity: 1;
+								&:hover {
+									text-shadow: #fff 1px 0;
+									opacity: .9;
+								}
+							}
+							.b {
+								margin-top: 20px;
+								span {
+									&.leftMoney {
+										float: left;
+										margin-left: 50px;
+									}
+									&.record {
+										float: right;
+										margin-right: 50px;
+										a {
+											color: #00a1d6
+										}
+									}
+								}
+							}
+						}
+
 					}
 				&.login {
 					form {
@@ -511,11 +591,18 @@ header {
 				}
 			}
 				#latest_posts {
+					position: relative;
+					top: 0;
 					margin-top: 20px;
 					background: #fff;
 					border-radius: 4px;
 					overflow: hidden;
 					border: 1px solid #999;
+					width: 100%;
+					&.fixed {
+						position: fixed;
+						width: 350px;
+					}
 					.h {
 						box-sizing: border-box;
 						padding: 10px 15px;
