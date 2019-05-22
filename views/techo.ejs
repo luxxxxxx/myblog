@@ -297,9 +297,9 @@
                         <span>更新文章</span>
                     </div>
                     <div class="r">
-                        <div class="btn">
+                        <!-- <div class="btn">
                             <i class="btn icon iconfont icon-cion24"></i>
-                        </div>
+                        </div> -->
                         <!-- <div class="btn">
                             <i class="btn icon iconfont icon-close"></i>
                         </div> -->
@@ -399,9 +399,16 @@
     })
 
 
-    //右侧边框跟随滚动条自动移动，这个402 我也不知道是什么
-    
+    // 右侧边框跟随滚动条自动移动，这个402 我也不知道是什么
+    // 这里比较玄学 登陆和未登录状态文章高度自动都有区别
+
     var sideTop = 1230;
+    <% if (locals.status) { %>
+        var adjustNumber = 402;
+    <% } else { %>
+        var adjustNumber = 312;
+    <% } %>
+
     var winHeight;
     if (window.innerHeight)
         winHeight = window.innerHeight;
@@ -417,7 +424,9 @@
         var top = document.body.scrollTop || document.documentElement.scrollTop;  //页面高度
         var realTop = top + winHeight;  //距离最顶部的高度
 
-        if (top + halfTop + 402 > sideTop) {
+    
+
+        if (top + halfTop + adjustNumber > sideTop) {
             $sidePosts.addClass('fixed');
             $sidePosts.css('top',halfTop)
         } else {
