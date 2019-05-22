@@ -101,6 +101,15 @@
         </div>
     </div>
 </header>
+
+<script>
+    let hrefArr = window.location.href.split('/');
+        if (hrefArr[hrefArr.length - 1] == 'main') {
+            $('#h_content > div.r > ul > li:nth-child(1)').addClass('current').siblings().removeClass('current');
+        }
+</script>
+
+
 <section id="main_bg">
     <% for(var i = 1; i <= 5; i++ ) { %>
         <% if(i == randomNumber) { %>
@@ -117,7 +126,7 @@
 
     <div class="main">
 
-        <video id="hotVideo" src="./video/wanderers.mp4" controls="controls" width="700" height="360" autoplay="autoplay">
+        <video id="hotVideo" src="./video/wanderers.mp4" controls="controls" width="700" height="360">
             你的浏览器不支持 video 标签，这会导致很严重的问题，所以请升级你的浏览器，官方建议你使用谷歌浏览器或者QQ浏览器急速模式
         </video>
         
@@ -164,9 +173,10 @@
                         </div>
                     </div>
                     <div class="cover">
-                        <a href="##">
+                        <% var str = '/play?source=' + locals.articles[i].a_id; %>
+                        <a href = <%- str %> >
                             <div class="mask"></div>
-                            <img src = <%- './img/' +  locals.articles[i].a_cover %>  alt="">
+                            <img src = <%- './img/articleCover/' +  locals.articles[i].a_cover %>  alt="">
                         </a>
                     </div>
                     <div class="desc">
@@ -175,7 +185,6 @@
                         </p>
                     </div>
                     <div class="con clearfix">
-                        <% var str = '/play?source=' + locals.articles[i].a_id; %>
                         <a href= <%- str %>  class="btn play_online">在线观看</a>
                     </div>
                 </article>
@@ -307,7 +316,7 @@
                 </div>
                 <ul class="list_group">
                     
-                    <% for (let i = 0; i < locals.totalArticles.length; i++) { %>
+                    <% for (let i = 0; i < 11; i++) { %>
                         
                         <li class="list_item">
                             <span class="t">
