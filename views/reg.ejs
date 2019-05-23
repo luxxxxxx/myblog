@@ -444,7 +444,8 @@
     $email.bind('keyup', function () {
         var email = $(this).val(),
             $msg = $errMsgs.eq(3),
-            reg = /^[0-9a-zA-Z]\w+(@\w+\.[a-zA-Z]{2,})$/;
+            // reg = /^[0-9a-zA-Z]\w+(@\w+\.[a-zA-Z]{2,})$/;
+            reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;  //邮箱正则
         if (!reg.test(email)) {
             $msg.html('请输入一个有效的邮箱地址');
             femail = false;
