@@ -357,7 +357,7 @@ header #h_bg {
 				.progressBar {
 					position: relative;
 					float: left;
-					width: 600px;
+					width: 500px;
 					height: 10px;
 					margin: 20px 20px 0 0;
 					background: linear-gradient(to right, #b35151, #6060a1);
@@ -371,10 +371,34 @@ header #h_bg {
 						border-radius: 5px;
 					}
 				}
+				.showTime {
+					float: left;
+					line-height: 50px;
+					font-size: 13px;
+					span {
+						letter-spacing: 1px;
+					}
+				}
+				.btn {
+					margin-right: 0;
+				}
+				.ban_dm {
+					position: relative;
+					width: 50px;
+					float: right;
+					span {
+						transition: .2s color linear;
+					}
+					&.ban {
+						span {
+							color: red
+						}
+					}
+				}
+				
 				.volume {
 					position: relative;
-					float: left;
-					left: 40px;
+					float: right;
 					width: 50px;
 					.volumeCon {
 						z-index: 99;
@@ -414,7 +438,7 @@ header #h_bg {
 					width: 50px;
 					height: 100%;
 					float: right;
-					margin-right: 20px;
+					margin-right: 0;
 
 				}
 			}

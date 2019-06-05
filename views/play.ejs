@@ -177,6 +177,17 @@
 						<div class="currentTime"></div>
 					</div>
 					
+					<div class="showTime">
+						<span class="now">00:00</span>
+						<span class="m"> | </span>
+						<span class="total">00:00</span>
+					</div>
+					
+
+					<div class="expand btn">
+						<span class="iconfont">&#xe824;</span>
+					</div>
+
 					<div class="volume btn">
 						<div class="volumeCon">
 							<div class="v_bar">
@@ -187,9 +198,12 @@
 							&#xe63a;
 						</span>
 					</div>
-					<div class="expand btn">
-						<span class="iconfont">&#xe824;</span>
+					
+
+					<div class="btn ban_dm">
+						<span class="icon iconfont icon-jinzhidanmu"></span>
 					</div>
+
 				</div>
 
 				<div id="senddm_con" class="clearfix">
@@ -209,9 +223,7 @@
 						</div>
 						<input type="text" id="input_dm" maxlength="100" placeholder="你可以在这里输入弹幕吐槽哟~~" />
 						<div class="send_bt">发送 ></div>
-						<div class="ban_dm" title="禁止弹幕">
-							<i class="icon iconfont icon-jinzhidanmu"></i>
-						</div>
+
 					<% } else { %>
 						<div class="login_con">
 							<div class="login_btn">
@@ -457,10 +469,15 @@
 		$volumeCon = $('#controls > .volume > div'),  //音量容量框（改变样式 show）
 		$v_bar = $('#controls .v_bar'),  //音量控制条
 		$v_dot = $('#controls .v_dot'),  //音量滚动点
-		$expand = $('#controls > div.expand.btn');  //全屏按钮
+		$expand = $('#controls > div.expand.btn'),  //全屏按钮
+		$t_now = $('#controls > div.showTime > span.now'),  //当前时间
+		$t_total = $('#controls > div.showTime > span.total');
 
 
 
+
+
+		
 		$a_login = $('.a_login'),  //登录按钮
 
 		sendFlag = true,
@@ -481,6 +498,11 @@
 			video_progress_listener()  //监听视频当前播放时间定时器结合发送弹幕功能
 			vpl_flag  //变量 监听 视频播放定时器flag （防止多个定时器）（防止多个定时器）
 		*/
+
+	
+
+	
+
 
 	$a_login = $(".a_login");
 	$a_login.attr("href","login?href=" + self.location.href);  //将所有登录按钮的href替换成当前页面 
@@ -806,12 +828,13 @@
 	function time_format (t) {  
 		//整理时间 格式 将 0:23 处理成  00:23  
 		//或者可以将 秒钟数处理成 分秒格式
+		
 		if (isNaN(Number(t))) {
 			var arr = t.split(':');
 			time_format(Number(arr[0])*60 + Number(arr[1]));
 		} else {
 			let m = parseInt(t/60),
-				s = t % 60;
+				s = parseInt(t % 60);
 			if (m.toString().length === 1)
 				m = '0' + m;
 			if (s.toString().length === 1) 
@@ -820,12 +843,18 @@
 		};
 	}
 
-
+	let lengthOfSlideBar = parseInt($slideBar.css('width'));  //获取进度条总长度
+	
 	
 	function video_progress_listener (e) {  //监听视频当前播放时间定时器结合发送弹幕功能
 		setTimeout(() => {
 			if (!pause) {
 				let t = time_format(video.currentTime.toFixed(0));
+				$t_now.html(t);  //更新 当前时间
+				$t_total.html(time_format(video.duration)); //更新视频总时间
+				let rate = video.currentTime/video.duration || 0; //进度比率
+				$slideDot.css('left' , lengthOfSlideBar * rate + 'px');  //  
+
 				for (let i = 0; i < gdms.length; i++) {
 					if (gdms[i].d_time === t) {
 						let crt_dms = $danmuScreen[0].querySelectorAll('span'), //当前视频存在的弹幕;
@@ -833,7 +862,6 @@
 							for (let i = 0; i < crt_dms.length && !exist; i++) {
 								const element = crt_dms[i];
 								if (element.d_id == gdms[i].d_id) {
-									console.log('exist');
 									exist = true;
 									// break;  
 								}

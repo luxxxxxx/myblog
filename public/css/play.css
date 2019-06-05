@@ -336,7 +336,7 @@ header #h_bg {
 .player_wrp .main .video_con #controls .progressBar {
   position: relative;
   float: left;
-  width: 600px;
+  width: 500px;
   height: 10px;
   margin: 20px 20px 0 0;
   background: linear-gradient(to right, #b35151, #6060a1);
@@ -350,10 +350,31 @@ header #h_bg {
   background: #00a1d6;
   border-radius: 5px;
 }
+.player_wrp .main .video_con #controls .showTime {
+  float: left;
+  line-height: 50px;
+  font-size: 13px;
+}
+.player_wrp .main .video_con #controls .showTime span {
+  letter-spacing: 1px;
+}
+.player_wrp .main .video_con #controls .btn {
+  margin-right: 0;
+}
+.player_wrp .main .video_con #controls .ban_dm {
+  position: relative;
+  width: 50px;
+  float: right;
+}
+.player_wrp .main .video_con #controls .ban_dm span {
+  transition: .2s color linear;
+}
+.player_wrp .main .video_con #controls .ban_dm.ban span {
+  color: red;
+}
 .player_wrp .main .video_con #controls .volume {
   position: relative;
-  float: left;
-  left: 40px;
+  float: right;
   width: 50px;
 }
 .player_wrp .main .video_con #controls .volume .volumeCon {
@@ -393,7 +414,7 @@ header #h_bg {
   width: 50px;
   height: 100%;
   float: right;
-  margin-right: 20px;
+  margin-right: 0;
 }
 .player_wrp .main .video_con #danmu {
   position: absolute;
