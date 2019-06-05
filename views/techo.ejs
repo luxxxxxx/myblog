@@ -16,7 +16,7 @@
 <header >
     <% var randomNumber = Math.ceil(Math.random()*5); %>
 
-    <div id="h_bg" style="background: url('./img/background/bc<%= randomNumber %>.jpg')"></div>
+    <div id="h_bg" style="background: url('./img/background/bc<%= randomNumber %>.jpg') no-repeat top ; background-size: cover"></div>
     <div class="mask"></div>
     <div id="h_content">
         <div class="l">
@@ -29,22 +29,28 @@
         </div>
         <div class="r">
             <ul class="nav clearfix">
-                <li>
-                    <a href="/main">主页</a>
-                    <div class="bar"></div>
-                </li>
-                <li class="current">
-                    <a href="/techo">科技</a>
-                    <div class="bar"></div>
-                </li>
-                <li>
-                    <a href="##">动漫</a>
-                    <div class="bar"></div>
-                </li>
-                <li class="n-margin-r">
-                    <a href="##">音乐</a>
-                    <div class="bar"></div>
-                </li>
+                
+                <% if (locals.pageType == 'techo') { %>
+                    <li><a href="/main">主页</a><div class="bar"></div></li>
+                    <li class="current"><a href="/techo">科技</a><div class="bar"></div></li>
+                    <li><a href="/anime">动漫</a><div class="bar"></div></li>
+                    <li class="n-margin-r"><a href="/music">音乐</a><div class="bar"></div></li>
+                <% } else if (locals.pageType == 'main') { %>
+                    <li><a href="/main">主页</a><div class="bar"></div></li>
+                    <li class="current"><a href="/techo">科技</a><div class="bar"></div></li>
+                    <li><a href="/anime">动漫</a><div class="bar"></div></li>
+                    <li class="n-margin-r"><a href="/music">音乐</a><div class="bar"></div></li>
+                <% } else if (locals.pageType == 'anime') { %>
+                    <li><a href="/main">主页</a><div class="bar"></div></li>
+                    <li><a href="/techo">科技</a><div class="bar"></div></li>
+                    <li class="current"><a href="/anime">动漫</a><div class="bar"></div></li>
+                    <li class="n-margin-r"><a href="/music">音乐</a><div class="bar"></div></li>
+                <% } else if (locals.pageType == 'music') { %>
+                    <li><a href="/main">主页</a><div class="bar"></div></li>
+                    <li><a href="/techo">科技</a><div class="bar"></div></li>
+                    <li><a href="/anime">动漫</a><div class="bar"></div></li>
+                    <li class="n-margin-r current"><a href="/music">音乐</a><div class="bar"></div></li>
+                <% } %>
             </ul>
 
             <!-- 登录板块，登录：yes，未登录 no -->
@@ -108,6 +114,7 @@
             $('#h_content > div.r > ul > li:nth-child(1)').addClass('current').siblings().removeClass('current');
         }
 </script>
+
 
 
 <section id="main_bg">
@@ -316,7 +323,9 @@
                 </div>
                 <ul class="list_group">
                     
-                    <% for (let i = 0; i < 11; i++) { %>
+                    
+
+                    <% for (let i = 0; i < (totalArticles.length < 11 ? totalArticles.length : 11); i++) { %>
                         
                         <li class="list_item">
                             <span class="t">
@@ -334,7 +343,9 @@
     </div>
 </section>
 <footer>
-    要优雅~ (゜-゜)つロ 干杯~   powered by <a href="##">要优雅</a>
+     
+    @2019 要优雅 渝ICP备19007244号 <img src="./img/batb.png" > 渝公网备案号：2025028692353
+
 </footer>
 </body>
 </html>
@@ -381,7 +392,6 @@
         $consumeRecord = $('#login_con > div.login > div.r > div.b > span.record > a'); //消费记录;
 
 
-    
     //  顶部背景变换
 
     var timer = setInterval(changeBg,10000);  //自动切换背景计时器
@@ -391,7 +401,7 @@
         } else {
             bgNum = 1;
         }
-        $h_bg[0].style = 'background: url("./img/background/bc'+ bgNum +'.jpg") no-repeat 50% top'
+        $h_bg[0].style = 'background: url("./img/background/bc'+ bgNum +'.jpg") no-repeat top; background-size:cover'
         $bgs.eq(bgNum-1).addClass('show').siblings().removeClass('show');
 
         console.log(bgNum)
@@ -419,6 +429,7 @@
     <% } %>
 
     var winHeight;
+
     if (window.innerHeight)
         winHeight = window.innerHeight;
     else if ((document.body) && (document.body.clientHeight))
@@ -426,7 +437,6 @@
     var halfTop = (winHeight - parseInt($sidePosts.getStyle('height'))) / 2;
     if (halfTop < 0) halfTop = 0 ; 
     var limitHeight = sideTop - halfTop;
-
 
 
     window.onscroll = function (params) {
@@ -442,7 +452,6 @@
             $sidePosts.removeClass('fixed');
             $sidePosts.css('top',0)
         }
-
 
     }
 
@@ -505,6 +514,7 @@
     //     alert('onload')
     //     $hotVideo[0].setAttribute("autoplay",'none')
     // }
+
 
 
 </script>

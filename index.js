@@ -25,7 +25,7 @@ app.use(session({
     resave : true,  //don't save session  if unmoified
     saveUninitialized : false,
     secret : "sadaskhdasuusadhuisduixb",
-    cookie : {maxAge : 60 * 1000 * 60}   //存放内存时间
+    cookie : {maxAge : 180 * 1000 * 60}   //存放内存时间  
 }));  //设置秘钥
 
 
@@ -111,7 +111,6 @@ app.use(session({
 app.use((req, res, next) => {
     if (req.cookies['login']) {
         let cookies = req.cookies['login'];
-        console.log('这里是中间件的console 输出cookies',req.cookies.login);
         // res.locals.login = {
         //     status: cookies.status,  
         //     name: cookies.name,

@@ -7,21 +7,39 @@ const express = require("express"),
 
 
 router.get("/", (req, res) => {
-    let page = req.query.page - 1 || 0,
-        count;  //数据量
+    let page = req.query.page - 1 || 0,  //如果没有 get 请求，默认第一页
+        type = req._parsedOriginalUrl.pathname.replace('/', '') || '科技', //默认类型为科技
+        queryCondition = '',  //查询的默认条件
+        count;  //总数据量
+
+
+        console.log(type)
+        
+
+        if (type === '科技') {  // 如果栏目为科技页面
+            console.log('科技 condition')
+            queryCondition += 'where a_tags like "%科技%" or a_tags like "%宇宙%" or a_tags like "%探索%"';  //限定标签 
+        } else if (type === '动漫') {
+            queryCondition += 'where a_tags like "%动漫%"'
+        } else if (type === '音乐') {
+            queryCondition += 'where a_tags like "%音乐%"'
+        }
+        
     mysql ({
-        sql : 'select a_id,a_title,a_views from t_article order by a_id desc',
+        sql: 'select a_id,a_title,a_views from t_article ' + queryCondition + ' order by a_id desc',
         args : [],
         callback : (err,info) => {
             if (!err) {
+
                 res.locals.totalArticles = info;
                 count = info.length;
+                res.locals.pageType = type;  //返回了页面的类型
+
                 mysql({
-                    sql: 'select user_id,user_name,a_id,a_title,a_tags,a_type,a_desc,a_views,a_link,a_date,a_cover from t_article left join t_user on t_user.user_id = t_article.a_upId order by a_id desc limit ?,4',
+                    sql: 'select user_id,user_name,a_id,a_title,a_tags,a_type,a_desc,a_views,a_link,a_date,a_cover from t_article left join t_user on t_user.user_id = t_article.a_upId '+ queryCondition +' order by a_id desc limit ?,4',
                     args: [page * 4],
                     callback: (err, info) => {
-                        if (!err) {
-                           
+                        if (!err) {                   
                             res.locals.articles = info;
                             res.locals.totalPage = count;
                             res.locals.page = page + 1;
@@ -38,10 +56,9 @@ router.get("/", (req, res) => {
             }
         }
     })
-
-    
     // res.locals.articles  = {};
 });
+
 
 router.post("/login",(req,res) => {
     let userName = req.body["userName"],

@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>要优雅的上传</title>
+    <link rel="shortcut icon" href="./img/favicon.ico">
+    <link rel="stylesheet" href="./css/reset.css">
+    <link rel="stylesheet" href="./css/bootstrap.min.css">
+    <link rel="stylesheet" href="./css/general.css">
+    <link rel="stylesheet" href="./css/iconfont.css">
+    <link rel="stylesheet" href="./css/animate.css">
+    <link rel="stylesheet" href="./css/upload.css">
+    <link rel="stylesheet" href="./css/cropper.css">
+</head>
+
+<body>
+    <div id="mask" class="" tabindex="1">
+        <div id="photoEdit">
+            <div class="close">×</div>
+            <div class="clearfix">
+                <div class="container">
+                    <div>
+                        <img id="image" class="preview_img" src="./img/exm.png" alt="Picture">
+                    </div>
+                </div>
+                <div class="preview">
+                    <img src="./img/exm.png" class="preview_img" alt="预览">
+                </div>
+            </div>
+            <div class="bottom">
+                <div class="save">保存</div>
+            </div>
+        </div>
+    </div>
+    <header>
+        <div id="h_bg"></div>
+        <div class="mask"></div>
+        <div id="h_content">
+            <div class="l">
+                <div class="pic">
+                    <img src="./img/heimao1.png" alt="要优雅" title="不要优雅，要污!ε=ε=(ノ≧∇≦)ノ">
+                </div>
+                <div id="logo"><img src="./img/logo.png" alt=""></div>
+            </div>
+            <div class="r">
+                <ul class="nav clearfix">
+                    <li><a href="##">main</a>
+                        <div class="bar"></div>
+                    </li>
+                    <li><a href="##">technology</a>
+                        <div class="bar"></div>
+                    </li>
+                    <li><a href="##">anime</a>
+                        <div class="bar"></div>
+                    </li>
+                    <li class="n-margin-r"><a href="##">music</a>
+                        <div class="bar"></div>
+                    </li>
+                </ul>
+                <!-- 登录板块，登录：yes，未登录 no -->
+                <div class="login_sec no">
+                    <span><a href="##">login</a></span>
+                    <span>|</span>
+                    <span><a href="##">register</a></span>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div id="main">
+        <div class="l_cover">
+            <div class="cover" data-toggle="modal" data-target="mask">
+                <img src="./img/cover.png" id="avatar" class="img" alt="">
+            </div>
+            <canvas id="canvas" width="160" height="100"></canvas>
+        </div>
+        <input type="file" accept="image/gif, image/jpeg, image/png" id="coverPut" style="display:none">
+        <div class="r_content">
+            <div class="add">
+                ＋ 点击上传视频
+            </div>
+
+            <!-- 隐藏 input  -->
+            <!-- <form action="localhost:233/upload/files" enctype="multipart/form-data" method="post"> -->
+
+            <input id="inputFile" type="file" name="video" style="display: none">
+            <!-- <input type="submit"> -->
+
+            <!-- </form> -->
+
+
+
+
+            <li class="sort_item show">
+                <div class="index">1</div>
+                <div class="progress_con">
+                    <span class="t" title="你的名字"> 你的名字你的名字你的名字你的名字你的名字你的名字你的名字你的名字</span>
+                    <span class="upload_status">正在上传</span>
+                    <div class="p_bar">
+                        <div class="fill"></div>
+                    </div>
+                </div>
+            </li>
+
+            <div class="zone div">
+                <div class="t"><span class="important">*</span><span>选择分区</span></div>
+                <div class="type_con clearfix">
+                    <div class="type_btn">动漫</div>
+                    <div class="type_btn">柯基</div>
+                </div>
+                <span class="hint">你当前选择的分区是<span class="highlight">柯基</span></span>
+            </div>
+
+            <div class="name div">
+                <div class="t"><span class="important">*</span><span>稿件标题</span></div>
+                <div class="name_con">
+                    <input type="text" id="file_name" maxlength="60">
+                    <span class="length">16/60</span>
+                </div>
+            </div>
+
+            <div class="tags_con div">
+                <div class="t"><span class="important">*</span><span>稿件标签</span></div>
+                <div class="tags clearfix">
+                    <div class="recommend_tags">推荐标签</div>
+                    <div class="tag_con clearfix">
+                        <div class="tag">TV动画</div>
+                        <div class="tag">经典</div>
+                        <div class="tag">日本动画</div>
+                        <div class="tag">剧场版</div>
+                        <div class="tag">童年</div>
+                        <div class="tag">动漫</div>
+                        <div class="tag">720P</div>
+                        <div class="tag">1080P</div>
+                        <div class="tag">国语</div>
+                        <div class="tag">后宫</div>
+                        <div class="tag">战斗</div>
+                        <div class="tag">新海诚</div>
+                        <div class="tag">治愈向</div>
+                        <div class="tag">神作</div>
+                        <div class="tag">怀旧</div>
+                        <div class="tag">合集</div>
+                        <div class="tag">爱情</div>
+                        <div class="tag">搞笑</div>
+                        <div class="tag">科普</div>
+                        <div class="tag">科幻短片</div>
+                        <div class="tag">科幻电影</div>
+                    </div>
+                    <span class="diy">自定义标签</span>
+                    <div class="diy_con clearfix">
+                        <div class="img"><img src="./img/exm.png" alt=""></div> 等你们开始上传视频了我再写这个功能
+                    </div>
+                    <div class="count_tag">还可以添加x个标签</div>
+                </div>
+            </div>
+
+            <div class="short_desc div">
+                <div class="t"><span class="important">*</span><span>视频简介</span></div>
+                <textarea name="desc" id="shortDesc" maxlength="233" cols="30" rows="10"></textarea>
+            </div>
+            <div id="submit">提交稿件</div>
+        </div>
+    </div>
+</body>
+
+</html>
+<script src="./js/jquery.min.js"></script>
+<script src="./js/bootstrap.min.js"></script>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.4.0/cropper.min.js"></script> -->
+<script src="./js/cropper.js"></script>
+<script>
+    var $CoverInput = $('#coverPut'),
+        $mask = $('#mask'),
+        $previews = $('#mask .preview'),
+        cropper,
+        canvas = document.querySelector('#canvas'),
+        $coverBox = $('.l_cover .cover'), //选择封面
+        $cropperClose = $('#mask .close'), //选择封面弹框取消
+        $avatar = $('#avatar'), //选择封面按钮的封面
+        $photoEdit = $('#photoEdit'),
+        $preview_img = $('.preview_img'), //预览图（截图，截图预览）
+        base64URL, //base 64 url
+        $cropperSave = $('#mask .save'), //保存封面
+
+        $inputFile = $('#inputFile'), //input file
+        $upload_btn = $('#main > div.r_content > div.add'); //上传视频按钮
+
+
+
+    // $photoEdit.on('show.bs.modal', function () {
+    //     console.log('?')
+    //     cropper = new Cropper(image, {
+    //         aspectRatio: 1,
+    //         viewMode: 3,
+    //     });
+    // }).on('hidden.bs.modal', function () {
+    //     console.log('??')
+    //     cropper.destroy();
+    //     cropper = null;
+    // });
+
+    function each(arr, callback) {
+        var length = arr.length;
+        var i;
+
+        for (i = 0; i < length; i++) {
+            callback.call(arr, arr[i], i, arr);
+        }
+
+        return arr;
+    }
+
+    window.addEventListener('DOMContentLoaded', function () {
+        var image = document.querySelector('#image');
+        var minAspectRatio = 1;
+        var maxAspectRatio = 2;
+        // var cropper = new Cropper(image, {
+        //     ready: function () {
+        //         var cropper = this.cropper;
+        //         var containerData = cropper.getContainerData();
+        //         var cropBoxData = cropper.getCropBoxData();
+        //         var aspectRatio = cropBoxData.width / cropBoxData.height;
+        //         var newCropBoxWidth;
+
+        //         if (aspectRatio < minAspectRatio || aspectRatio > maxAspectRatio) {
+        //             newCropBoxWidth = cropBoxData.height * ((minAspectRatio + maxAspectRatio) / 2);
+
+        //             cropper.setCropBoxData({
+        //                 left: (containerData.width - newCropBoxWidth) / 2,
+        //                 width: newCropBoxWidth
+        //             });
+        //         }
+        //     },
+        //     cropmove: function () {
+        //         var cropper = this.cropper;
+        //         var cropBoxData = cropper.getCropBoxData();
+        //         var aspectRatio = cropBoxData.width / cropBoxData.height;
+
+        //         if (aspectRatio < minAspectRatio) {
+        //             cropper.setCropBoxData({
+        //                 width: cropBoxData.height * minAspectRatio
+        //             });
+        //         } else if (aspectRatio > maxAspectRatio) {
+        //             cropper.setCropBoxData({
+        //                 width: cropBoxData.height * maxAspectRatio
+        //             });
+        //         }
+        //     },
+        //     crop: function (e) {
+        //         var data = e.detail;
+        //         var cropper = this.cropper;
+        //         var imageData = cropper.getImageData();
+        //         var previewAspectRatio = data.width / data.height;
+
+        //         each($previews, function (elem) {
+        //             var previewImage = elem.getElementsByTagName('img').item(0);
+        //             var previewWidth = elem.offsetWidth;
+        //             var previewHeight = previewWidth / previewAspectRatio;
+        //             var imageScaledRatio = data.width / previewWidth;
+
+        //             elem.style.height = previewHeight + 'px';
+        //             previewImage.style.width = imageData.naturalWidth / imageScaledRatio + 'px';
+        //             previewImage.style.height = imageData.naturalHeight / imageScaledRatio + 'px';
+        //             previewImage.style.marginLeft = -data.x / imageScaledRatio + 'px';
+        //             previewImage.style.marginTop = -data.y / imageScaledRatio + 'px';
+        //         });
+        //     }
+        // });
+        var cropper = new Cropper(image, { //固定裁剪
+            dragMode: 'move',
+            aspectRatio: 16 / 10,
+            autoCropArea: 0.65,
+            restore: false,
+            guides: false,
+            center: false,
+            highlight: false,
+            cropBoxMovable: false,
+            cropBoxResizable: false,
+            toggleDragModeOnDblclick: false,
+        });
+
+
+        $coverBox.click(function () {
+            $CoverInput.click();
+            $CoverInput.change(function name(e) {
+                var files = e.target.files;
+                var done = function (url) {
+                    base64URL = url;
+                    // $preview_img.each.attr.src = url;
+                    // $preview_img.each(function () {
+                    //     console.log(this)
+                    //     this.src = url;
+
+                    // })
+                    $preview_img.get(0).src = url;
+                    $('#photoEdit > div.clearfix > div.container > div > div > div.cropper-crop-box > span.cropper-view-box > img')
+                        .get(0).src = url;
+                    $('#photoEdit > div.clearfix > div.container > div > div > div.cropper-wrap-box > div > img')
+                        .get(0).src = url;
+                    $mask.addClass('show');
+                };
+                var reader;
+                var file;
+                var url;
+
+                if (files && files.length > 0) {
+                    file = files[0];
+                    reader = new FileReader();
+                    reader.onload = function (e) {
+                        done(reader.result);
+                    };
+                    reader.readAsDataURL(file);
+                    $preview_img.each(function (params) {
+                        this.src = URL.createObjectURL(file);
+                    })
+                    // if (URL) {
+                    //     done(URL.createObjectURL(file));
+                    // } else if (FileReader) {
+                    //     reader = new FileReader();
+                    //     reader.onload = function (e) {
+                    //         done(reader.result);
+                    //     };
+                    //     reader.readAsDataURL(file);
+                    //     $preview_img.each(function (params) {
+                    //         this.src = URL.createObjectURL(file);
+                    //     })
+                    // }
+                }
+            })
+        })
+
+        $cropperClose.click(function () {
+            $mask.removeClass('show');
+        })
+
+        $cropperSave.click(function () { // 获取截取后的图片 base64 
+            var croppedCanvas = cropper.getCroppedCanvas({
+                width: 160,
+                height: 100,
+                fillColor: '#fff',
+                imageSmoothingEnabled: false,
+                imageSmoothingQuality: 'high',
+            })
+            var base64url = croppedCanvas.toDataURL('image/jpeg');
+            base64URL = base64url;
+            $('#avatar').attr('src', base64url)
+            $('#mask').removeClass('show');
+        })
+
+        $inputFile[0].onchange = function () {
+            console.log(this)
+            var file = this.files[0],
+                f = new FormData();
+            f.append('video', file);
+            // 使上传文件按钮消失
+            $upload_btn.css('display', 'none');
+            //
+            $.ajax({
+                url: 'localhost:233/upload/files',
+                type: 'post',
+                data: {
+                    'video': file
+                },
+                success: function () {
+                    console.log('success');
+                },
+                err: function () {
+                    console.log('err');
+                }
+            })
+        }
+
+
+    
+
+
+        $upload_btn.click(function (params) {
+            $inputFile[0].click();
+        })
+
+
+    });
+</script>

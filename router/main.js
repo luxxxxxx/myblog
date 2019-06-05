@@ -1,24 +1,51 @@
 const express = require("express"),
     mysql = require("../module/mysql"),
-    crypto = require("crypto"),
     encrypt = require("../module/encrypt"),
-    // sd = require("silly-datetime"),
+    send = require("../module/sendMail"),
+    crypto = require("crypto"),
     router = express.Router();
 
 
-
 router.get("/", (req, res) => {
-    let page = req.query.page - 1 || 0,
-        count; //数据量
+    let page = req.query.page - 1 || 0, //如果没有 get 请求，默认第一页
+        type = req._parsedOriginalUrl.pathname.replace('/', '') || 'techo', //默认类型为科技
+        queryCondition = '', //查询的默认条件
+        count; //总数据量
+
+
+    console.log(type)
+
+
+    if (type === 'techo') { // 如果栏目为科技页面
+        console.log('科技 condition')
+        queryCondition = 'where a_tags like "%科技%" or a_tags like "%宇宙%" or a_tags like "%探索%"'; //限定标签 
+    } else if (type === 'anime') {
+        queryCondition = 'where a_tags like "%动漫%"'
+    } else if (type === 'music') {
+        queryCondition = 'where a_tags like "%音乐%"'
+    } else if (type === 'main') {
+        queryCondition = 'where a_tags like "%科技%" or a_tags like "%宇宙%" or a_tags like "%探索%"';
+    }
+
+    console.log(queryCondition)
+
     mysql({
-        sql: 'select a_id,a_title,a_views from t_article order by a_id desc',
+        sql: 'select a_id,a_title,a_views from t_article ' + queryCondition + ' order by a_id desc',
         args: [],
         callback: (err, info) => {
             if (!err) {
+
+                console.log(err)
+                console.log(info)
+
+
                 res.locals.totalArticles = info;
                 count = info.length;
+                res.locals.pageType = type; //返回了页面的类型
+
+                
                 mysql({
-                    sql: 'select user_id,user_name,a_id,a_title,a_tags,a_type,a_desc,a_views,a_link,a_date,a_cover from t_article left join t_user on t_user.user_id = t_article.a_upId order by a_id desc limit ?,4',
+                    sql: 'select user_id,user_name,a_id,a_title,a_tags,a_type,a_desc,a_views,a_link,a_date,a_cover from t_article left join t_user on t_user.user_id = t_article.a_upId ' + queryCondition + ' order by a_id desc limit ?,4',
                     args: [page * 4],
                     callback: (err, info) => {
                         if (!err) {
@@ -36,14 +63,11 @@ router.get("/", (req, res) => {
                 res.locals.result = '500 服务器发生了一个无法预料的问题,请联系网站管理员，QQ 981236133';
                 res.status(500).render('500');
             }
-
-
         }
     })
-
-
     // res.locals.articles  = {};
 });
+
 
 router.post("/login", (req, res) => {
     let userName = req.body["userName"],
@@ -108,7 +132,6 @@ router.post("/login", (req, res) => {
         }
     })
 })
-
 
 
 

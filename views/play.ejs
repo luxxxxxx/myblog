@@ -383,16 +383,21 @@
 
 <script>
 	var high_version = null;  //检测兼容
+	
 	window.onload = function () {
 		if (!high_version) {
-			alert('你的浏览器内核或者版本不兼容当前页面，建议使用谷歌浏览器')
-		}
-
-		// iframe page 评论   刷新 cm_fresh
-		
-		console.log(iframePage)
+			showMsg({
+				msg : '你的浏览器不兼容当前网页，请使用新版本浏览器',
+                status : 'err',
+                link : 'https://browser.360.cn/ee/',
+                delay : 9999999,
+                detail : '点击此处跳转至360极速浏览器下载界面'
+            })
+        }
 		iframe.style.height = (iframe.contentWindow.document.body.clientHeight) + 'px';
-	}
+    }
+
+
 </script>
 
 <script src="./js/jqq.js"></script>
@@ -474,7 +479,7 @@
 			dm_load(dm_arr)  加载弹幕渲染页面 并将所有弹幕对象填充到dm_arr数组
 			time_format(time)  将时间改成 mm:ss 格式并返回
 			video_progress_listener()  //监听视频当前播放时间定时器结合发送弹幕功能
-			vpl_flag  //变量 监听 视频播放定时器flag （防止多个定时器）
+			vpl_flag  //变量 监听 视频播放定时器flag （防止多个定时器）（防止多个定时器）
 		*/
 
 	$a_login = $(".a_login");
@@ -601,8 +606,6 @@
 		} else {
 			document.webkitCancelFullScreen()
 		}
-
-
 	})
 
 
@@ -672,10 +675,6 @@
 		// 这里发送弹幕之后不需要重新刷新全局弹幕数组
 		
 		
-
-
-		
-
 	}
 
 
