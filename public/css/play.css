@@ -377,6 +377,9 @@ header #h_bg {
   float: right;
   width: 50px;
 }
+.player_wrp .main .video_con #controls .volume.red {
+  color: red;
+}
 .player_wrp .main .video_con #controls .volume .volumeCon {
   z-index: 99;
   position: absolute;

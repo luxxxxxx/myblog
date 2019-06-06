@@ -18,6 +18,20 @@ header {
 	
 	overflow: hidden;
 
+	&.notMain {
+		height: 180px;
+		.main {
+			video {
+				display: none;
+			}
+			p {
+				display: none;
+			}
+		}
+	}
+
+
+
 	.bg {
 		position: absolute;
 		width: 100%;
@@ -62,6 +76,9 @@ header {
 		
 		margin: 0 auto;
 		width: 700px;
+
+		
+
 		video {
 			background: none;
 		}
@@ -110,7 +127,6 @@ header {
 					transition: .1s all linear;
 					&.main_page {
 						color: #d2322d;
-
 					}
 					&.technology {
 						color: #00a1d6;

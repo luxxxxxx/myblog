@@ -8,7 +8,7 @@ const express = require("express"),
 
 router.get("/", (req, res) => {
     let page = req.query.page - 1 || 0, //如果没有 get 请求，默认第一页
-        type = req._parsedOriginalUrl.pathname.replace('/', '') || 'techo', //默认类型为科技
+        type = req._parsedOriginalUrl.pathname.replace('/', '') || 'main', //默认主页
         queryCondition = '', //查询的默认条件
         count; //总数据量
 
@@ -17,27 +17,22 @@ router.get("/", (req, res) => {
 
 
     if (type === 'techo') { // 如果栏目为科技页面
-        console.log('科技 condition')
         queryCondition = 'where a_tags like "%科技%" or a_tags like "%宇宙%" or a_tags like "%探索%"'; //限定标签 
     } else if (type === 'anime') {
         queryCondition = 'where a_tags like "%动漫%"'
     } else if (type === 'music') {
         queryCondition = 'where a_tags like "%音乐%"'
     } else if (type === 'main') {
-        queryCondition = 'where a_tags like "%科技%" or a_tags like "%宇宙%" or a_tags like "%探索%"';
+        queryCondition = '';  //如果是主页就显示所有的视频
     }
 
-    console.log(queryCondition)
+ 
 
     mysql({
         sql: 'select a_id,a_title,a_views from t_article ' + queryCondition + ' order by a_id desc',
         args: [],
         callback: (err, info) => {
             if (!err) {
-
-                console.log(err)
-                console.log(info)
-
 
                 res.locals.totalArticles = info;
                 count = info.length;

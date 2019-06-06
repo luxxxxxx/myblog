@@ -36,8 +36,8 @@
                     <li><a href="/anime">动漫</a><div class="bar"></div></li>
                     <li class="n-margin-r"><a href="/music">音乐</a><div class="bar"></div></li>
                 <% } else if (locals.pageType == 'main') { %>
-                    <li><a href="/main">主页</a><div class="bar"></div></li>
-                    <li class="current"><a href="/techo">科技</a><div class="bar"></div></li>
+                    <li class="current"><a href="/main">主页</a><div class="bar"></div></li>
+                    <li><a href="/techo">科技</a><div class="bar"></div></li>
                     <li><a href="/anime">动漫</a><div class="bar"></div></li>
                     <li class="n-margin-r"><a href="/music">音乐</a><div class="bar"></div></li>
                 <% } else if (locals.pageType == 'anime') { %>
@@ -116,8 +116,15 @@
 </script>
 
 
+<% if(locals.pageType === 'main') { %>
+    <section id="main_bg" >
+<% } else { %>
+    <section id="main_bg" class="notMain">
+<% } %>
 
-<section id="main_bg">
+    
+    <!-- .notMain 不是主页样式 -->
+
     <% for(var i = 1; i <= 5; i++ ) { %>
         <% if(i == randomNumber) { %>
             <div class="bg show"></div>
@@ -131,14 +138,14 @@
     <div id="randomBg5" class="bg"></div> -->
 
 
-    <div class="main">
-
-        <video id="hotVideo" src="./video/wanderers.mp4" controls="controls" width="700" height="360">
+    <div class="main notMain">
+        <video id="hotVideo" src="./video/wanderers.mp4" controls="controls" width="700" height="360" autoplay='autoplay'>
             你的浏览器不支持 video 标签，这会导致很严重的问题，所以请升级你的浏览器，官方建议你使用谷歌浏览器或者QQ浏览器急速模式
         </video>
         
         <p title="Wanderers a short film by Erik Wernquist - 漂泊者 ">Wanderers a short film by Erik Wernquist - 漂泊者 </p>
     </div>
+
 </section>
 <!-- <section id="blank"></section> -->
 <section id="main">
@@ -344,7 +351,7 @@
 </section>
 <footer>
      
-    @2019 要优雅 渝ICP备19007244号 <img src="./img/batb.png" > 渝公网备案号：2025028692353
+    @2019 要优雅 <img src="./img/batb.png"> 渝ICP备19007244号
 
 </footer>
 </body>

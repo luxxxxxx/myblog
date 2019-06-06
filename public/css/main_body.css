@@ -11,6 +11,15 @@ header #h_bg {
   margin: 0 auto;
   overflow: hidden;
 }
+#main_bg.notMain {
+  height: 180px;
+}
+#main_bg.notMain .main video {
+  display: none;
+}
+#main_bg.notMain .main p {
+  display: none;
+}
 #main_bg .bg {
   position: absolute;
   width: 100%;

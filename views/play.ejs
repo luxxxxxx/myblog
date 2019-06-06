@@ -182,7 +182,6 @@
 						<span class="m"> | </span>
 						<span class="total">00:00</span>
 					</div>
-					
 
 					<div class="expand btn">
 						<span class="iconfont">&#xe824;</span>
@@ -200,7 +199,7 @@
 					</div>
 					
 
-					<div class="btn ban_dm">
+					<div class="btn ban_dm" title="禁止弹幕">
 						<span class="icon iconfont icon-jinzhidanmu"></span>
 					</div>
 
@@ -605,9 +604,13 @@
 		$slideDot.css('left', l);
 	})
 
-	$volume.click(() => {
-		$volumeCon.toggleClass('show');
+	$volume.bind('mouseover',() => {  //音量按钮鼠标悬浮打开音量控件（因为移动端常常有独立控件）
+		$volumeCon.addClass('show');
+	}).bind('mouseleave',() => {
+		$volumeCon.removeClass('show');
 	})
+
+
 
 	$v_bar.click((e) => {
 		let bar_h = $v_bar.css('height'),
