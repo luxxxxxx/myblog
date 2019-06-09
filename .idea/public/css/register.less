@@ -1,0 +1,302 @@
+html,body {
+	position: relative;
+	min-height: 540px !important;
+	#info {
+        z-index: 999;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+        width: 300px;
+        height: 180px;
+        background: #fff;
+        border: 1px solid #4444441f;
+        box-sizing: border-box;
+        padding: 20px;
+        border-radius: 4px;
+        visibility: hidden;
+        opacity: 0;
+        transition: .1s all linear;
+        p {
+            font-size: 15px;
+            text-align: center;
+        }
+        &.success {
+            a {
+                display: block;
+            }
+        }
+        &.show {
+            visibility: visible;
+            opacity: 1;
+        }
+        a {
+            display: none;
+            font-size: 13px;
+            margin-top: 40px;
+            text-align: center;
+            color: lightgreen;
+        }
+        .close {
+            position: absolute;
+            right: 6px;
+            top: 6px;
+            width: 16px;
+            height: 16px;
+            text-align: center;
+            line-height: 16px;
+            font-size: 24px;
+            transition: .2s all linear;
+            color: #333;
+            cursor: pointer;
+            &:hover {
+                transform: rotate(90deg);
+            }
+        }
+    }
+}
+#t {
+	position: absolute;
+	left: 0;
+	right: 0;
+	margin: 0 auto;
+	top: -125px;
+	width: 300px;
+	height: 100px;
+	text-align: center;
+	img {
+		height: 100%;
+		margin: 0 auto;
+	}
+}
+#main {
+	position: relative;
+	margin: 230px auto 50px;
+	.h {
+		position: relative;
+		z-index: 5;
+		height: 20px;
+		background:  url(../img/borderImg.png) repeat;
+		background-size: 1.85%;
+	}
+	.main {
+		position: relative;
+		width: 1060px;
+		margin: 0 auto;
+		.lishi {
+			z-index: 7;
+			display: inline-block;
+			position: absolute;
+			left: 615px;
+			top: -265px;
+			width: 331px;
+			height: 469px;
+			background: url('../img/lishi.png');
+			background-size: cover;
+		}
+	}
+	form {
+		width: 800px;
+		margin: 0 auto;		
+		overflow: hidden;
+		.input_wrp {
+			position: relative;
+			margin-top: 45px;
+			height: 42px;
+			input {
+				z-index: 9;
+				position: absolute;
+				left: 0;
+				right: 0;
+				height: 20px;
+				width: 395px;
+				margin: 0 auto;
+				border-radius: 3px;
+				padding: 10px;
+				color: #a5a5a5;
+				outline: none;
+				border: 1px solid #dfdfdf;
+				color: #a5a5a5;
+				transition: .2s border-color linear;
+				&:focus {
+					border: 1px solid #00a1d6;
+				};
+				&.error {
+					border: 1px solid #ff1818;
+				}
+			};
+
+			.send {
+				z-index: 20;
+				position: absolute;
+				right: 192px;
+				top: 1px;
+				width: 100px;
+				height: 40px;
+				background: #00a1d6;
+				color: #fff;
+				font-size: 13px;
+				text-align: center;
+				line-height: 40px;
+				border-top-right-radius: 3px;
+				border-bottom-right-radius: 3px;
+				cursor: pointer;
+				transition: .2s all linear;
+				&.false {
+					cursor: not-allowed;
+					background: #999;
+				}
+				&.ban {
+					cursor: not-allowed;
+					background: #999;
+				}
+			}
+			.regBtn {
+				z-index: 9;
+				position: absolute;
+				left: 0;
+				right: 0;
+				height: 40px;
+				width: 415px;
+				margin: 0 auto;
+				border-radius: 3px;
+				outline: none;
+				border: 1px solid #f9f9f9;
+				background: #f9f9f9;
+				color: #aaa;
+				text-align: center;
+				line-height: 42px;
+				cursor: not-allowed;
+				transition: .2s all linear;
+				&.success {
+					background: #00a1d6;
+					color: #fff;
+					cursor: pointer;
+				}
+			}
+			.safe_con {
+				position: absolute;
+				left: 0;
+				right: 0;
+				top: -43px;
+				margin: 0 auto;
+				height: 40px;
+				box-sizing: border-box;
+				padding: 10px 0;
+				width: 415px;
+				font-size: 15px;
+
+				p {
+					float: left;
+					color: rgb(113, 113, 113);
+					&.desc {
+						margin-left: 6px;
+						font-size: 12px;
+						/*color: rgb(73, 197, 25);*/
+						color: #bc0001;
+						transition: .2s color linear;
+					}
+				}	
+				.a_pw {
+					float: left;
+					width: 277px;
+					line-height: 24px;
+					&.l1 {
+						.safe_line:nth-child(1) {
+							opacity: 1;
+						}
+					}
+					&.l2 {
+						.safe_line:nth-child(1) {
+							opacity: 1;
+						}
+						.safe_line:nth-child(2) {
+							opacity: 1;
+						}
+					}
+					&.l3 {
+						.safe_line:nth-child(1) {
+							opacity: 1;
+						}
+						.safe_line:nth-child(2) {
+							opacity: 1;
+						}
+						.safe_line:nth-child(3) {
+							opacity: 1;
+						}
+					}
+					&.l4 {
+						.safe_line:nth-child(1) {
+							opacity: 1;
+						}
+						.safe_line:nth-child(2) {
+							opacity: 1;
+						}
+						.safe_line:nth-child(3) {
+							opacity: 1;
+						}
+						.safe_line:nth-child(4) {
+							opacity: 1;
+						}
+					}
+					&.l5 {
+						.safe_line:nth-child(1) {
+							opacity: 1;
+						}
+						.safe_line:nth-child(2) {
+							opacity: 1;
+						}
+						.safe_line:nth-child(3) {
+							opacity: 1;
+						}
+						.safe_line:nth-child(4) {
+							opacity: 1;
+						}
+						.safe_line:nth-child(5) {
+							opacity: 1;
+						}
+					}
+					.safe_line {
+						position: relative;
+						top: -2px;
+						display: inline-block;
+						width: 30px;
+						height: 5px;
+						margin-left: 15px;
+						border-radius: 5px;
+						margin-right: 7px;
+						background-color: #000;
+						opacity: 0;
+						transition: .2s opacity linear;
+						&:nth-child(1) {
+							background-color: red;
+						}
+						&:nth-child(2) {
+							background-color: rgb(255, 127, 0);
+						}
+						&:nth-child(3) {
+							background-color: rgb(240, 240, 40);
+						}
+						&:nth-child(4) {
+							background-color: rgb(122, 222, 24);
+						}
+						&:nth-child(5) {
+							background-color: rgb(73, 197, 25);
+						}
+					}
+				}
+			}
+			p.err_msg {
+				width: 180px;
+				text-align: right;
+				margin: 0 auto;
+				height: 42px;
+				line-height: 42px;
+				display: inline-block;
+				font-size: 12px;
+				color: rgb(244, 93, 144);
+			}
+		}
+	}
+	
+}

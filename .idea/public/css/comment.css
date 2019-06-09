@@ -1,0 +1,105 @@
+
+ .c_list {
+  padding-top: 20px;
+}
+ .c_list .list_item .user_face {
+  float: left;
+  margin: 24px 0 0 5px;
+  position: relative;
+}
+ .c_list .list_item .user_face img {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+}
+ .c_list .list_item .con {
+  position: relative;
+  margin-left: 85px;
+  padding: 22px 0 14px;
+  border-top: 1px solid #e5e9ef;
+}
+ .c_list .list_item .con .user {
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 18px;
+  padding-bottom: 4px;
+  display: block;
+  word-wrap: break-word;
+}
+ .c_list .list_item .con .user span {
+  color: #6d757a;
+  font-weight: bold;
+}
+ .c_list .list_item .con .user a {
+  color: #6d757a;
+  font-weight: bold;
+  margin-right: 3px;
+  transition: .2s all linear;
+}
+ .c_list .list_item .con .user a:hover {
+  color: #00a1d6;
+}
+ .c_list .list_item .con .user .text_con {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+}
+ .c_list .list_item .con .text {
+  line-height: 20px;
+  padding: 2px 0;
+  font-size: 14px;
+  text-shadow: none;
+  overflow: hidden;
+  word-wrap: break-word;
+  word-break: break-word;
+}
+ .c_list .list_item .con .info span {
+  margin-right: 20px;
+  color: #99a2aa;
+}
+ .c_list .list_item .con .info span.like i {
+  cursor: pointer;
+  transition: .2s all linear;
+}
+ .c_list .list_item .con .info span.like i:hover {
+  color: #00a1d6;
+}
+ .c_list .list_item .con .info span.like.on i {
+  color: #00a1d6;
+}
+ .c_list .list_item .con .info span.res {
+  padding: 0 5px;
+  border-radius: 4px;
+  margin-right: 15px;
+  cursor: pointer;
+  display: inline-block;
+  transition: .2s all linear;
+}
+ .c_list .list_item .con .info span.res:hover {
+  color: red;
+  background: #e5e9ef;
+}
+ .c_list .list_item .con .reply_box {
+  padding: 10px 0;
+}
+ .c_list .list_item .con .reply_box .reply_item .reply_con {
+  margin-left: 34px;
+}
+ .c_list .list_item .con .reply_box .reply_item a {
+  float: left;
+  margin-right: 6px;
+  cursor: default;
+}
+ .c_list .list_item .con .reply_box .reply_item a img {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+}
+ .c_list .list_item .con .reply_box .reply_item .user .name {
+  margin-right: 6px;
+}
+ .c_list .list_item .con .reply_box .reply_item .text_con {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+}

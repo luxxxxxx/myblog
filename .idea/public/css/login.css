@@ -1,0 +1,138 @@
+body {
+  position: relative;
+}
+body #info {
+  z-index: 999;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 300px;
+  height: 180px;
+  background: #fff;
+  border: 1px solid #4444441f;
+  box-sizing: border-box;
+  padding: 20px;
+  border-radius: 4px;
+  visibility: hidden;
+  opacity: 0;
+  transition: .1s all linear;
+}
+body #info p {
+  font-size: 15px;
+  text-align: center;
+}
+body #info.success a {
+  display: block;
+}
+body #info.show {
+  visibility: visible;
+  opacity: 1;
+}
+body #info a {
+  display: none;
+  font-size: 13px;
+  margin-top: 40px;
+  text-align: center;
+  color: lightgreen;
+}
+body #info .close {
+  position: absolute;
+  right: 6px;
+  top: 6px;
+  width: 16px;
+  height: 16px;
+  text-align: center;
+  line-height: 16px;
+  font-size: 24px;
+  transition: .2s all linear;
+  color: #333;
+  cursor: pointer;
+}
+body #info .close:hover {
+  transform: rotate(90deg);
+}
+section {
+  position: relative;
+  height: 600px;
+}
+section .t {
+  margin: 55px auto 0;
+  width: 210px;
+  height: 90px;
+  background: url('../img/login.png') no-repeat center;
+  background-size: cover;
+}
+section #loginCon {
+  display: block;
+  width: 459px;
+  height: 317px;
+  box-sizing: border-box;
+  margin: 30px auto 0;
+  border: 1px solid #66666630;
+  border-radius: 4px;
+  padding: 20px;
+}
+section #loginCon .pic {
+  width: 258px;
+  height: 93px;
+  margin: 0 auto 20px;
+  transition: .3s opacity linear;
+  opacity: 1;
+}
+section #loginCon .pic.hidden {
+  opacity: 0;
+}
+section #loginCon .pic img {
+  width: 100%;
+  height: 100%;
+}
+section #loginCon .input {
+  display: block;
+  height: 20px;
+  width: 395px;
+  margin: 0 auto 20px;
+  border-radius: 3px;
+  padding: 10px;
+  outline: none;
+  border: 1px solid #dfdfdf;
+  color: #a5a5a5;
+  transition: 0.2s border-color linear;
+}
+section #loginCon .input:focus {
+  border-color: #00a1d6;
+}
+section #loginCon .btn_con {
+  width: 100%;
+  height: 38px;
+}
+section #loginCon .btn_con .btn {
+  display: inline-block;
+  width: 186px;
+  height: 100%;
+  text-align: center;
+  line-height: 38px;
+  box-sizing: border-box;
+  border-radius: 4px;
+  cursor: pointer;
+}
+section #loginCon .btn_con .btn a {
+  display: block;
+  width: 100%;
+  height: 100%;
+  color: #999;
+  text-align: center;
+  line-height: 38px;
+}
+section #loginCon .btn_con .btn:nth-child(1) {
+  background-color: #00a1d6;
+  color: #fff;
+  float: left;
+  border: 1px solid #00a1d6;
+}
+section #loginCon .btn_con .btn:nth-child(2) {
+  background-color: #fff;
+  color: #999;
+  border: 1px solid #999;
+  float: right;
+}

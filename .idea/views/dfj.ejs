@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, user-scalable=0, maximum-scale=1.0, minimum-scale=1.0, width=device-width">
+    <title>打飞机</title>
+    <style type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        #phoneBox {
+            position: relative;
+            overflow: hidden;
+        }
+
+        #phoneBox #bg {
+            width: 100%;
+            top: 0;
+            position: absolute;
+        }
+
+        #phoneBox #levelBox {
+            left: 0;
+            top: 0;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, .2);
+        }
+
+        #phoneBox #levelBox .selection {
+            width: 266px;
+            height: 88px;
+            margin: 0 auto;
+            border: 1px solid #000;
+            text-align: center;
+            font-size: .88rem;
+            line-height: 88px;
+        }
+
+        #canvas {
+            position: absolute;
+            margin: 0 auto;
+        }
+
+        body {
+            width: 100%;
+            height: 100%;
+        }
+
+        #scoreBox {
+            z-index: 99;
+            position: absolute;
+            top: 0;
+            background: rgba(0, 0, 0, .4);
+            width: 100%;
+            color: #fff;
+            height: 0.5rem;
+            line-height: 0.5rem;
+        }
+
+        #scoreBox span {
+            color: #fff;
+            font-size: 0.5rem;
+        }
+
+        #gameOver {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 1);
+        }
+
+        #gameOver p {
+            margin-top: 50px;
+            text-align: center;
+            font-weight: bolder;
+            color: #fff;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            font-size: 1rem;
+            font-family: 'Arial'
+        }
+
+        #gameOver .t {
+            font-size: 0.75rem;
+        }
+
+        #gameOver .b {
+            font-size: 0.6rem;
+        }
+
+        #gameOver .restart {
+            margin-top: 160px;
+            font-size: 0.6rem;
+        }
+
+        #gameOver .restart a {
+            color: #fff;
+            text-decoration: none;
+
+        }
+    </style>
+</head>
+
+<body>
+    <div id="phoneBox">
+        <div id="scoreBox">
+            <span>score:</span>
+            <span class="score">0</span>
+        </div>
+        <img src="/img/dfj/bg.png" id="bg">
+        <canvas id="canvas" width="370">your device is not surport canvas</canvas>
+        <div id="levelBox" style="display:block">
+            <div class="selection">简单</div>
+            <div class="selection">困难</div>
+            <div class="selection" style="color:red">开挂</div>
+        </div>
+        <div id="gameOver" style="display:none">
+            <p class="t">Your finnal score is:</p>
+            <p id="score"></p>
+            <p class="b"></p>
+            <p class="restart">
+                <a onclick="location.reload()" >重新开始</a>
+            </p>
+        </div>
+    </div>
+</body>
+
+</html>
+<script type="text/javascript" src='/js/dfj/zepto.min.js'></script>
+<script type="text/javascript" src='/js/dfj/pack.js'></script>
+<script type="text/javascript" src='/js/dfj/flexble.js'></script>
+<script type="text/javascript">
+    window.onload = function () {
+        Game.init();
+    }
+    var canvas = $$('#canvas');
+    var cxt = canvas.getContext('2d');
+    var phoneBox = $$('#phoneBox');
+    var gameOver = $$('#gameOver');
+    var bg = $$('#bg');
+    var bulletArry = [];
+    var bulletIndex = 0;
+    var enemyArray = [];
+    var score = 0;
+    var isGameOver = false;
+    var diffArray = [];
+    var Game = {
+        'img': function () {
+            Game.oPlane = new Image();
+            Game.oPlane.src = '/img/dfj/plane.png';
+            Game.oEnemyPlane = new Image();
+            Game.oEnemyPlane.src = '/img/dfj/enemy.png';
+        },
+        'init': function () {
+            Game.img();
+            Game.bg();
+            //阻止页面滑动
+            $(window).on('scroll.elasticity', function (e) {
+                e.preventDefault();
+            }).on('touchmove.elasticity', function (e) {
+                e.preventDefault();
+            });
+            window.H = window.innerHeight;  //移动端浏览器窗口宽高获取
+            window.W = window.innerWidth;
+
+            var selection = $$('.selection');
+            var levelBox = $$('#levelBox');
+            phoneBox.style.width = window.W + 'px';
+            phoneBox.style.height = window.H + 'px';
+            canvas.width = window.W;
+            canvas.height = window.H;
+            (function () {  //初始化开始选项;
+                for (var i = 0; i < selection.length; i++) {
+                    selection[i].index = i;
+                    on(selection[i], 'click', function (ev) {
+                        var ev = event || window.ev;
+                        levelBox.style.display = 'none';
+                        Game.start(this.index);
+                    })
+                }
+                selection[0].style.marginTop = window.H / 3 - parseInt(getStyle(selection[0], 'height')) + 'px';
+                selection[1].style.marginTop = window.H / 10 + 'px';
+                selection[2].style.marginTop = window.H / 10 + 'px';
+            })()
+        },
+        'bg': function (obj) {
+            Game.oPlane.onload = function () {
+                Game.oPlane.left = (window.W - 80) / 2;
+                Game.oPlane.top = window.H * 4 / 5;
+                cxt.drawImage(Game.oPlane, Game.oPlane.left, Game.oPlane.top, 80, 46);
+            }
+            var t = 0;
+            var timer = setInterval(function () {
+                t--;
+                if (t < - 1200)
+                    t = 0;
+                bg.style.top = t + 'px';
+            }, 16)
+        },
+        'plane': function (ev) {
+            Game.oPlane.left = ev.changedTouches[0].clientX - 40;
+            Game.oPlane.top = ev.changedTouches[0].clientY - 23;
+
+            if (Game.oPlane.left <= 0)
+                Game.oPlane.left = 0;
+            else if (Game.oPlane.left >= window.W - 80)
+                Game.oPlane.left = window.W - 80;
+            if (Game.oPlane.top <= 0)
+                Game.oPlane.top = 0;
+            else if (Game.oPlane.top >= window.H - 46)
+                Game.oPlane.top = window.H - 46;
+
+        },
+
+        'start': function (index) {
+            Game.difficulty(index);
+            on(window, 'touchmove', function (e) {
+                var e = e || window.event;
+                Game.plane(e);
+            })
+
+            Game.refresh();
+            Game.bTimer = setInterval(function () { bulletArry.push(Game.bullet(Game.oPlane.left + 39, Game.oPlane.top - 6)) }, diffArray[2]);  //自动生成子弹
+            Game.eTimer = setInterval(function () { enemyArray.push(Game.enemyPlane()) }, diffArray[0])  //enemy飞机生成速度
+        },
+
+        'enemyPlane': function () {
+            var obj = new Object();
+            obj.w = 30;
+            obj.h = 46;
+            obj.l = window.W * Math.random();
+            obj.t = -50;
+            enemyArray.push(obj);
+            var timer = setInterval(function () {
+                obj.t += diffArray[1]; //敌军飞机速度
+                if (obj.t >= window.H + 50) {
+                    clearInterval(timer);
+                    enemyArray.splice(0, 1);
+                }
+                if (Game.oPlane.top + 46 > obj.t && Game.oPlane.top - 46 < obj.t) {
+                    if (Game.oPlane.left - obj.w < obj.l && obj.l < Game.oPlane.left + 80) {
+                        Game.gameOver();
+                    }
+                }
+            }, 16)
+            return obj;
+        },
+
+        'difficulty': function (j) {
+            if (j === 0) {
+                diffArray = [1200, 5, 600]
+            } else if (j === 1) {
+                diffArray = [400, 7, 600]
+            } else if (j === 2) {
+                diffArray = [400, 7, 50]
+            }
+
+        },
+
+        'refresh': function () {    //每次刷新屏幕
+            Game.timer = setInterval(function () {
+                cxt.clearRect(0, 0, canvas.width, canvas.height);
+                cxt.drawImage(Game.oPlane, Game.oPlane.left, Game.oPlane.top, 80, 46);
+                Game.drawBullet();
+                Game.drawEnemy();
+            }, 16)
+        },
+        'bullet': function (l, t) {
+            var obj = new Object();
+            bulletIndex++;
+            obj.index = bulletIndex;
+
+            obj.l = l;
+            obj.t = t;
+
+            var timer = setInterval(function () {
+                obj.t -= 3;
+                for (var i = 0; i < enemyArray.length; i++) {  //crash
+                    enemyArray[i].index = i;
+                    if (obj.t < enemyArray[i].t + enemyArray[i].h && obj.t > enemyArray[i].t) {
+                        if (obj.l > enemyArray[i].l - 6 && enemyArray[i].l + enemyArray[i].w + 6 > obj.l) {
+                            enemyArray[i].t = 10000;
+                            enemyArray.splice(i, 1);
+                            obj.t = -1000;
+                            Game.score();
+                            console.log(score);
+                        }
+                    }
+
+                }
+                if (obj.t <= -20) {
+                    clearInterval(timer);
+                    obj.t = -1000;
+                }
+            }, 16);
+            return obj;
+        },
+        'drawBullet': function () {
+            bulletArry.forEach(function (obj) {
+                cxt.beginPath();
+                cxt.fillRect(obj.l, obj.t, 6, 16);
+                cxt.closePath();
+            })
+        },
+        'drawEnemy': function () {
+            enemyArray.forEach(function (obj) {
+                cxt.beginPath();
+                cxt.drawImage(Game.oEnemyPlane, obj.l, obj.t, 30, 46);
+                cxt.closePath();
+            })
+        },
+        'score': function () {
+            if (isGameOver) {
+                score = 0;
+            } else {
+                score += 10;
+                $$('.score').innerHTML = score;
+            }
+        },
+        'gameOver': function () {
+            if (isGameOver == false) {
+                $$('#score').innerHTML = score;
+                if (score < 100) {
+                    $$('.b').innerHTML = '你太垃圾了...'
+                } else if (score >= 100 && score <= 300) {
+                    $$('.b').innerHTML = '这个分数没有什么值得骄傲的';
+                } else if (score > 300 && score <= 600) {
+                    $$('.b').innerHTML = '还可以 这个分数还看得下去'
+                } else if (score > 600 && score <= 900) {
+                    $$('.b').innerHTML = '哎哟 不错哟';
+                } else if (score > 900) {
+                    $$('.b').innerHTML = '你真无聊...'
+                }
+                isGameOver = true;
+                score = 0;
+                gameOver.style.display = 'block';
+
+            }
+
+        }
+    }
+
+</script>

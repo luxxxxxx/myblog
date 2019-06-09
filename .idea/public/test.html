@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<link rel="shortcut icon" href="./img/favicon.ico">
+	<link rel="stylesheet" href="./css/reset.css">
+	<link rel="stylesheet" href="./css/general.css">
+	<link rel="stylesheet" href="./css/iconfont.css">
+	<link rel="stylesheet" href="./css/animate.css">
+	<style>
+		.btn {
+			width: 100px;
+			height: 100px;
+			background: red;
+			float: left;
+			margin-right: 20px;
+			text-align: center;
+			line-height: 100px;
+			color: #fff;
+		}
+	
+	</style>
+</head>
+<body>
+	<video src="./video/wanderers.mp4" autoplay="autoplay" controls="controls">
+		您的浏览器不支持 video ，请更新浏览器
+	</video>
+	<div class="play btn" >play</div>
+	<div class="pause btn">pause</div>
+</body>
+
+
+</html>
+<script src="./js/jqq.js"></script>
+
+<script>
+	let play = $('.play'),
+		pause = $('.pause'),
+		video = $('video')[0];
+		play.click(() => {
+			video.play();
+		})
+		
+		pause.click(() => {
+			video.pause();
+		})
+
+</script>

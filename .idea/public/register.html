@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>要优雅的注册</title>
+    <link rel="shortcut icon" href="./img/favicon.ico">
+    <link rel="stylesheet" href="./css/register.css">
+    <link rel="stylesheet" href="./css/general.css">
+    <link rel="stylesheet" href="./css/reset.css">
+</head>
+<body>
+<header>
+    <div id="h_bg"></div>
+    <div class="mask"></div>
+    <div id="h_content">
+        <div class="l">
+            <div class="pic">
+                <img src="./img/heimao1.png" alt="要优雅" title="不要优雅，要污!ε=ε=(ノ≧∇≦)ノ">
+            </div>
+            <div id="logo"><img src="./img/logo.png" alt=""></div>
+        </div>
+        <div class="r">
+            <ul class="nav clearfix">
+                <li><a href="##">main</a><div class="bar"></div></li>
+                <li><a href="##">technology</a><div class="bar"></div></li>
+                <li><a href="##">anime</a><div class="bar"></div></li>
+                <li class="n-margin-r"><a href="##">music</a><div class="bar"></div></li>
+            </ul>
+            <!-- 登录板块，登录：yes，未登录 no -->
+            <div class="login_sec no">
+                <span><a href="##">login</a></span>
+                <span>|</span>
+                <span class="current"><a href="##">register</a></span>
+            </div>
+        </div>
+    </div>
+</header>
+<div id="main">
+    <div id="t"><img src="./img/reg.png" alt=""></div>
+    <div class="h"></div>
+    <div class="main">
+        <div class="lishi"></div>
+    </div>
+    <form action="" >
+        <div class="input_wrp">
+            <input type="text" id="userName" name="userName" placeholder="昵称 ( 例 : 要优雅 )">
+            <p class="err_msg"></p>
+        </div>
+        <div class="input_wrp">
+            <div id="safeBar" class="safe_con">
+                <p>安全系数</p>
+                <div class="a_pw l1">
+                    <div class="safe_line"></div>
+                    <div class="safe_line"></div>
+                    <div class="safe_line"></div>
+                    <div class="safe_line"></div>
+                    <div class="safe_line"></div>
+                </div>
+                <p class="desc">弱</p>
+            </div>
+            <input type="passWord" id="passWord" name="passWord" placeholder="密码( 6-16个字符组成,区分大小写 )">
+            <p class="err_msg"></p>
+        </div>
+        <div class="input_wrp">
+            <input type="passWord" id="repeatPassWord" name="passWord" placeholder="重复密码">
+            <p class="err_msg"></p>
+        </div>
+
+        <div class="input_wrp">
+            <input type="email" name="email" id="email" value="981236133@qq.com" placeholder="邮箱" maxlength="45">
+            <p class="err_msg"></p>
+            <div class="send false">发送邮件</div>
+        </div>
+        <div class="input_wrp">
+        		<!-- success 成功 -->
+            <div class="regBtn">注册</div>
+        </div>
+    </form>
+</div>
+<footer>
+    要优雅~ (゜-゜)つロ 干杯~   powered by <a href="##">要优雅</a>
+</footer>
+
+</body>
+</html>
+<script src="./js/jqq.js"></script>
+<script>
+    let $email = $("#email"),
+        $userName = $("#userName"),
+        $passWord = $("#passWord"),
+        $rpassWord = $("#repeatPassWord"),
+        $errMsgs = $(".err_msg"),
+        $levelCon = $('#safeBar .a_pw'),
+        $safeLevelInfo = $('#safeBar .desc'),
+        $sendMailBtn = $('#main > form > div:nth-child(4) > div'),
+        $registerBtn = $('#main > form > div:nth-child(5) > div'),
+        fUser = false,
+        fpass1 = false,
+        fpass2 = false,
+        femail = false;
+
+    // $(".send").click(function () {
+    //     console.log(1)
+    //     Ajax({
+    //         'method' : 'post',
+    //         'url' : '/reg/sendMail',
+    //         'data' : {
+    //             'email' : $email.val()
+    //         },
+    //         success : function (data) {
+    //             console.log(data);
+    //         }
+    //     })
+    // })
+
+    $userName.bind('focus',function() {
+    }).bind('keyup',function() {
+        let userName = this.value.replace(/\s+$/,''),  //去掉末尾空格
+            $msg = $errMsgs.eq(0);
+        if (userName.length < 6 || userName.length > 16 ) {
+            $msg.html('用户名必须在6-16位之间');
+            ;
+            fUser = false;
+        }else {
+            let reg = /^([a-zA-Z]|[\u4e00-\u9fa5])/;
+            if (!reg.test(userName)) {
+                $msg.html('用户名必须以中英文名开头');
+                fUser = false;
+            } else {
+                let reg = /^([a-zA-Z]|[\u4e00-\u9fa5])(\w|[\u4e00-\u9fa5]){5,17}$/;
+                if (!reg.test(userName)) {
+                    $msg.html('用户名中不能包含特殊符号');
+                    fUser = false;
+                } else {
+                	$msg.html('检测中...');
+                	fUser = false;
+                	emailble();
+                	Ajax({
+                		url : '/reg/vertifyUserName',
+                		method : 'post',
+                		data : {
+                			userName : userName
+                		},
+                		success : function (data) {
+                			let jData = JSON.parse(data);
+                			//err 1 数据库错误 , status : 0 重名,1 可以使用
+                			if (!Number(jData.err)) {    
+                				if (Number(jData.status)) {
+                					$msg.html('');
+                					fUser = true;
+                					emailble();
+
+                				} else {
+                					$msg.html('该用户名已经被使用了哟~');
+                					fUser = false;
+                					emailble();
+                				}
+                			} else {
+                				$msg.html('用户名校检 数据库发生未知错误')
+                			}
+
+                		},
+                		error : function (err) {
+                			console.log(err);
+                		}
+                	})
+                }
+            }
+        }
+        emailble();
+    }).bind('blur',function () {
+        emailble();
+    })
+
+
+    $passWord.fresh = (level) => {
+        switch (level) {
+        	case 0:
+        		$levelCon.class('a_pw l1');
+                $safeLevelInfo.html('弱');
+                $safeLevelInfo.css('color:#bc0001')
+                break;
+            case 1:
+                $levelCon.class('a_pw l1');
+                $safeLevelInfo.html('弱');
+                $safeLevelInfo.css('color:#bc0001')
+                break;
+            case 2:
+                $levelCon.class('a_pw l2');
+                $safeLevelInfo.html('弱');
+                $safeLevelInfo.css('color:#bc0001');
+                break;
+            case 3:
+                $levelCon.class('a_pw l3');
+                $safeLevelInfo.html('中');
+                $safeLevelInfo.css('color:#ffd800');
+                break;
+            case 4:
+                $levelCon.class('a_pw l4');
+                $safeLevelInfo.html('中');
+                $safeLevelInfo.css('color:#ffd800');
+                break;
+            case 5:
+                $levelCon.class('a_pw l5');
+                $safeLevelInfo.html('安全');
+                $safeLevelInfo.css('color:#49c519');
+                break;
+        }
+    };
+    $passWord.bind('focus',function () {
+
+    }).bind('keyup',function () {
+        let safeLevel = 1,  //安全等级
+            $msg = $errMsgs.eq(1),
+            pass = this.value,
+            l = pass.length;
+        let modify = 0, //度量 密码安全度
+            numReg = /\d+/,  //匹配密码中是否有数字
+            charReg = /\w+/,  //匹配普通字母字符
+            signReg = /[\.\?\+\$\^\[\]\(\)\{\}\|\\\/<>:=`;,'"@&#!\s]/;  //匹配特殊字符
+        if (numReg.test(pass)) {
+            modify ++;
+        }
+        if (charReg.test(pass)) {
+            modify ++;
+        }
+        if (signReg.test(pass)) {
+            modify ++;
+        }
+        if (l < 6 ) {
+            $msg.html('密码不能够少于6个字符')
+            safeLevel = 1;
+            $passWord.fresh(1 + modify - 1);
+            fpass1 = false;
+        } else if (l > 16) {
+            $msg.html('密码不能够超过16个字符')
+            safeLevel = 3;
+            $passWord.fresh(3 + modify - 1);
+            fpass1 = false;
+        } else {
+            $msg.html('');
+            if (l >= 6 && l <= 9) {
+                $passWord.fresh (2 + modify - 1);
+            } else if (l > 9) {
+                $passWord.fresh (3 + modify - 1);
+            }
+            fpass1 = true;
+        }
+        emailble();
+    }).bind('blur',function () {
+    	
+    });
+
+
+
+
+
+
+    $rpassWord.bind('keyup', function () {
+        $msg = $errMsgs.eq(2);
+        if ($rpassWord.val() === $passWord.val()) {
+            $msg.html('')
+            fpass2 = true;
+        } else {
+            $msg.html('两次输入密码不一致');
+            fpass2 = false;
+        }
+        emailble();
+    });
+
+    let emailble = () => {
+        if (fUser && fpass1 && fpass2 && femail) {
+            $sendMailBtn.removeClass('false');
+            $registerBtn.addClass('success');
+        } else {
+            $sendMailBtn.addClass('false');
+            $registerBtn.removeClass('success');
+        }
+    }
+
+
+    $sendMailBtn.bind('click', function () {
+       
+     	let $msg = $errMsgs.eq(3);
+     	if (!$(this).hasClass('false')) {
+         	Ajax ({
+         	    'method' : 'post',
+         	    'data' : {
+         	        'email' : $email.val()
+         	    },
+         	    'url' : '/reg/sendMail',
+         	    'success' : function (data) {
+         	        if(/\berr\b/.test(data)) {
+         	            alert('数据库发生未知错误,请刷新后再试')
+         	        }
+         	    },
+         	    'error' : function (data) {
+     	            console.log(data);
+         	    }
+         	});
+        } else {
+     		if (!fpass1 || fpass2)
+     			$msg.html('请检查你的密码');
+     		if (!fUser) {
+     			$msg.html('请输入有效的用户名');
+     		}
+     		if (!femail) {
+     			$msg.html('请输入一个有效的邮箱地址');
+     		}
+     	}
+    })
+
+    $email.bind('keyup', function () {
+        let email = $(this).val(),
+            $msg = $errMsgs.eq(3),
+            reg = /^[0-9a-zA-Z]\w+(@\w+\.[a-zA-Z]{2,})$/;
+        if (!reg.test(email)) {
+            $msg.html('请输入一个有效的邮箱地址');
+            femail = false;
+            emailble();
+        } else {
+        	$msg.html('检测中...');
+        	femail = false;
+        	emailble();
+            Ajax({
+                url : 'reg/vertifyEmail',
+                data : {
+                    email : email
+                },
+                method : 'post',
+                success : function (data) {
+                    let jData = JSON.parse(data);
+                    if (Number(jData.err)) {
+                        console.log('err??? 数据库异常校检邮箱发生异常');
+                        femail = false;
+                        emailble();
+                    } else {
+                        if (Number(jData.status)) {  //0 表示邮箱已经被使用  1表示邮箱可以使用
+                            $msg.html('');
+                            femail = true;
+                            emailble();
+                        } else {
+                            $msg.html('邮箱已经被使用');
+                            femail = false;
+                            emailble();
+                        }
+                    }
+                }
+            })
+        }
+    }).bind('blur',function () {
+        let reg = /^[0-9a-zA-Z]\w+(@\w+\.[a-zA-Z]{2,})$/,
+            $msg = $errMsgs.eq(3),
+            email = $(this).val();
+        if (reg.test(email)) {
+            femail = true;
+            $msg.html('');
+            emailble();
+        }
+    })
+
+
+    $registerBtn.click (function () {
+    	if ($(this).hasClass('success')) {
+    		let userName = $userName.val(),
+    			passWord = $passWord.val(),
+    			email = $email.val();
+    		Ajax({
+    			method : 'post',
+    			data : {
+    				userName : userName,
+    				email : email,
+    				passWord : passWord
+    			},
+    			url : '/reg/register',
+    			success : function (data) {
+    				let jData = JSON.parse(data);
+    				console.log(jData);
+    				if (Number(jData.err)) { //发生错误
+    					alert('发生错误:' + jData.info);
+    				} else {
+	    				alert(jData.info);
+    				}
+    			},
+    			error : function (data) {
+    				console.log(data);
+    			}
+    		})
+    	}
+    })
+
+</script>
+

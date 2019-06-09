@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="/css/iconfont.css">
+    <link rel="stylesheet" href="/css/comment.css">
+    <link rel="stylesheet" href="/css/reset.css">
+</head>
+<script src="/js/jqq.js">
+
+</script>
+<body>
+
+    <% if (locals.cm && locals.cm.length != 0) { %>
+        <div class="c_list">
+            <% for (let i = 0; i < locals.cm.length; i++ ) { %>
+                <div class="list_item clearfix" cm_id="<%- locals.cm[i].cm_id %>" >
+                    <div class="user_face">
+                        <img src="/img/user_img/<%= locals.cm[i].ud_tx %>" alt="头像">
+                    </div>
+                    <div class="con">
+                        <div class="user">
+                            <a href="##" class="name">
+                                <%- locals.cm[i].ud_name %>
+                            </a>
+                            <span class="lv">Lv9</span>
+                        </div>
+                        <p class="text">
+                            <%- locals.cm[i].cm_content %>
+                        </p>
+                        <div class="info">
+                            <span class="floor">#
+                                <%- i + 1 %>
+                            </span>
+                            <% var t = locals.cm[i].cm_date %>
+                                <span class="time">
+                                    <%- t.getFullYear() + '-' + (t.getMonth() + 1) + '-' + t.getDate() + ' ' + t.getHours() + ':' + t.getMinutes() %>
+                                </span>
+                                <span class="like">
+                                    <i class="iconfont icon-thumbup"></i>
+                                    <span class="thumbs">
+                                        <%- locals.cm[i].cm_thumb %>
+                                    </span>
+                                </span>
+                                <span class="res delete">删除</span>
+                                
+                        </div>
+                        <!-- <div class="reply_box">
+                                <div class="reply_item">
+                                    <a class="reply_face" href="##">
+                                        <img src="./img/lux.png" alt="用户头像">
+                                    </a>
+                                    <div class="reply_con">
+                                        <div class="user">
+                                            <a href="##" class="name">luxxx</a>
+                                            <span class="lv">Lv9</span>
+                                        </div>
+                                        <div cl ass="text_con">
+                                            你要跟我皮是吗你要跟我皮是吗你要跟我皮是吗你要跟我皮是吗你要跟我皮是吗你要跟我皮是吗你要跟我皮是吗你要跟我皮是吗你要跟我皮是吗
+                                        </div>
+                                        <div class="info">
+                                            <span class="time">0秒前</span>
+                                            <span class="like">
+                                                <i class="iconfont icon-thumbup"></i>
+                                                5
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> -->
+                    </div>
+                </div>
+                <% } %>
+        </div>
+    
+    <% } else { %>
+        <% if (locals.cm === false) { %>
+            <p class="c_err">获取弹幕失败</p>
+        <% } else { %>
+            <p class="c_none">该视频还没有评论，快来抢沙发吧</p>
+        <% } %>
+    <% }  %>
+    <div id="cmNumber" style="display:none">
+        <%- locals.cm_num %>
+    </div>
+    <!-- <script>  //渲染父页面 评论数量
+        var cm_num = document.querySelector('#cmNumber').innerHTML;
+        window.parent.reload_cm_num(Number(cm_num));
+    </script> -->
+
+</body>
+</html>
+<script>
+
+    var $deleteBtns = $('.delete'),   // 删除按钮
+        $thumbs = $('.like i');  // 点赞按钮
+    $deleteBtns.click( function () {
+        this.flag = false;  //防止用户多次点击
+        this.id = $(this).parent().parent().parent().attr('cm_id');
+        Ajax ({
+            method : 'post',
+            url : '/play/d_cm',
+            data : {
+                cm_id : this.id
+            },
+            success : function (data) {
+                var jData = JSON.parse (data);
+                if (!jData.err) {
+                    this.parent.showMsg({
+                        msg : '评论删除成功',
+                        delay : 1200,
+                        status : 'success',
+                        async : true,
+                        
+                        callback : function (params) {
+                            window.cm_fresh();
+                        }
+                    })
+                } else {
+                    this.parent.showMsg({
+                        msg : '评论删除失败',
+                        delay : 1200,
+                        status : 'err',
+                        detail : jData.info 
+                    })
+                }
+            },
+            error : function (params) {
+                this.parent.showMsg({
+                    msg : '删除评论操作失败 Ajax 错误',
+                    delay : 1200,
+                    status : 'err',
+                    detail : params
+                })
+            }
+        })
+    })
+
+
+    $thumbs.click (function (params) {
+        
+        var cm_id = $(this).parent().parent().parent().parent().attr('cm_id'),
+            $this = $(this);
+        console.log(cm_id)
+        Ajax ({
+            url : '/play/like',
+            method : 'post',
+            data : {
+                cm_id : cm_id
+            },
+            success : function (params) {
+                var data = JSON.parse(params);
+                if (!data.err) {  //点赞成功
+                    console.log($this.siblings())
+                    $this.siblings().html(Number($this.siblings().html()) + 1);
+                } else {
+                    window.parent.showMsg({
+                        msg : '点赞失败',
+                        detail : data.info,
+                        delay : 1200,
+                        status : 'err'
+                    })
+                }
+            },
+            error : function (params) {
+                console.log(params);
+            }
+        })
+    })
+    
+
+    console.log(self.location.href)
+    window.cm_fresh = function () {   // 评论刷新功能
+        console.log(window.parent.iframe.src);
+        self.location.href = window.parent.iframe.src;  
+        // location.reload();
+    }
+    window.onload = function () {  //重绘高度
+        this.parent.iframe.style.height = (document.body.clientHeight) + 'px';
+    }
+</script>

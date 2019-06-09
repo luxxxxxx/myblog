@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html id="html">
+
+<head>
+    <title>title</title>
+    <meta charset="utf-8">
+    <style type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        li {
+            list-style: none;
+        }
+
+        html {
+            height: 100%;
+            font-family: 'Arial';
+        }
+
+        body {
+            width: 100%;
+            height: 100%;
+            background-color: #000;
+            overflow: hidden;
+            perspective: 800px;
+        }
+
+        #main {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            transform-style: preserve-3d;
+            transform: rotateX(0deg) rotateY(0deg);
+            transform: translateZ(0px);
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            transform: translateZ(-1500px);
+        }
+
+        #main li {
+            position: absolute;
+            top: -80px;
+            left: -60px;
+            width: 120px;
+            height: 160px;
+            background-color: rgba(0, 127, 127, 0.5);
+            border: 1px solid rgba(127, 255, 255, 0.25);
+            box-shadow: 0 0 12px rgba(0, 255, 255, 0.5);
+            cursor: pointer;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            /*test*/
+            font-size: 50px;
+            text-align: center;
+            line-height: 160px;
+            font-weight: bold;
+            color: #fff;
+        }
+
+        #main li:hover {
+            box-shadow: 0 0 12px rgba(0, 255, 255, 0.75);
+            border: 1px solid rgba(127, 255, 255, 0.75);
+            transition: all .5s linear !important;
+        }
+
+        #styleBtn {
+            display: block;
+            position: fixed;
+            bottom: 15px;
+            left: 15px;
+            width: 290px;
+            height: 40px;
+            transform: scale(1.5);
+            opacity: 0;
+            transition: transform 1s, opacity 1s;
+        }
+
+        #styleBtn.load {
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        #styleBtn li.style {
+            color: rgba(127, 255, 255, 0.75);
+            border: 1px solid rgba(127, 255, 255, 0.75);
+            font-size: 12px;
+            font-weight: bold;
+            padding: 8px 12px;
+            float: left;
+            cursor: pointer;
+            border-radius: 3px;
+            margin: 0 5px;
+            transition: all .2s linear;
+
+        }
+
+        #styleBtn li.style.focus {
+            border: 1px solid rgba(53, 252, 252, 1);
+        }
+
+        #styleBtn li.style:hover {
+            background: rgba(0, 255, 255, 0.5);
+        }
+
+        #styleBtn li.style:active {
+            color: #000;
+        }
+    </style>
+</head>
+
+<body>
+    <ul id="main"></ul>
+    <ul id="styleBtn">
+        <li class="style" id="Table">Table</li>
+        <li class="style" id="Sphere">Sphere</li>
+        <li class="style" id="Helix">Helix</li>
+        <li class="style" id="Grid">Grid</li>
+    </ul>
+</body>
+
+</html>
+<script type="text/javascript">
+
+
+
+    var getStyle = function (obj, attr) {
+        return obj.currentStyle ? obj.currentStyle[attr] : getComputedStyle(obj)[attr];
+    };
+
+
+    var hasClass = function (ele, classN) {  // 检测是否有该 class
+        var reg = new RegExp('\\b' + classN + '\\b');
+        return reg.test(ele.className);
+    };
+
+    var addClass = function (ele, classN) { //  增加该 class
+        if (!hasClass(ele, classN)) {
+            if (ele.className) { //如果dom对象有classname
+                var classArry = ele.className.split(' ');
+                classArry.push(classN); //
+            } else {
+                var classArry = [];
+                classArry.push(classN);
+            }
+            var fixArray = [];  //清除class之间可能存在的多个空格
+            for (var i = 0; i < classArry.length; i++) {
+                if (classArry[i] != '') {
+                    fixArray.push(classArry[i])
+                };
+            };
+            ele.className = fixArray.join(' ');
+        };
+    };
+    var removeClass = function (ele, classN) { //移除该class
+        if (hasClass(ele, classN)) {
+            var reg = RegExp('\\b' + classN + '\\b');
+            ele.className = ele.className.replace(reg, '')
+        }
+    };
+
+
+    var $$ = function (obj) {
+        var objArr = document.querySelectorAll(obj);
+        var l = objArr.length;
+        if (l === 1) {
+            return document.querySelector(obj);
+        } else {
+            return objArr;
+        }
+    };
+    var main = document.querySelector('#main'),
+        tx = 400,//水平间隔
+        ty = 400,//垂直间隔;
+        tz = 500,
+        firstX = -2 * tx,
+        firstY = -2 * ty,
+        firstZ = -2 * tz,
+        liNum = 5 * 5 * 5,
+        lastX,
+        lastY,
+        nowX,
+        nowY,
+        changeX,
+        changeY,
+        roY = 0,
+        roX = 0,
+        originZ = -1500,
+        timer1, //鼠标滑动缓冲定时器
+        timer2, //滚轮缓冲定时器
+        z,  // ev.deltaY;
+        HelixBtn = $$('#Helix'),
+        html = $$('html'),
+        aLi, //盛放单元li 数组  后面生成后赋值
+        styleBtn = $$('#styleBtn'),
+        aStyleBtn = $$('.style'),
+        aStyleBtnLength = aStyleBtn.length;
+    html.onselectstart = function () {
+        return false;
+    }
+
+    var init = function () {
+        for (var i = 0; i < 125; i++) {  //生成li
+            var oLi = document.createElement('li'),
+                rX = (Math.random() - 0.5) * 4000,//随机x
+                rY = (Math.random() - 0.5) * 4000,//随机y
+                rZ = (Math.random() - 0.5) * 4000;//随机z
+            oLi.style.cssText = 'transform: translate3d(' + rX + 'px ,' + rY + 'px,' + rZ + 'px)';
+            oLi.innerHTML = 'fly';
+            main.appendChild(oLi);
+        }
+        addClass(aStyleBtn[3], 'focus');
+        aLi = main.querySelectorAll('li');
+
+        // 给下面styleBtn 增加点击事件
+        for (var i = 0; i < aStyleBtnLength; i++) {
+            aStyleBtn[i].index = i;
+            aStyleBtn[i].onclick = function () {
+                for (var j = 0; j < aStyleBtnLength; j++) {
+                    removeClass(aStyleBtn[j], 'focus')
+                }
+                addClass(this, 'focus');
+                switch (this.index) {
+                    case 0:
+                        Move.Table();
+                        break;
+                    case 1:
+                        Move.Sphere();
+                        break;
+                    case 2:
+                        Move.Helix();
+                        break;
+                    case 3:
+                        Move.Grid();
+                        break;
+                }
+            }
+        }
+        setTimeout(function () {
+            Move.Grid();
+            styleBtn.style.transform = 'scale(1)';
+            styleBtn.style.opacity = 1;
+        }, 300)
+    }
+    init();  //初始化
+    // Grid ： 使所有li排列整齐g
+    document.onmousedown = function (e) {
+        var e = e || window.event;
+        lastX = e.clientX;
+        lastY = e.clientY;
+        changeX = 0;
+        changeY = 0;
+        this.onmousemove = function (ev) {
+            clearInterval(timer1);  //滑动时清除定时器
+            var ev = ev || window.event;
+            nowY = ev.clientY;
+            nowX = ev.clientX;
+            changeX = nowX - lastX;
+            changeY = nowY - lastY;
+            lastY = nowY;
+            lastX = nowX;
+            roY -= changeY * 0.18;
+            roX += changeX * 0.18;
+            main.style.cssText = 'transform: translateZ(' + originZ + 'px) rotateX(' + roY + 'deg) rotateY(' + roX + 'deg);'
+        }
+        this.onmouseup = function () {
+            this.onmousemove = null;
+            timer1 = setInterval(function () {
+                changeX *= 0.90;
+                changeY *= 0.90;
+                if (Math.abs(changeX) < 0.38 && Math.abs(changeY) < 0.38)
+                    clearInterval(timer1);
+                roY -= changeY * 0.18;
+                roX += changeX * 0.18;
+                main.style.cssText = 'transform: translateZ(' + originZ + 'px) rotateX(' + roY + 'deg) rotateY(' + roX + 'deg);'
+            }, 13)
+        }
+    }
+    document.body.onmousewheel = function (e) {   //滚轮拉远拉近  目前不能兼容火狐
+        var ev = e || window.event;
+        originZ -= ev.deltaY * 0.5;
+        z = ev.deltaY;
+        if (originZ <= -1800)
+            originZ = -1800;
+        else if (originZ >= 1500)
+            originZ = 1500;
+        main.style.cssText = 'transform : translateZ(' + originZ + 'px) rotateX(' + roY + 'deg) rotateY(' + roX + 'deg)';
+        timer2 = setInterval(function () {
+            z *= 0.9;
+            originZ -= z;
+            if (originZ <= -1800)
+                originZ = -1800;
+            else if (originZ >= 1500)
+                originZ = 1500;
+            if (Math.abs(z) <= 0.01) {
+                clearInterval(timer2);
+            }
+            main.style.cssText = 'transform : translateZ(' + originZ + 'px) rotateX(' + roY + 'deg) rotateY(' + roX + 'deg) ';
+        }, 13)
+    }
+    //各种移动样式
+    var Move = {
+        Grid: function () {   //（默认） 分层网格样式
+            for (var i = 0; i < liNum; i++) {
+                iX = (i % 25) % 5,//0-4来回循环
+                    iY = parseInt((i % 25) / 5),
+                    iz = parseInt(i / 25);
+                aLi[i].style.cssText = 'transform: translate3d(' + (firstX + iX * tx) + 'px ,' + (firstY + iY * ty) + 'px,' + (firstZ + iz * tz) + 'px);transition: 4s all ease-in-out';
+            }
+        },
+        Helix: function () { //螺旋
+            var rotaY = 0,
+                perY = 10, //每个li 在y方向上的 累加量
+                middleIndex = Math.floor(main.querySelectorAll('li').length / 2), //保证li数量变化也会保证在最中间
+                hFirstY = middleIndex * -perY;
+
+            for (var i = 0; i < liNum; i++) {
+                rotaY += 10;
+                hFirstY += 10;
+                // 先旋转  然后再评议 ！important
+                aLi[i].style.cssText = 'transform: rotateY(' + rotaY + 'deg) translate3d(0px,' + hFirstY + 'px,1000px);transition: 4s all ease-in-out';
+            }
+        },
+        Sphere1: function () {   //这个也是一个圆 但是最顶部绕城了一个圈 被摈弃。
+            var firstRox = 0,
+                pieceX = 20,
+                firstRoy = 0,
+                timeY,
+                pieceY = 360 / (liNum / (360 / pieceX)); //每一片P 旋转量
+            for (var i = 0; i < liNum; i++) {
+                // 先旋转  然后再平移 ！important
+                aLi[i].style.cssText = 'transform: rotateX(' + firstRox + (pieceX * i) + 'deg) rotateY(' + firstRoy + (parseInt(i / 18)) * pieceY + 'deg) translateZ(1000px) ; transition: 4s all ease-in-out';
+            }
+        },
+        Sphere2: function () {  //写好了  经过测试发现由于方块个数不足145  所以底部出现了一个洞 
+            //写了一个算法    1,3,5,7,9,7,5,3,1     诸如这样的序列    用了一个等差数列公式  
+            // ( 4an + 2dn^2 - 4dn - 2a + 4d ) / 2 = liNum         a 是首项  1   d是公差 n 是项数（项数可以算排数 还可以让球体居中）  liNum自然可以随意更换数量
+            //计算出 n1 = (2(d-a) + Math.sqrt(4(a-d)(a-d) + 4d*(liNum - a + 2d))) / 2d ;
+            //n2 = (2(d-a) - Math.sqrt(4(a-d)(a-d) + 4d*(liNum - a + 2d))) / 2d ;
+            var a = 1,
+                d = 2,
+                n,  //最高项 列数
+                arr = [],  //1,3,5，7.....,5,3,1规律排列数组
+                nTotal,  //排的总数
+                perRoundNum = [], //每圈的数量数组
+                perDegY,  //Y的变化幅度
+                delta = (2 * a - 2 * d) * (2 * a - 2 * d) - 4 * d * (d - a - liNum),
+                n1 = ((2 * d - 2 * a) + Math.sqrt(delta)) / (2 * d),
+                n2 = ((2 * d - 2 * a) - Math.sqrt(delta)) / (2 * d);
+            if (n1 <= 0) {
+                n = n2;
+            } else if (n2 <= 0) {
+                n = n1;
+            } else {
+                n = Math.min(n1, n2);
+            }
+            nTotal = Math.ceil(2 * n - 1);  //总数向上取整
+            for (var i = 1; i <= nTotal; i++) {
+                if (i <= n) {
+                    arr.push(a + (i - 1) * d)
+                } else {
+                    arr.push(a + (n - 1) * d - (i - n) * d)
+                }
+            }
+            perDegY = 180 / nTotal;  //通过排的总数算出没排 Y 变化角度
+            arrL = arr.length;
+            console.log(arr)
+            var index = 0; //for循环用来计数的
+            for (var i = 0; i < arrL; i++) {
+                var perDegX = 360 / Math.ceil(arr[i]); // 每次经过外层循环初始化X 变化量
+                xIndex = 0;  //还有x的序列
+                for (var j = 0; j < Math.ceil(arr[i]); j++) {
+                    if (aLi[index]) {
+                        aLi[index].style.cssText = 'transform: rotateX(' + (0 + perDegX * j) + 'deg) rotateY(' + (-90 + perDegY * i) + 'deg) translateZ(1000px); transition: 4s all ease-in-out';
+                        index++;
+                    }
+                }
+            }
+        },
+        Sphere: function () {
+            var arr = [1, 3, 7, 11, 15, 17, 20, 17, 15, 11, 7, 3, 1];  //为了美观 随便写了一个固定的数组
+            arrL = arr.length,
+                perDegY = 180 / arrL,
+                index = 0;
+            for (var i = 0; i < arrL; i++) {
+                var perDegX = 360 / arr[i];
+                for (var j = 0; j < arr[i]; j++) {
+                    if (aLi[index]) {
+                        aLi[index].style.cssText = 'transform: rotateX(' + (0 + perDegX * j) + 'deg) rotateY(' + (-90 + perDegY * i) + 'deg) translateZ(1000px); transition: 4s all ease-in-out';
+                        index++;
+                    }
+                }
+            }
+        },
+        Table: function () {  //打算做一个类似元素周期表的表格
+            //第一排到第三排分别是 2,8,8个  后面的 每排18个
+
+            var numPerRow = 18, //每排方块的个数
+                n = Math.ceil((liNum - 2 - 8 - 8) / numPerRow) + 3, //n排 
+                perX = 160, //每个方块 x 的变化量
+                perY = 200, //每排方块 y 的变化量
+                firstX = -1 * perX * numPerRow / 2, // 第一个方块 的水平坐标x
+                firstY = -1 * perY * n / 2, //第一个方块的 竖直坐标y
+                xIndex, //每排x序列 0 - 17
+                yIndex, //当前y排
+                arr = [  //用数组来盛放前8哥 fly 切片 的位置坐标
+                    (firstX) + 'px ,' + firstY + 'px',  //1
+                    (firstX + (17 * perX)) + 'px ,' + (firstY) + 'px', //2
+                    (firstX) + 'px ,' + (firstY + perY) + 'px', //3
+                    (firstX + (perX)) + 'px ,' + (firstY + perY) + 'px', //4
+                    (firstX + (2 * perX)) + 'px ,' + (firstY + perY) + 'px',  //5
+                    (firstX + (3 * perX)) + 'px ,' + (firstY + perY) + 'px', //6
+                    (firstX + (4 * perX)) + 'px ,' + (firstY + perY) + 'px', //7
+                    (firstX + (5 * perX)) + 'px ,' + (firstY + perY) + 'px', //8
+                    (firstX + (16 * perX)) + 'px ,' + (firstY + perY) + 'px', //9
+                    (firstX + (17 * perX)) + 'px ,' + (firstY + perY) + 'px', //10
+                    (firstX) + 'px ,' + (firstY + (2 * perY)) + 'px', //11
+                    (firstX + (perX)) + 'px ,' + (firstY + (2 * perY)) + 'px', //12
+                    (firstX + (2 * perX)) + 'px ,' + (firstY + (2 * perY)) + 'px', //13
+                    (firstX + (3 * perX)) + 'px ,' + (firstY + (2 * perY)) + 'px', //14
+                    (firstX + (4 * perX)) + 'px ,' + (firstY + (2 * perY)) + 'px', //15
+                    (firstX + (5 * perX)) + 'px ,' + (firstY + (2 * perY)) + 'px', //16
+                    (firstX + (16 * perX)) + 'px ,' + (firstY + (2 * perY)) + 'px', //17
+                    (firstX + (17 * perX)) + 'px ,' + (firstY + (2 * perY)) + 'px', //18
+                ];
+            for (var i = 0; i < liNum; i++) {
+                xIndex = (i % 18);
+                yIndex = Math.floor(i / 18);
+                if (i <= 17) {
+                    aLi[i].style.cssText = 'transform: translate3d(' + arr[i] + ',0px);transition: 4s all ease-in-out';
+                } else {
+                    console.log()
+                    aLi[i].style.cssText = 'transform: translate3d(' + (firstX + (xIndex * perX)) + 'px,' + (firstY + (perY * (yIndex + 2))) + 'px' + ',0px);transition: 4s all ease-in-out';
+                }
+                // aLi[i].style.cssText = 'transform: translate3d ('+ (firstX + (xIndex * perX)) +'px,'+ (firstY + ( perY * yIndex)) +'px, 1000px) ; transition: 4s all ease-in-out';
+            }
+        }
+    }
+
+
+
+
+
+</script>

@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="shortcut icon" href="./img/favicon.ico">
+    <link rel="stylesheet" href="./css/general.css">
+    <link rel="stylesheet" href="./css/reset.css">
+    <link rel="stylesheet" href="./css/login.css">
+    <title>要优雅的登录</title>
+</head>
+
+<body>
+    <!-- show：出现   success ： 成功 -->
+    <div id="info">
+        <div class="close">×</div>
+        <p></p>
+        <% if (locals.href) { %>
+            <a href="<%= locals.href %>">如果长时间没有跳转，请点击这里</a> 
+        <% } else { %>
+            <a href="./techo">如果长时间没有跳转，请点击这里</a> 
+        <% } %>
+    </div>
+<header>
+    <div id="h_bg"></div>
+    <div class="mask"></div>
+    <div id="h_content">
+        <div class="l">
+            <div class="pic">
+                <img src="./img/heimao1.png" alt="要优雅" title="不要优雅，要污!ε=ε=(ノ≧∇≦)ノ">
+            </div>
+            <div id="logo">
+                <img src="./img/logo.png" alt="">
+            </div>
+        </div>
+        <div class="r">
+            <ul class="nav clearfix">
+                <li>
+                    <a href="/main">主页</a>
+                    <div class="bar"></div>
+                </li>
+                <li>
+                    <a href="/techo">科技</a>
+                    <div class="bar"></div>
+                </li>
+                <li>
+                    <a href="##">动漫</a>
+                    <div class="bar"></div>
+                </li>
+                <li class="n-margin-r">
+                    <a href="##">音乐</a>
+                    <div class="bar"></div>
+                </li>
+            </ul>
+            <!-- 登录板块，登录：yes，未登录 no -->
+    <% if (locals.login) { %>
+        <% if (locals.login.status) { %>
+        <div class="login_sec yes">
+        <% } else { %>
+        <div class="login_sec no">
+        <% } %>
+        <% } else { %>
+        <div class="login_sec no">
+        <% } %>
+            <span class="current">
+                <a href="./login">登陆</a>
+            </span>
+            <span>|</span>
+            <span>
+                <a href="./reg">注册</a>
+            </span>
+            <li class="user">
+                <% if (locals.login) {  %>
+                <a href="##">
+                    <div class="i_face">
+                        <img src="./img/user_img/<%- locals.tx %>">
+                    </div>
+                </a>
+                <div class="profile">
+                    <b class="name"><%- locals.login.name %></b>
+                    <div class="user_status">
+                        <div class="l ">
+                            <span>身份：</span>
+                            <span class="status"><%- locals.login.status %></span>
+                        </div>
+                        <div class="r ">
+                            <span>权限等级：</span>
+                            <span class="rights_level">Lv<%- locals.login.admin %></span>
+                        </div>
+                    </div>
+                    <div class="lv_con">
+                        <span>等级：</span>
+                        <em>Lv9</em>
+                        <div class="lv_bar">
+                            <div class="process"></div>
+                            <span class="exp">888/999</span>
+                        </div>
+                    </div>
+                    <div class="selection">
+                        <a href="##">修改资料</a>
+                    </div>
+                    <div class="footer">
+                        <a href="./logout">退出</a>
+                    </div>
+                </div>
+                <% } %>
+            </li>
+        </div>
+        </div>
+        </div>
+    </div>
+</header>
+    <section>
+        
+        <div class="t"></div>
+        <div id="loginCon">
+            <div class="pic" id="pic">
+                <img id="dragonPic" style="opacity : 0" />                
+                <script>
+                    var oImg = document.querySelector('#dragonPic'),
+                        number = parseInt( Math.random() * 3 ) + 1,
+                        str = './img/dragon' + number + '.png';
+                        oImg.src = str;
+                        oImg.style.opacity = 1;
+                </script>
+            </div>
+            <input type="text" id="user" class="input" placeholder="用户名">
+            <input type="password" id="pass" class="input" placeholder="密码">
+            <div class="btn_con">
+                <div class="btn" id="login">登录</div>
+                <div class="btn">
+                    <a href="./reg">注册</a>
+                </div>
+            </div>
+        </div>
+
+    </section>
+    <footer>
+        要优雅~ (゜-゜)つロ 干杯~ powered by
+        <a href="##">要优雅</a>
+    </footer>
+
+
+</body>
+</html>
+<script>
+    var high_version = null;
+    window.onload = function () {
+        if (!high_version) {
+            alert('你的浏览器内核或者版本不兼容当前页面，建议使用谷歌浏览器')
+        }
+    }
+</script>
+<script src="./js/jqq.js"></script>
+<script>
+    var $pass = $('#pass'),
+        $user = $('#user')
+        $loginBth = $('#login'),
+        $infoBox = $('#info'),
+        $info_close = $('#info .close'),
+        $info_msg = $('#info p'),
+        isLoginClick = false,  //阻值连续多次点击登录按钮
+
+        high_version = true,
+
+        $pic = $('#pic');  //女仆妹抖龙
+
+    $pass.bind('focus', function () {
+        $pic.addClass('hidden');
+    }).bind('blur', function () {
+        $pic.removeClass('hidden');
+    }).bind('keyup', function (e) {
+        let event = e || window.event;
+        if (e.keyCode === 13) {
+            login();
+        }
+    })
+
+    function msg_callback (obj) {
+        //success 成功状态 0失败  1成功   msg: 错误或者成功信息
+        if(obj.success) {
+            $infoBox.addClass('success');
+        }
+        $info_msg.html(obj.msg);
+        $infoBox.addClass('show');
+        $info_close.click(function () {
+            $infoBox.removeClass('show');
+        })
+    }
+
+
+    function login() {  //login 
+        if (!isLoginClick) {  // 你忽略这里  
+            isLoginClick = true;
+            Ajax({  // 这个ajax  只要点击登陆就发一个post  你不信可以用 network | postman看 
+                method: 'post',
+                url: './test',
+                data: {
+                    userName: $user.val(),
+                    passWord: $pass.val()
+                },
+                success: function (info) {
+                    let data = JSON.parse(info);
+                    // data.err 0 用户名或者密码错误, 1 后台数据库查询出错 2没有错误直接成功
+                    if (data.err == 0) {  //
+                        msg_callback({
+                            success : 0,
+                            msg : '用户名或者密码出错'
+                        })
+                    } else if (data.err == 1) {
+                        msg_callback({
+                            success: 0,
+                            msg: '后台数据库查询出错,请刷新后重试，如果不行，请联系网站管理员</br>管理员QQ 981236133'
+                        })
+                    } else {
+                        msg_callback({
+                            success: 1,
+                            msg: '登陆成功，即将跳转到首页'
+                        })
+                        setTimeout(() => {  //自动跳转
+                            <% if (locals.href) { %>
+                                self.location ="<%= locals.href %>" 
+                            <% } else { %>
+                                self.location = '/techo';
+                            <% } %>
+                        }, 1000);
+                    }
+                    isLoginClick = false;
+                },
+                error: function (data) {
+                    isLoginClick = false;
+                    console.log(data)
+                }
+            })
+        }
+    };
+
+    $loginBth.click(login);
+
+    
+
+
+</script>
