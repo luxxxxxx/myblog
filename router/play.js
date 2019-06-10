@@ -18,8 +18,8 @@ router.get("/",(req,res) => {
                     res.locals.err_info = 0,
                     res.locals.data = info[0];
                     mysql ({   //增加 观看次数
-                        sql : 'update t_article set a_views = a_views + 1',
-                        args : [],
+                        sql : 'update t_article set a_views = a_views + 1 where a_id = ?',
+                        args : [source_id],
                         callback : (err,info) => {
                             if (!err) {
                                 console.log('增加观看人数操作成功');
