@@ -176,6 +176,8 @@ header #h_bg {
   word-wrap: break-word;
 }
 #main .main .l article .title_con h1 {
+  width: 580px;
+  margin: 0 auto;
   font-size: 32px;
   text-align: center;
 }
