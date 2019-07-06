@@ -7,7 +7,7 @@ header #h_bg {
 }
 #main_bg {
   position: relative;
-  height: 550px;
+  height: 580px;
   margin: 0 auto;
   overflow: hidden;
 }
@@ -19,6 +19,15 @@ header #h_bg {
 }
 #main_bg.notMain .main p {
   display: none;
+}
+#main_bg .fade {
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+  height: 60px;
+  background: -webkit-linear-gradient(rgba(255, 255, 255, 0), #ffffff);
+  /* Safari 5.1 - 6.0 */
+  /* 标准的语法 */
 }
 #main_bg .bg {
   position: absolute;

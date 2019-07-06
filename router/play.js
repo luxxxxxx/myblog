@@ -153,6 +153,15 @@ router.post("/get_dm",(req,res) => {
 })
 
 
+//dplayer 
+
+router.get("/dplayer" ,(req,res) => {
+    res.render('dplayer.ejs')
+})
+
+
+
+// 评论 
 router.post("/cm_send" , (req,res) => {
     if (req.session.login) {
         let content = req.body['content'],
