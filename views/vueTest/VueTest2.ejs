@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        li.current {
+            background: black;
+        }
+    </style>
+</head>
+<body>
+    <ul id="ul">
+        {{hash}}
+        <li :class="{current:hash === '#href1'}"><a id="id1" href="#href1"><span class="class1">11111</span></a></li>
+        <li :class="{current:hash === '#href2'}"><a id="id2" href="#href2"><span class="class2">222222</span></a></li>
+        <li :class="{current:hash === '#href3'}"><a id="id3" href="#href3"><span class="class3">33333333333</span></a></li>
+    </ul>
+</body>
+</html>
+<script src="../js/vue.js"></script>
+<script>
+    let vm = new Vue ({
+        el : "#ul",
+        data : {
+            hash : "#href1"
+        },
+        computed : {
+            say () {
+                console.log(this.hash);
+            }
+        }
+    });
+</script>

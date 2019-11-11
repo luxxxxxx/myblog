@@ -23,7 +23,6 @@
 					for (var i = 0; i < l; i++) {
 						This[i] = jqObject[i];
 					};
-					
 					break;
 				case 'function':
 					window.onload = args;
@@ -668,3 +667,6 @@
 	};
 
 })()
+
+
+

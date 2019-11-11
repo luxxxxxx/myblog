@@ -29,10 +29,7 @@ router.use("/test",require("./test.js"));
 router.use("/teste",require("./teste.js"));
 router.use("/userInfoModify",require("./userInfoModify.js"));
 router.use("/newtest",require("./newtest.js"));
-
-// router.use('/reg',function () {
-//     return require("./register.js")
-// });
+router.use("/vueTest",require("./vueTest.js"));
 
 module.exports = router;
 

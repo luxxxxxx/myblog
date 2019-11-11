@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+</head>
+<style>
+    .mask {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        left: 0;
+        top: 0;
+        background-color: rgba(0,0,0,.35);
+    }
+    .show {
+        position: relative;
+        width: 300px;
+        height: 300px;
+        left: 50%;
+        top: 50%;
+        background-color: #fff;
+        transform: translate(-50%,-50%);
+    }
+   
+</style>
+<body>
+
+<div id="app">
+
+    <div class="btn" @click = "show">开启弹窗</div>
+    <temp v-show = "isShow" @hide = "hide"></temp>
+</div>
+    <template id="temp">
+        <div class="mask">
+            <div class="show">
+                <div class="btn" @click = "hide">关闭弹窗</div>
+            </div>
+        </div>
+    </template>
+</body>
+</html>
+
+<script src="../js/jquery.min.js"></script>
+<script src="../js/vue.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script>
+
+    let temp = {
+        template : '#temp',
+        data () {
+            return {
+                
+            }
+        },
+        methods : {
+            hide () {
+                this.$emit('hide')
+            }
+        }
+    }
+    let vm = new Vue ({
+        el : "#app",
+        data : { 
+            isShow : false,
+                
+        },
+        beforeCreate () {
+            console.log('damn')
+        },
+        mounted () {
+            console.log('shit')
+        },
+        methods : {
+            show () {
+                console.log('show')
+                this.isShow = true;
+            },
+            hide () {
+                this.isShow = false;
+            }
+        },
+        components : {
+            temp,
+        }
+    })
+
+</script>

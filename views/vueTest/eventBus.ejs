@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>eventBus</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+</head>
+<style>
+
+</style>
+
+<body>
+
+    <div id="app">
+        <temp1 @click = 'fn'></temp1>
+        <temp2 @receive = "temp2"></temp2>
+    </div>
+
+
+<template id="temp1">
+    <div @click="fn">this is temp1 , click me send a message to my brother</div>
+</template>
+
+<template id="temp2">
+    <div>this is temp2</div>
+</template>
+
+</body>
+
+</html>
+
+<script src="../js/jquery.min.js"></script>
+<script src="../js/vue.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script>
+
+    let eventBus = new Vue();
+    
+    let temp1 = {
+        template : "#temp1",
+        methods : {
+            fn () {
+                eventBus.$emit("xxx")
+            }
+        }
+    }
+    let temp2 = {
+        template : "#temp2",
+        data () {
+            return {
+                msg : "i'm temp2"      
+            }
+        },   
+        created () {
+            eventBus.$on('xxx',() => {
+                alert(this.msg)
+            })
+        }
+    }
+    let vm = new Vue ({
+        el : '#app',
+        components : {
+            temp1,
+            temp2
+        }
+    })
+
+</script>

@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+</head>
+<style>
+    body {
+        position: relative;
+    }
+    .main {
+        width: 800px;
+        margin: 0 auto;
+    }
+    h1 {
+        text-align: center;
+    }
+    .mask {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,.35);
+    }
+</style>
+
+<body>
+
+    <div id="app">
+        <hide :is_show = "is_show" @close = "close" :test = "test" :num = "num"></hide>
+        <div class="main">
+            <h1>学生</h1>  
+            <add @add = "add"></add>
+            <tablelist @show = "show" :students= "students"></tablelist>
+        </div>
+    </div>
+
+</body>
+
+
+
+
+<template id="add">
+    <form>
+        <div class="form-group">
+            <label for="exampleInputEmail1">学生姓名</label>
+            <input v-model = "name" type="email" class="form-control" id="exampleInputEmail1" placeholder="Email">
+        </div>
+        <div class="form-group">
+            <label for="exampleInputPassword1">联系方式</label>
+            <input v-model = "email" type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+        </div>
+        <button type="submit" class="btn btn-default" @click.prevent = "add">Submit</button>
+    </form>
+</template>
+
+
+<template id="t">
+    <div >
+        <table class="table table-hover">
+            <caption class="h3">学生信息表</caption>
+            <tr>
+                <td>选择</td>
+                <td>学生姓名</td>
+                <td>联系方式</td>
+                <td>删除</td>
+            </tr>
+            <tr v-for = "(student,index) in students">
+                <td><input type="checkbox" v-model = "student.isSelected"></td>
+                <td>{{student.name}}</td>
+                <td>{{student.email}}</td>
+                <td>
+                    <button @click = "show(index)" class="btn btn-danger btn-xs">删除</button>
+                </td>
+            </tr>
+        </table>
+    </div>
+</template>
+
+<template id="hide">
+    <div class="mask" v-show = 'is_show'>
+        <div class="dialog">
+            <div tabindex="-1" role="dialog" aria-labelledby="griSystemModalLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button @click = "close" type="button"  class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                            <h4 class="modal-title" id="griSystemModalLabel">你确定要删除吗</h4>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" @click = "cancel" class="btn btn-default" data-dismiss="modal">取消</button>
+                            <button type="button" @click = "confirm" class="btn btn-primary">确定</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+</html>
+<script src="../js/jquery.min.js"></script>
+<script src="../js/vue.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script>
+    
+   let eventBus = new Vue();
+    
+    let add = {
+        template : "#add",
+        data () {
+            return {
+                name : '',
+                email : ''
+            }
+        },
+        methods : {
+            add () {
+                
+                this.$emit("add",this.name,this.email);
+                this.name = '';
+                this.email = '';
+            }
+        }
+    }
+    let tablelist = {
+        props : ['students'],
+        template : "#t",
+        
+        methods : {
+            show (index) {
+                console.log(index)
+                this.$emit("show",index);
+            }
+        }
+    }
+    let hide = {
+        props : ['is_show','num','test'],
+        template : "#hide",
+        data () {
+            return {
+                _is_show : this.is_show,
+                _num : this.num,
+                _test : this.test
+            }
+        },
+        methods : {
+            close () {  
+                this.$emit("close");
+            },
+            delete () {
+                console.log(index);
+            },
+            cancel () {
+                this.$emit("close")
+            },
+            confirm () {
+                this.$emit("close",this.num)
+            }
+        }
+    }
+
+
+    let vm = new Vue ({
+        el : '#app',
+        data : {
+            students : [],
+            is_show : false,
+            test : false,
+            num : 0
+        },
+        components : {
+            add,
+            tablelist,
+            hide
+        },
+        methods : {
+            add (name,email) {
+                this.students.push({
+                    name : name,
+                    email : email,
+                    isSelected : false
+                })
+            },
+            close (num) {
+                if (num != undefined) {
+                    this.students.splice(num,1)
+                }
+                this.is_show = false;
+            },
+            show (index) {
+                this.is_show = true;
+                this.num = index;
+            }
+        }
+    })
+</script>

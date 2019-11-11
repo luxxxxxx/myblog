@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>luxxxxxx</title>
+</head>
+
+<body>
+    <div id="app">
+        <router-view></router-view>
+    </div>
+
+
+    <template id="newslist">    
+        <div class="newsList">
+            <ul>
+                <li v-for = "(newlist,index) in newsList">
+                    <router-link :to = "{name : 'articlelink', params : {aid : newlist.aid}}" tag = "a">
+                        {{newlist.title}}
+                    </router-link>
+                </li>
+                
+            </ul>
+        </div>
+    </template>
+
+    <template id="article1">
+        <div class="article" >
+            <a href="javascript:history.go(-1)"> &lt;&lt; 返回上一页</a>
+            <h3>
+                {{title}}            
+            </h3>
+            <div v-html = "content">
+                
+            </div>
+        </div>
+    </template>
+
+
+</body>
+</html>
+<script src="../js/vue.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="../js/vue_router.js"></script>
+<script>
+
+    // 设置响应数据的返回格式
+    
+    axios.interceptors.response.use(function (response) {
+        return response.data.result
+    })
+    
+    axios.defaults.baseURL = 'http://www.phonegap100.com/appapi.php'
+
+    Vue.prototype.$axios = axios;
+
+    let article1 = {
+        template : "#article1",
+        data (data) {
+            return {
+                content : '',
+                title : ''
+            }
+        },
+        async created () {
+            let [{content,title}]= await this.$axios.get('?a=getPortalArticle&aid=' + this.$route.params.aid);
+            this.content = content;
+            this.title = title;
+            console.log(content,title)
+            
+        }
+    }
+    let newslist = {
+        template: "#newslist",
+        data () {
+            return {
+                newsList : []
+            }
+        },
+        
+        // created() {
+        //     this.$axios.get('http://www.phonegap100.com/appapi.php?a=getPortalList&catid=20')
+        //         .then(res => {  
+        //             this.newsList = res.data.result;
+        //             console.log(res.data.result)
+        //         })
+        // },
+        async created () {
+            // let {data : {result}} = await this.$axios.get('http://www.phonegap100.com/appapi.php?a=getPortalList&catid=20');
+            let result = await this.$axios.get('?a=getPortalList&catid=20');
+            console.log(result);
+            this.newsList = result;
+        }
+    }
+
+
+    let routes = [
+        {path: '/',component: newslist },
+        {path : '/article/:aid' , name : 'articlelink' ,component : article1 },
+    ]
+
+    let router = new VueRouter({
+        routes
+    })
+    // 7Tn*i8sK
+    let vm = new Vue({
+        el: "#app",
+        components: {
+            newslist,
+            article1
+        },
+        router
+    })
+
+
+
+</script>

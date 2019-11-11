@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Vue 联系</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="./css/bootstrap.min.css">
+    
+
+</head>
+
+<body>
+    <!-- <div class="" id="app">
+
+        查询用户: <input type="text" placeholder="查询" v-model="msg">
+        <li v-for="(i,index) in userFilter">
+            {{index}} --- {{i.name}} --- {{i.age}}
+        </li>
+
+        <button @click="sortByage(0)" value="">升序</button>
+        <button @click="sortByage(1)" value="">降序</button>
+
+    </div> -->
+    <div id="app">
+        {{products}}
+        <table class="table table-ordered">
+            <caption class="h1 text-center text-success">购物车</caption>
+            <tr>
+                <td>
+                    <label for="">全选<input type="checkbox" v-model = "checkAll" @change= "selectAll"></label>
+                </td>
+                <td>商品</td>
+                <td>商品描述</td>
+                <td>单价</td>
+                <td>数量</td>
+                <td>小计</td>
+                <td>操作</td>
+            </tr>
+            <tr v-for="(product,index) in products" >
+                
+                <td><input type="checkbox" v-model = "product.isSelected" @change= "selectSigle"></td>
+                <td><img :src="product.img" alt=""></td>
+                <td>{{product.bookName}}</td>
+                <td>{{product.price}}</td>
+                <td><input type="number" v-model = "product.amount" ></td>
+                <td>
+                    {{product.amount * product.price | fixed}}
+                </td>
+                <td>
+                    <div class="btn btn-danger" @click="remove(index)">删除</div>
+                </td>
+            </tr>
+            总价：
+            <span>{{summary | fixed(2)}}</span>
+        </table>
+    </div>
+
+</body>
+
+</html>
+<script src="./js/vue.js"></script>
+
+<script>
+   
+</script>
+
+<script>
+    let vm = new Vue({
+        el : '#app',
+        filters : {
+            fixed (val) {   //对管道符左侧的数据不操作，只改变视图层显示
+                return '￥' + (val).toFixed(2) + '元'
+            }
+        },
+        data : {
+            checkAll : false,
+            products : [
+                {
+                    isSelected :false,
+                    bookName : '世界是通的',
+                    price : 50.50,
+                    amount : 0
+                },
+                {
+                    isSelected :false,
+                    bookName : 'nodejs',
+                    price : 62.4,
+                    amount : 0
+                }
+            ]
+        },
+        computed : {
+            summary () {
+                return this.products.reduce((pre,next) => {
+                        return pre + next.price * next.amount; 
+                    },0) 
+            }
+        },
+        methods : {
+            selectAll () {
+                this.products.forEach(nb =>  {console.log(nb) ; nb.isSelected = this.checkAll });  //这里的nb 是products 里面的每一个对象
+            },
+            selectSigle () {
+                this.checkAll = this.products.every (product =>  product.isSelected );
+            },
+            remove (index) {
+                this.products.splice(index)  //splice (i,n)  //i: index ; n: 多少个数
+            }
+        }
+    })
+    
+    let object1 = {
+        a : 'fuck',
+        b : 1,
+        c : 0
+    },
+    object2 = {
+        a : 'noFuck',
+        b : 2,
+        c : false
+    }
+    
+    let arr = [object1,object2];
+
+    
+
+</script>
