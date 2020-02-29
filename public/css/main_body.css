@@ -27,6 +27,11 @@ header #h_bg {
   height: 60px;
   background: -webkit-linear-gradient(rgba(255, 255, 255, 0), #ffffff);
   /* Safari 5.1 - 6.0 */
+  background: -o-linear-gradient(rgba(255, 255, 255, 0), #ffffff);
+  /* Opera 11.1 - 12.0 */
+  background: -moz-linear-gradient(rgba(255, 255, 255, 0), #ffffff);
+  /* Firefox 3.6 - 15 */
+  background: linear-gradient(rgba(255, 255, 255, 0), #ffffff);
   /* 标准的语法 */
 }
 #main_bg .bg {

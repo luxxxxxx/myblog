@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+</head>
+<style>
+    .red {
+        background: red;
+    }
+</style>
+
+<body>
+
+    <div id="app">
+        <router-link :to="{name : 'home-link'}" tag="button">首页</router-link>
+        <router-link :to="{name : 'contact-link'}" tag="button">关于</router-link>
+        <router-link :to="{name : 'partner-link'}" tag ="button">合作伙伴</router-link>
+        <router-view></router-view>
+    </div>
+
+
+    <template id="about">
+        <div class="about">
+            <router-link :to="{name : 'music-link'}" tag="button">music</router-link>
+            <router-link :to="{name : 'partner-link'}" tag="button">partner</router-link>
+            <router-link :to="{name : 'shit-link'}" tag="button">shit</router-link>
+            <router-view></router-view>
+        </div>
+    </template>    
+
+
+
+
+</body>
+
+
+
+
+</html>
+
+<script src="../js/jquery.min.js"></script>
+<script src="../js/vue.js"></script>
+<script src="../js/vue_router.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script>
+
+
+
+
+    let home = {
+        template : '<div>首页</div>'
+    }
+    let about = {
+        template : '#about'
+    }
+    
+    let partner = {
+        template : '<div>合作伙伴</div>'
+    }
+
+    let shit = {
+        template : '<span>SHIT</span>'
+    }
+
+    let music = {
+        template : '<span>music</span>'
+    }
+
+
+    let routes = [
+        {path : '/home', name : 'home-link' ,component : home},
+        {
+            path : '/contact',
+            name : 'contact-link',
+            component : about,
+            children : [
+                {path : 'music' , name : 'music-link'  , component : music},  // 注意这里的 子路由 没有 反斜杠
+                {path : 'partner' , name : 'partner-link', component : partner},
+                {path : 'shit' ,name : 'shit-link' , component : shit}
+            ]
+        },
+        {path : '/partner', name : 'partner-link' ,component : partner}
+    ]
+
+    let router  = new VueRouter ({
+        routes
+    })
+
+    let vm = new Vue ({
+        el : "#app",
+        components : {
+            home,
+            partner,
+            about,
+            // music,
+            // address1
+        },
+        router,
+    })
+
+
+
+
+
+
+</script>

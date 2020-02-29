@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        .parent {
+            width: 500px;
+            border: 1px solid black;
+            margin: 0 auto;
+            display: -webkit-flex;
+            display: flex;
+            flex-wrap: no-wrap;
+            justify-content: space-between;
+            align-items: stretch;
+        }
+        .parent .child {
+            width: 100px;
+            border: 1px solid black;
+            background: pink;
+            margin: 20px;
+            text-align: center;
+            line-height: 100px;
+        }
+        .parent .child:nth-child(2) {
+            line-height: 150px;
+            width: 600px; 
+        }
+        .parent .child:nth-child(3) {
+            line-height: 50px
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="parent">
+        <div class="child">1</div>
+        <div class="child">2</div>
+        <div class="child">3</div>
+        <!-- <div class="child">4</div>
+        <div class="child">5</div>
+        <div class="child">6</div>
+        <div class="child">7</div>
+        <div class="child">8</div> -->
+
+    </div>
+</body>
+</html>
+
+<script>
+
+    let arr = ['hello','candy'];
+    // blob 的两个参数  
+    // 1. 包含数据的数组
+    // 2. MIME Multipurpose Internet Mail Extensions
+    // 两个参数都不是必须的
+    let blob = new Blob(arr,{type : 'application/msword'});
+    console.log('blob',blob);
+    // 通过 slice 方法 可以将文件分段上传
+    let newBlob = blob.slice(0,5)  
+    console.log('newBlob',newBlob)
+</script>
+

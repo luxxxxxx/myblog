@@ -29,9 +29,13 @@ router.use("/test",require("./test.js"));
 router.use("/teste",require("./teste.js"));
 router.use("/userInfoModify",require("./userInfoModify.js"));
 router.use("/newtest",require("./newtest.js"));
+<<<<<<< HEAD
 // router.use('/reg',function () {
 //     return require("./register.js")
 // });
+=======
+router.use("/vueTest",require("./vueTest.js"));
+>>>>>>> 0418f38e1b87fdf9cb81a1f61a6dbe47cceaf0a9
 
 module.exports = router;
 

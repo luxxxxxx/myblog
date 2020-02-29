@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+</head>
+<style>
+
+</style>
+
+<body>
+
+    <div id="app">
+        <router-link :to = "{path : 'home'}" query = "{test : 123}" tag = "button">首页</router-link>
+        <router-link to = "/play" tag = "a"> play-link </router-link>
+        <router-link :to = "{name : 'article-link', params : {page:1}}" tag = "button">文章1</router-link>
+        <router-link :to = "{name : 'article-link', params : {page:2}}" tag="button">文章2</router-link>
+        <router-link :to = "{name : 'article-link', params : {page:3}}" tag="button">文章3</router-link>
+
+
+        <router-view :key = "Math.random()"> 
+
+        </router-view>
+
+    </div>
+
+</body>
+
+</html>
+
+<script src="../js/jquery.min.js"></script>
+<script src="../js/vue.js"></script>
+<script src="../js/vue_router.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script>
+    
+
+    let home = {
+        template : "<div>这里是home</div>"
+    }
+    let play = {
+        template : "<div>这里是play</div>"
+    }
+    let art = {
+        template : "<div>这里是第{{$route.params.page}}篇文章</div>",
+        created () {
+            alert('获取 第' + this.$route.params.page + '篇文章');  //用这种方式如果不给组件 router-view设置 :key 仅仅只会触发一次，因为标签有缓存，加上 ：key 表示 每次渲染 都会出现不同的组件
+        },
+        // watch : {
+        //     $route () {
+        //         alert('获取 第' + this.$route.params.page + '篇文章') ;  
+        //     }
+        // }
+    }
+
+
+
+    let routes  = [
+        {path : '/home' , name : 'home-link' , component : home},
+        {path : '/play' , name : 'play-link' , component : play},
+        {path : '/article/:page' , name : 'article-link' , component : art},
+        
+    ]
+    
+    
+
+
+
+    let router = new VueRouter ({
+        routes
+    })
+    
+    let vm = new Vue ({
+        el : "#app",
+        data : {
+
+        },
+        methods : {
+
+        },
+        router,
+        components : {
+            art,
+            home,
+            play
+        }
+    })
+
+
+</script>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        #box {
+            height: 200px;
+            background-color: red;
+            margin : 50px auto;
+        }
+        img {
+            width: 200px;
+            height: 200px;
+        }
+    </style>
+
+</head>
+<body>
+    <img src="../../../public/img/doggy.JPEG" alt="">
+    哎 assassin按时收费阿萨德速度
+    <div id="box"></div>
+</body>
+</html>
+<script>
+    const box = document.querySelector('#box');
+    box.ondragover = function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        return false;
+    }   
+
+    box.ondrop = function (e) {
+        let dataTransfer = e.dataTransfer;
+        console.log(dataTransfer);
+        let text = dataTransfer.getData('Text');
+        this.innerHTML = text;
+        let url = dataTransfer.getData('url');  
+
+        
+
+        if (url.length) 
+            this.innerHTML = `<img  width = "300" src = "${url}"/>`;
+        
+        let fileData = dataTransfer.files.item(0);
+        console.log(fileData);
+        let reader = new FileReader();
+        reader.readAsDataURL(fileData);
+            
+
+        reader.onload = function () {
+            console.log(this.result)
+        }
+
+
+
+        e.preventDefault();
+        e.stopPropagation();
+        return false;
+    }
+
+
+
+
+</script>

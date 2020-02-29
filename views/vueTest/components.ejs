@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="./css/bootstrap.min.css">
+</head>
+
+<body>
+
+    <div id="app">
+        <div class="refTest" ref = "target"></div>
+        <!-- 用 ref 可以做标记 然后可以在根组件内部获取 通过调用 this.refs.target -->
+        <son :a = "msg" @xxx = "change">  <!-- 子组件 触发 xxx 事件 父组件 触发 change -->
+            <!-- 上面其实可以这样记 等号左边的 子组件的  等号右边的是父组件的 -->
+        </son>
+        <son>
+            <!-- 组件是可以复用的 --> 
+            <h2>标题</h2> 
+            <h3> biaoti 2 </h3>
+            <!-- 这样的话 h2 h3 标签被插入slot 一个 slot 可以插多个 -->
+            <h5 slot = "slot1"></h5>
+            <!-- 对号入座 插法 -->
+        </son>
+        <son>
+            <template slot-scope = "result">
+                {{result}}
+            </template>
+        </son>
+
+    </div>
+</body>
+
+    <template id="son">
+        <div @click = "fn" >
+            子组件，变量值是 {{a.test}} b 子组件内部自己的属性是 {{b}}
+        </div>
+        <!-- 插槽 slot 默认的name 是 default -->    
+        <slot name="slot1">
+            <h2>这里是在 给 slot 设置默认值 如果 插入的没有内容 则会显示默认值</h2>  
+        </slot>    
+        <!-- 子组件内部数据传递给副属性 -->
+        <slot></slot>
+    </template>
+    <template id="son">
+        <slot :admin="arr" :list="a"></slot>
+        <!-- 我是子组件的数据 -->
+    </template>
+
+</html>
+
+<script src="../js/jquery.min.js"></script>
+<script src="../js/vue.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script>
+
+    // 定义组件
+    // 注册组件
+    // 
+
+    let son = {
+        // props : ['a'],
+
+        props : {
+            a : {  // 校检 a
+                // type : string,  // 规定 a 必须是 字符串类型，不然报错  Number Date Boolean 
+                // require : true,  //规定这个值必须要有  如果没有就会报错
+                // default : '3',  // 当变量没有的时候 , 或者没有a 的时候 这个 son 内部会有一个a 的 默认值为 '3'的属性
+                validator (value) {  //校验器 ,只有当返回值 是 true的时候 才不会报错
+                    // let reg = new RegExp()
+                    return value > 1;
+                }
+            },
+            arr : [1,2,3,4,5],
+        },
+        template : '#son',
+        data () {    //子组件的data 不能是对象，只能是函数
+            return {
+                b : '33',       // 子组件是不能够直接修改父组件传过来的数据
+                _a : this.a     // 在 子组件的data 中先用一个自己的变量_a保存 父组件传过来的 a  这样才能够进行修改 
+            };
+        },
+        methods : {
+            change () {
+                //this.a = 2;  这种方法是不能够改变子组件内部的值
+
+                this._a = 2;  //间接改变 子组件内部的 _a 可以
+            },
+            fn () {
+                this.$emit('xxx')  //子组件向父组发射一个xxx事件
+            }
+
+        }
+        
+    }
+
+    let vm = new Vue ({
+        el : '#app',
+        data : {
+            msg : {
+                test : 'test1'
+            }
+        },
+        components : {
+            son
+        },
+        beforeCreate () {
+            console.log('before')
+        },
+        created () {
+            console.log("created");
+            debugger;
+        }
+    })
+
+
+</script>

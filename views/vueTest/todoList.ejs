@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>todoList</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <style>
+        #app {
+            width: 800px;
+            margin: 0 auto;
+        }
+        .on {
+            color: #ccc;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="app">
+        {{hash}}
+        <div class="panel panel-success">
+            <div class="panel-heading">
+                <h3>今天还有n件需要做的事情</h3>
+                <input type="text" v-model="msg">
+            </div>
+            <div class="panel-body">
+                <ul class="list-group" v-for="(thing,index) in things">
+                    <li class="list-group-item">
+                        <input type="checkbox" v-model="thing.isSelect">
+                        <label @dbclick = 'dbClick' for="">{{thing.content}}</label>
+                        <input v-if = "thing.isDouble" type="text" v-focus v-model = "thing.content">
+
+                        <button class="btn btn-danger pull-right glyphicon btn-xc"></button>
+                    </li>
+                </ul>
+            </div>
+            <div class="panel-footer">
+                <ul class="nav nav-pills">
+                    <li role="presentation" class="active"><a href="#all">所有任务</a></li>
+                    <li role="presentation"><a href="#finished">已完成</a></li>
+                    <li role="presentation"><a href="#unfinish">未完成</a></li>
+                </ul>
+                
+            </div>
+        </div>  
+    </div>
+</body>
+</html>
+<script src="../js/jquery.min.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/vue.js"></script>
+<script>
+    let vm = new Vue ({
+        el : "#app",
+        data : {
+            msg : '',
+            hash : '',
+            things : [
+                { isSelect : false, content : '吃饭', isDouble : 1 },  //  
+                { isSelect: false, content: '睡觉', isDouble : 1 },
+
+            ]
+        },
+        watch : {
+            things () {
+                // JSON.parse  <=> JSON,stringify
+                // locaStorage.getItem('todos')
+                localStorage.setItem('todos',JSON.stringify(this.things))  // 一般要将对象数据存成string
+                // 当things 发生改变 将things 存储在application的localstorage 里面
+            },
+            deep : true
+        },
+        methods : {
+            dbClick (index) {
+                
+            }
+        },
+        computed : {
+
+        },
+        directives: {
+            focus(el) {
+                console.log(el)  //获取焦点时触发
+                el.focus();
+                el.style.backgroundColor = '#' + Math.random().toString(16).slice(2, 8);
+            }
+        },
+        created () {
+            window.addEventListener('hashchange', (hash) => {
+                console.log(`hash change ${hash}`);
+                this.hash = window.location.hash;
+            })
+        }
+    }) 
+    
+</script>

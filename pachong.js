@@ -1,8 +1,8 @@
 const http = require('http'),
       https = require('https');  //默认端口443 
     options = {
-        hostname : 'nodejs.cn',
-        path : '/api/',
+        hostname: 'yhdm.tv',
+        path: '/v/1412-43.html',
         port : '80',
         //编辑请求头
         headers : {
@@ -11,7 +11,7 @@ const http = require('http'),
         }
     }
 
-http.get(options,(res) => {
+http.connect(options,(res) => {
     //当请求有数据的时候触发
     let html = '';
     res.on('data',(data) => {

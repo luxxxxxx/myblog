@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+</head>
+<style>
+    #app {
+        width: 900px;
+        margin: 0 auto;
+    }
+    
+</style>
+
+
+
+<body>
+
+    <div id="app">
+        <panel v-for = "(article,index) in articles" :key = "index" :type = "article.type">
+            <h3 slot = "title">{{article.title}}</h3>
+            <p slot ="content">{{article.content}}</p>
+            <p  slot = "author" v-if = "article.author">{{article.author}}</p>
+        </panel>
+
+
+    </div>
+
+    <template id="panel">
+        <div class="panel" :class = "[lux]" >
+            <div class="panel-heading">
+                <slot name="title"></slot>
+            </div>
+            <div class="panel-body">
+                <p class="panel-body">
+                    <slot name = "content"></slot>
+                </p>
+            </div>
+            <div class="panel-footer">
+                <slot name = "author">
+                    <p class="default">默认作者(注意 这里只能写 v-if  而不能用 v-show 因为判断是否走这里的条件时有没有传标签过来，而v-show 并没有传标签过来)</p>
+                </slot>
+            </div>
+            <div class="panel-footer">
+                <button class="btn btn-success" @click = "fn">
+                    查看作者
+                </button>
+            </div>
+        </div>
+    </template>
+
+</body>
+
+</html>
+
+<script src="../js/jquery.min.js"></script>
+<script src="../js/vue.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script>
+
+    let panel = {
+        template : "#panel",
+        methods : {
+            fn () {
+                console.log(this.$el);
+                console.log(this.$el.children[2].innerText);
+            }
+        },
+        computed : {
+            lux () {
+                return "panel-" + this.type || 'danger'
+            }
+        }
+    }
+
+    let vm = new Vue({
+        el : '#app',
+        components : {
+            panel
+        },
+        data : {
+            articles : [
+                {type : 'warning','title' : '什么是vue',content : 'vue 文章',author : 'luxxxxxx'},
+                {type : 'success','title' : '什么是react',content : 'react 文章',author : ''},
+                {type : '','title' : '什么是js',content : 'js 文章',author : ''},
+            ]
+        }
+    })
+
+</script>
