@@ -504,6 +504,7 @@
 	window.Ajax = function (json) {
 		var xhr = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP'),  //兼容老版本IE 
 			method = json.method || 'get',
+			action = method || json.action,  //'部分用户喜欢用action'
 			asyn = json.asyn ? true : json.asyn == false ? false : true,
 			data = json.data || '',
 			success = json.success,

@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>要优雅的上传</title>
+    <link rel="shortcut icon" href="./img/favicon.ico">
+    <link rel="stylesheet" href="./css/reset.css">
+    <link rel="stylesheet" href="./css/bootstrap.min.css">
+    <link rel="stylesheet" href="./css/iconfont.css">
+    <link rel="stylesheet" href="./css/animate.css">
+    <link rel="stylesheet" href="./css/upload.css">
+    <style>
+        #fileContent {
+            width: 800px;
+            height: 300px;
+            margin: 20px auto;
+            border: 4px dashed #999;
+            text-align: center;
+            font-size: 40px;
+            line-height: 300px;
+            color: #999;
+        }
+        #file {
+            width: 100px;
+            height: 30px;
+        }
+        .input_con {
+            position: relative;
+            left: 40px;
+            width: 300px;
+            height: 50px;
+            margin: 30px auto;
+        }
+        .mask {
+            display: none;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            background: rgba(0,0,0,.5);
+        }
+        .mask.show {
+            display: block;
+        }
+        .mask .info_box {
+            box-sizing: border-box;
+            padding: 30px;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            width: 500px;
+            background: #fff;
+            border: 4px;
+            transform: translate(-50%,-50%) ;
+        }
+        .info_box .form_control {
+            width: 200px;
+        }
+        .mask button {
+            display: block ;
+            margin: 0 auto;
+        }
+        .mask .help-block {
+            color: red;
+        }
+        .drag {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background: black;
+        }
+        .file_infos {
+            width: 800px;
+            margin: 0 auto;
+            
+        }
+        .items span {
+            box-sizing: border-box;
+            display: inline-block;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            height: 30px;
+            text-align: left;
+            color: black;
+            line-height: 30px;
+        }
+        .items .name {
+            width: 642px;
+            border-right: 1px dashed #999;
+        }
+        .items .size {
+            width: 100px;
+            text-align: center;
+            border-right: 1px dashed #999;
+        }
+        .items .delete {
+            width: 50px;
+            display: inline-block;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            height: 30px;
+            text-align: center;
+            color: black;
+            line-height: 30px;
+            cursor: pointer;
+        }
+        #submit {
+            visibility: hidden;
+            opacity: 0;
+            transition: .1s all linear;
+            width: 150px;
+            height: 30px;
+            border: 1px solid #00a1d6;
+            border-radius: 4px;
+            background: #00a1d6;
+            text-align: center;
+            line-height: 30px;
+            color: #fff;
+            cursor: pointer;
+        }
+        #submit.show {
+            visibility: visible;
+            opacity: 1;
+        }
+    </style>
+</head>
+    
+<body>
+    <div id="mask" class="mask">
+        <div class="info_box">
+            <form role="form">
+                <div class="form-group">
+                    <label for="name">用戶名</label>
+                    <input class="form-control" id="name" name="yaoyouya_name" type="text" placeholder='輸入你的網站用戶名'>
+                    <p class="help-block"></p>
+                </div>
+                <div class="form-group">
+                    <label for="name">密碼</label>
+                    <input class="form-control" id="pass" name="yaoyouya_pass" type="password" placeholder='密碼'>
+                    <p class="help-block"></p>
+                </div>
+            </form>
+            <button id="confirm" type="submit" class="btn btn-default">
+                確認提交
+            </button>
+        </div>
+    </div>
+    <div id="fileContent">
+        拖入文件進入此區域
+    </div>    
+    <ul id="fileInfos" class="file_infos">
+        
+    </ul>
+    <div class="input_con">
+        <div id="submit" class="button">確認提交</div>
+    </div>
+    <form action="post" url = "/file">
+        <input type="file">
+        <input type="submit" value="confirm">
+    </form>
+</body>
+
+</html>
+
+<script src="./js/jqq.js"></script>
+
+<script>
+    let fileNum = 0,   //文件數量
+        formData = new FormData(),
+        $inputFile = $('#inputFile');
+    const fileReader = new FileReader();
+    let $file_area = $('#fileContent');
+        $file_area.bind ("dragover", function (e) {
+            e.stopPropagation ();
+            e.preventDefault ();
+            console.log('drag_over');
+        }).bind ("dragleave" , function (e) {
+            e.stopPropagation();
+            e.preventDefault();
+            console.log('dragleave');
+        }).bind ("drop", function (e) {
+            e.stopPropagation();
+            e.preventDefault();
+            console.log(e);
+            let file = e.dataTransfer.files[0],
+                name = file.name,
+                size = (file.size / 1024 /1024).toFixed(2) + 'MB';
+            formData.append(`file`,file);
+            
+            let oName = document.createElement ('span'),
+                oSize = document.createElement ('span'),
+                oItems = document.createElement ('li'),
+                oDelete = document.createElement ('delete');
+                
+                oName.className = 'name';
+                oSize.className = 'size';
+                oItems.className = 'items';
+                oDelete.className = 'delete';
+                
+                oDelete.onclick = deleted;
+                oDelete.innerHTML = '刪除';
+                
+                oName.innerHTML = name;
+                oSize.innerHTML = size;
+
+                oItems.appendChild (oName);
+                oItems.appendChild (oSize);
+                oItems.appendChild (oDelete);
+
+                $('#fileInfos')[0].appendChild (oItems);
+                $('#submit').addClass('show');
+
+                console.log(formData.get('file'));
+                
+        })
+
+        $('#submit').bind('click', () => {
+            $('#mask').addClass('show');
+            $('#name')[0].focus();
+        })
+        
+        $('#pass').bind('keyup', function (e) {
+            let event = e || window.event;
+            if (e.keyCode === 13) {
+                $('#confirm').click();
+            }
+        })
+        
+        function deleted () {  //刪除文件
+            alert('delete')
+        }
+
+        $('#confirm').bind ('click', () => {
+            let userName = $('#name').val(),
+                passWord = $('#pass').val();
+            console.log(userName,passWord);
+
+            Ajax({
+                url : '/cloud',
+                method : 'post',
+                data : {
+                    name : userName,
+                    pass : passWord
+                },
+                success : (data) => {
+                    let jData = JSON.parse (data);
+                    if (!jData.err) {  //正確
+                        alert('success');
+                        
+                        $('.help-block').html('');
+                        $('.mask').removeClass('show');
+                        Ajax ({
+                            url : '/cloud/file',
+                            method : 'post',
+                            data : {
+                                file : formData
+                            }
+                        })
+                    } else { //錯誤
+                        $('.help-block').html (jData.info)
+                    }
+                },
+                err : () => {
+                    $('.help-block').html('Ajax 查询错误');
+                }
+            })
+
+        })
+        
+        w
+
+        
+
+</script>

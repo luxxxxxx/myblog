@@ -503,12 +503,12 @@
 	//AjaxAjax
 	window.Ajax = function (json) {
 		var xhr = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP'),  //兼容老版本IE 
-			method = json.method || 'get',
+			method = json.method || json.methods || json.way || json.type || 'get',
 			asyn = json.asyn ? true : json.asyn == false ? false : true,
 			data = json.data || '',
 			success = json.success,
-			error = json.error,
-			url = json.url;
+			error = json.error || json.err,
+			url = json.url || json.URL;
 		if (method.toLowerCase() === 'get') {
 			url += '?' + data + '&' + new Date().getTime();
 		} else {

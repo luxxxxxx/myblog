@@ -14,5 +14,8 @@ router.get('/dfj',(req,res) => { //打飞机
     res.render('dfj.ejs')
 });
 
+router.get('/big',(req,res) => {  //mistery
+    res.render('big.ejs')
+})
 
 module.exports = router;

@@ -4,10 +4,6 @@ const http = require("http"),
       bodyParser = require("body-parser"),
       cookieParser = require("cookie-parser"),
       session = require("express-session"),
-      mysql = require("./module/mysql"),
-      encrypt = require("./module/encrypt"),
-      crypto = require("crypto"),
-      cipher = crypto.createCipher('aes192', 'a password'),
       app = express();
 
 app.set('views',__dirname+'/views');// 设置模板引擎的目录
@@ -16,8 +12,6 @@ app.use(express.static(__dirname+'/public'));// 设置静态资源目录 js img 
 
 app.use(bodyParser.json());// 用来接收json的数据
 // extended:true 可以接收任何数据类型的数据
-
-
 
 app.use(bodyParser.urlencoded( { extended:true } ));
 app.use(cookieParser("sakldlsadlhjkhjksadhjk"));
@@ -140,7 +134,9 @@ app.use((req, res, next) => {
 
 app.use('/',require('./router/index'));
 
-http.createServer(app).listen(80);
+http.createServer(app).listen(233);
+
+
 
 //  http://localhost:233  /admim 这个路径已经被app.use匹配了
 //        /index 这个路径是来交给admin.js文件进行匹配的

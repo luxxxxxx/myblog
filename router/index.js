@@ -1,5 +1,4 @@
 const express = require("express"),
-    // mysql = require("../module/mysql"),
     crypto = require("crypto"),
     router = express.Router();
 
@@ -17,6 +16,7 @@ router.use("/main", require("./main.js"));
 router.use("/anime", require("./main.js"));
 router.use("/music", require("./main.js"));
 router.use("/techo",require("./main.js"));
+router.use("/cloud",require("./cloud.js"));
 
 router.use("/play",require("./play.js"));
 
@@ -29,7 +29,6 @@ router.use("/test",require("./test.js"));
 router.use("/teste",require("./teste.js"));
 router.use("/userInfoModify",require("./userInfoModify.js"));
 router.use("/newtest",require("./newtest.js"));
-
 // router.use('/reg',function () {
 //     return require("./register.js")
 // });

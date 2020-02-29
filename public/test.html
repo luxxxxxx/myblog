@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 	<meta charset="UTF-8">
 	<link rel="shortcut icon" href="./img/favicon.ico">
@@ -18,15 +19,18 @@
 			line-height: 100px;
 			color: #fff;
 		}
-	
+
+		#canvas {
+			display: block;
+			width: 1000px;
+			height: 500px;
+			margin: 0 auto;
+		}
 	</style>
 </head>
+
 <body>
-	<video src="./video/wanderers.mp4" autoplay="autoplay" controls="controls">
-		您的浏览器不支持 video ，请更新浏览器
-	</video>
-	<div class="play btn" >play</div>
-	<div class="pause btn">pause</div>
+	<canvas id="canvas" width="1000" height="500"></canvas>
 </body>
 
 
@@ -34,15 +38,156 @@
 <script src="./js/jqq.js"></script>
 
 <script>
-	let play = $('.play'),
-		pause = $('.pause'),
-		video = $('video')[0];
-		play.click(() => {
-			video.play();
+	
+	var canvas = document.getElementById("canvas");
+        // canvas.width = 500;
+        // canvas.height = 500;
+        var context = canvas.getContext("2d");
+        context.beginPath();
+        context.arc(100,70,50,0,2*Math.PI);
+        context.strokeStyle = "lightblue";
+        context.fill(); //确认填充
+        context.lineWidth = 5
+        context.stroke();
+		context.closePath();
+
+
+	let getRandomColor = () => {
+		return  '#' +
+			(function(color){
+			return (color +=  '0123456789abcdef'[Math.floor(Math.random()*16)]) && (color.length == 6) ?  color : arguments.callee(color);
+		})('');
+	}
+
+	// var timerObject = setInterval(function () {
+	// 	context.beginPath();
+	// 	context.arc(this.x,this.y,this.r,0,2*Math.PI);
+	// 	context.closePath();
+	// } , 16)
+	
+
+	let objArr = [];
+
+	addObj = setInterval (function () {
+		let l = canvas.width * Math.random (),
+			t = canvas.height * Math.random(),
+			color = getRandomColor (),
+			ball = new Ball (l,t,color);
+			let r = ball.r,
+				_x = ball._x,
+				_y = ball._y,
+				cvsw = canvas.width - r,
+				cvsh = canvas.height - r;
+			ball.timer = setInterval(() => {
+				
+				if (ball.l >= cvsw) ball._x = -1;
+				if (ball.t >= cvsh) ball._y = -1;
+
+
+				if (ball.l <= r) ball._x = 1;
+				if (ball.t <= r) ball._y = 1;
+
+				ball.l += ball._x;
+				ball.t += ball._y;
+				
+			},16);
+			ball.timer;
+			objArr.push (ball);
+			console.log(objArr[0].l)
+	}, 16)
+
+	function refresh () {  //刷新动画
+		setTimeout(() => {
+			
+			context.clearRect(0,0,canvas.width,canvas.height);
+			
+			drawBalls ();
+		
+			refresh ();
+		}, 16);
+	}
+	refresh ();
+	
+	
+	function drawBalls () {  //drawBall 
+		objArr.forEach (function (obj,i) {
+			context.beginPath();
+			context.arc(obj.l,obj.t,obj.r,0,2*Math.PI);
+			context.fillStyle = obj.color;
+			context.fill(); //确认填充
+			context.closePath();
 		})
 		
-		pause.click(() => {
-			video.pause();
-		})
+	}
+
+
+	class Ball {
+		constructor (l,t,color) {
+			this.l = l || canvas.width * Math.random();
+			this.t = t || canvas.height * Math.random();
+			this.r = 1;
+			this._x = 1;
+			this._y = 1;
+			this.color = color || getRandomColor();
+		}
+	}
+	
+	let ball = new Ball();
+
+	console.log(Ball.prototype);
+	
+	
+	// class Ball {
+	// 	constructor (x,y,color) {
+	// 		this.x = x;
+	// 		this.y = y;
+	// 		this.color = color;
+	// 		this.r = 40 * Math.random();
+	// 	}
+	// 	render () {
+	// 		// context.beginPath();
+	// 		// context.arc(this.x,this.y,this.r,0,2*Math.PI);
+	// 		// context.fillStyle = this.color;
+	// 		// context.fill(); //确认填充
+	// 		// context.stroke();
+	// 		// context.closePath();
+			
+	// 		context.beginPath();
+
+	// 		context.fillRect(this.r,this.y,5,10)
+
+	// 		context.closePath();
+	// 		let t = setInterval(() => {
+	// 			this.y ++ ;
+	// 			if (this.y >= 500) {
+	// 				this.y = 0;
+	// 			}
+	// 			this.render();
+	// 		},16)
+	// 	}
+	// }
+	
+	// class MoveBall extends Ball {
+	// 	constructor (x,y,color) {
+	// 		this.x = x;
+	// 		this.y = y;
+	// 		super (this.x,this.y,color);
+	// 	}
+	// }
+	
+	// let t = setInterval (function (i) {
+	// 	let mBall = new Ball (canvas.offsetWidth * Math.random() , canvas.offsetHeight * Math.random() , getRandomColor());
+	// 	mBall.render ();
+	// 	mBall.update ();  //update
+	// 	console.log(getRandomColor())
+	// },1000)
+	
+	
+	// console.log(getRandomColor())
+	
+
+	
+	
+	console.log(getRandomColor())
 
 </script>

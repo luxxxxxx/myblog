@@ -6,7 +6,7 @@ module.exports = (obj) => {
         port: "3306",
         user: "root",
         // password: "",
-        password: "liu5001131",
+        password: "lux5001131",
         // last server pass: "lux5001131",
         database: "blog"
     })

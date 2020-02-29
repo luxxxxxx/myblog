@@ -2,6 +2,7 @@
   "name": "lux",
   "version": "0.0.1",
   "dependencies": {
+    "all": "0.0.0",
     "async": "latest",
     "body-parser": "latest",
     "cookie-parser": "latest",
@@ -9,6 +10,7 @@
     "express": "latest",
     "express-session": "^1.15.6",
     "multer": "^1.4.1",
+    "multipart": "latest",
     "mysql": "latest",
     "nodemailer": "^4.4.0",
     "silly-datetime": "latest"
