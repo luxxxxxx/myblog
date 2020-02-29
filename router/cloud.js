@@ -8,13 +8,11 @@ const express = require("express"),
     router = express.Router();
 
 
-let form = new multipart.Form()
+// let form = new multipart.Form()
 
 router.get ('/',(req,res) => {
     res.render ('cloud.ejs');
 })
-
-
 
 
 router.post ('/',(req,res) => {

@@ -5,13 +5,9 @@ module.exports = (obj) => {
         host: "127.0.0.1",
         port: "3306",
         user: "root",
-<<<<<<< HEAD
-        // password: "",
         password: "lux5001131",
-=======
-        password: "",
-        password: "liu5001131",
->>>>>>> 0418f38e1b87fdf9cb81a1f61a6dbe47cceaf0a9
+        // password: "",
+        // password: "liu5001131",
         // last server pass: "lux5001131",
         database: "blog"
     })
