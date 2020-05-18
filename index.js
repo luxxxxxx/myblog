@@ -102,6 +102,7 @@ app.use(session({
 
 
 app.use((req, res, next) => {
+    console.log(req.session);
     if (req.cookies['login']) {
         let cookies = req.cookies['login'];
         // res.locals.login = {
@@ -133,7 +134,7 @@ app.use((req, res, next) => {
 
 app.use('/',require('./router/index'));
 
-http.createServer(app).listen(233);
+http.createServer(app).listen(80);
 
 
 
