@@ -13,12 +13,12 @@ app.use(bodyParser.json());// 用来接收json的数据
 // extended:true 可以接收任何数据类型的数据
 
 app.use(bodyParser.urlencoded( { extended:true } ));
-app.use(cookieParser("sakldlsadlhjkhjksadhjk"));
+app.use(cookieParser("luxxx"));
 app.use(session({ 
     resave : true,  //don't save session  if unmoified
     saveUninitialized : false,
     secret : "sadaskhdasuusadhuisduixb",
-    cookie : {maxAge : 180 * 1000 * 60}   //存放内存时间  
+    cookie : {maxAge : 60 * 1000 * 60 * 24}   //存放内存时间  
 }));  //设置秘钥
 
 
@@ -134,7 +134,7 @@ app.use((req, res, next) => {
 
 app.use('/',require('./router/index'));
 
-http.createServer(app).listen(80);
+http.createServer(app).listen(233);
 
 
 

@@ -12,7 +12,6 @@ router.get("/",(req,res) => {  //跳转到登陆页面直接清除 cookies and s
     res.render('./login.ejs');
 })
 
-
 router.post("/",(req,res) => {
 
     let userName = req.body.userName,
