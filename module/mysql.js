@@ -5,7 +5,7 @@ module.exports = (obj) => {
         host: "127.0.0.1",
         port: "3306",
         user: "root",
-        password: "lux5001131",   //localpassword
+        password: "lux5001131",   //local & remote pass
         // password: "",
         // password: "liu5001131",
         // last server pass: "lux5001131",

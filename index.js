@@ -134,7 +134,7 @@ app.use((req, res, next) => {
 
 app.use('/',require('./router/index'));
 
-http.createServer(app).listen(233);
+http.createServer(app).listen(80);
 
 
 

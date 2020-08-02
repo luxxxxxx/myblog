@@ -45,13 +45,14 @@ router.get("/", (req, res) => {
                             res.locals.page = page + 1;
                             res.render('techo');
                         } else {
-                            res.locals.result = '500 服务器发生了一个无法预料的问题,请联系网站管理员，QQ 981236133';
+                            console.log(err);
+                            res.locals.result = '500 服务器发生了一个无法预料的问题,请联系网站管理员，QQ 981236133; Error : 998';
                             res.status(500).render('500');
                         }
                     }
                 })
             } else {
-                res.locals.result = '500 服务器发生了一个无法预料的问题,请联系网站管理员，QQ 981236133';
+                res.locals.result = '500 服务器发生了一个无法预料的问题,请联系网站管理员，QQ 981236133; Error : 789';
                 res.status(500).render('500');
             }
         }
